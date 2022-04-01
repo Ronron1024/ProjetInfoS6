@@ -34,6 +34,8 @@ typedef struct GameState {
 	SCORE *highScore;
 } GAMESTATE;
 
+
+
 void fenetrePlateau(GAMESTATE *GameState);
 
 WINDOW* fenetreGame(WINDOW* game, int hGame,int wGame,int yGame,int xGame);
@@ -43,7 +45,7 @@ WINDOW* fenetreMenu(WINDOW* menu, int hMenu, int wMenu,int yMenu,int xMenu);
 
 WINDOW* boutiqueMenu(WINDOW* boutique, int hMenu, int wMenu,int yMenu,int xMenu);
 void boutiqueFct(WINDOW* boutique);
-int selectionMenu(WINDOW* win, WINDOW* scr, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore );
+int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore );
 
 void affichePersoWin(WINDOW* win,PERSO* perso);
 
@@ -54,7 +56,7 @@ void afficheObjetWinReverse(WINDOW* win,OBJET* objet, int n);
 
 
 int compterObjet(OBJET* objet);
-void menuBoutique(WINDOW* boutique, WINDOW* scr, int hMenu, int wMenu,int yMenu,int xMenu, OBJET* objetBoutique, OBJET* inventaire, SCORE* highScore);
+void menuBoutique(WINDOW* boutique, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, OBJET* objetBoutique, OBJET* inventaire, SCORE* highScore);
 
 
 void afficheScore(WINDOW* win,SCORE* highScore);
@@ -64,6 +66,10 @@ int achatBoutique(SCORE* highScore, OBJET* objet);
 
 
 WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xMenu);
-void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yMenu,int xMenu, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore);
+void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore);
+
+void prinfLog (WINDOW* win, char* message );
 
 void fenetreIntro(void);
+
+

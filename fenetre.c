@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include <string.h>
 #include "fenetre.h"
 
 //void fenetrePlateau(PERSO* perso, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
@@ -67,7 +68,7 @@ void fenetrePlateau(GAMESTATE *GameState){
 		wrefresh(score);
 		wrefresh(menu);
 
-		finPlateau = selectionMenu(menu,score, hMenu, wMenu, yMenu, xMenu, 1, 1, GameState->objetBoutique, GameState->objetInventaire, GameState->highScore);
+		finPlateau = selectionMenu(menu,score, log, hMenu, wMenu, yMenu, xMenu, 1, 1, GameState->objetBoutique, GameState->objetInventaire, GameState->highScore);
 	}
 
 }
@@ -121,8 +122,8 @@ void afficheAllObjetWin(WINDOW* win,OBJET* objet){
 
 	while (current != NULL){
 
-		mvwprintw(win, 2,espace*n+1,"%-16s",current->name);
-		mvwprintw(win, 3,espace*n+1,"Price: %-9.2f",current->price);
+		mvwprintw(win, 1,espace*n,"%-16s",current->name);
+		mvwprintw(win, 2,espace*n,"Price: %-9.2f",current->price);
 		
 		current=current->suivant;
 		n++;		
@@ -134,8 +135,8 @@ void afficheObjetWin(WINDOW* win,OBJET* objet, int n){
 
 	int espace = 16; //espace entre objet
 
-	mvwprintw(win, 2,espace*n+1,"%-16s",objet->name);
-	mvwprintw(win, 3,espace*n+1,"Price: %-9.2f",objet->price);	
+	mvwprintw(win, 1,espace*n,"%-16s",objet->name);
+	mvwprintw(win, 2,espace*n,"Price: %-9.2f",objet->price);	
 }
 
 
@@ -147,8 +148,8 @@ void afficheObjetWinReverse(WINDOW* win,OBJET* objet, int n){
 	wattron(win,A_BOLD);
 	wattron(win,A_REVERSE);
 
-	mvwprintw(win, 2,espace*n+1,"%-16s",objet->name);
-	mvwprintw(win, 3,espace*n+1,"Price: %-9.2f",objet->price);
+	mvwprintw(win, 1,espace*n,"%-16s",objet->name);
+	mvwprintw(win, 2,espace*n,"Price: %-9.2f",objet->price);
 	
 	wattroff(win,COLOR_PAIR(1));
 	wattroff(win,A_BOLD);
@@ -223,15 +224,12 @@ WINDOW* boutiqueMenu(WINDOW* boutique, int hMenu, int wMenu,int yMenu,int xMenu)
 	
 	
 
-	boutique = newwin(hMenu-2,wMenu-1,yMenu+2,xMenu);
-	wattron(boutique,COLOR_PAIR(2));
+	boutique = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
+	wattron(boutique,COLOR_PAIR(1));
 	wattron(boutique,A_BOLD);
-	//wattron(boutique,A_BLINK);
-	box(boutique, 0,0);
-	mvwprintw(boutique, 1,1,"BOUTIQUE");
+	mvwprintw(boutique, 2,1,"BOUTIQUE");
 	wattroff(boutique,COLOR_PAIR(1));
 	wattroff(boutique,A_BOLD);
-	//wattroff(boutique,A_BLINK);
 	
 	
 	return boutique;
@@ -249,11 +247,12 @@ void boutiqueFct(WINDOW* boutique) {
 
 WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xMenu){
 
-	inventaire = newwin(hMenu-2,wMenu-1,yMenu+2,xMenu);
+	inventaire = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
 	wattron(inventaire,COLOR_PAIR(2));
 	wattron(inventaire,A_BOLD);
-	box(inventaire, 0,0);
-	mvwprintw(inventaire, 1,1,"INVENTAIRE");
+	//box(inventaire, 0,0);
+	mvwprintw(inventaire, 2,1,"INVENTAIRE");
+	//mvwprintw(inventaire, 1,1,"INVENTAIRE");
 	wattroff(inventaire,COLOR_PAIR(1));
 	wattroff(inventaire,A_BOLD);
 	
@@ -261,7 +260,7 @@ WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xM
 
 }
 
-int selectionMenu(WINDOW* win, WINDOW* scr,int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore) {
+int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore) {
 
 	int selection;
 	int choix = 1;
@@ -322,17 +321,35 @@ int selectionMenu(WINDOW* win, WINDOW* scr,int hMenu, int wMenu,int yMenu,int xM
 				
 				break;
 				
-			case 10:	//touche enter
+			case 10:	//touche enter			
+							
+				wattron(win,COLOR_PAIR(1));
+				wattron(win,A_BOLD);
+				wattron(win,A_REVERSE);
+				wattron(win,A_ITALIC);
+				mvwprintw(win, 2,1+selection*15,"%s",&menuT[selection][0]);
+				wrefresh(win);
+			
+			
+				
 
 				if ( selection == 0 ){
-					menuBoutique(win,scr, hMenu, wMenu, yMenu, xMenu, objetBoutique, objetInventaire, highScore);
+					menuBoutique(win,scr, log, hMenu, wMenu, yMenu, xMenu, objetBoutique, objetInventaire, highScore);
 					choix = 0 ;
+					
+					
+				wattroff(win,COLOR_PAIR(1));
+				wattroff(win,A_BOLD);
+				wattroff(win,A_REVERSE);
+				wattroff(win,A_ITALIC);
+					
+					
 					
 					return 1;
 				}
 				
 				if ( selection == 1 ){
-					menuInventaire(win,scr, hMenu, wMenu, yMenu, xMenu, objetBoutique, objetInventaire, highScore);
+					menuInventaire(win,scr, log, hMenu, wMenu, yMenu, xMenu, objetBoutique, objetInventaire, highScore);
 					choix = 0 ;
 					
 					return 1;
@@ -375,9 +392,11 @@ int compterObjet(OBJET* objet){
 	return n;
 }
 
-void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,int xMenu,OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
+void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu,OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
 
 	OBJET* current;
+	
+	char message[CHAR_DESC_MAX];
 	int n = 0;
 	int cmptObjet;
 	int choix = 1;
@@ -385,7 +404,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 	int ch;
 
 	boutique = boutiqueMenu(boutique, hMenu, wMenu,yMenu,xMenu);	
-	mvwprintw(boutique, hMenu-4,wMenu-17,"return: press q");
+	mvwprintw(boutique, hMenu-5,wMenu-17,"return: press q");
 	
 	keypad(boutique,TRUE);
 	
@@ -397,8 +416,10 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 				
 	afficheObjetWinReverse(boutique,objetBoutique, n);
 	
-	mvwprintw(boutique, hMenu-4,1,"%-100s",current->description);
-				
+	//mvwprintw(boutique, hMenu-5,0,"%-100s",current->description);
+	//mvwaddstr(boutique, hMenu-5,0,current->description);
+	prinfLog (log, current->description);
+			
 	wrefresh(boutique);
 			
 		while(choix){
@@ -409,7 +430,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 			
 				case KEY_RIGHT:
 				
-					mvwprintw(boutique, hMenu-5,1,"                          ");
+					mvwprintw(boutique, hMenu-5,0,"                          ");
 					
 					if(n!=cmptObjet-1){
 						current=current->suivant;
@@ -419,7 +440,9 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 					afficheObjetWinReverse(boutique,current, n);
 					afficheObjetWin(boutique,current->precedent, n-1);
 					
-					mvwprintw(boutique, hMenu-4,1,"%-100s",current->description);
+					prinfLog (log, current->description);
+					//mvwprintw(boutique, hMenu-5,0,"%-100s",current->description);
+					//mvwaddstr(boutique, hMenu-5,0,current->description);
 							
 					wrefresh(boutique);
 					
@@ -427,7 +450,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 								
 				case KEY_LEFT:
 	
-					mvwprintw(boutique, hMenu-5,1,"                          ");
+					mvwprintw(boutique, hMenu-5,0,"                          ");
 					
 					if(n!=0){
 						current=current->precedent;
@@ -436,7 +459,9 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 					afficheObjetWin(boutique,current->suivant, n+1);
 					afficheObjetWinReverse(boutique,current, n);
 					
-					mvwprintw(boutique, hMenu-4,1,"%-100s",current->description);
+					prinfLog (log, current->description);
+					//mvwprintw(boutique, hMenu-5,0,"%-100s",current->description);
+					//mvwaddstr(boutique, hMenu-5,0,current->description);
 					
 					wrefresh(boutique);
 					
@@ -445,6 +470,11 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 				case 'q':
 					choix = 0 ;
 					break;
+					
+				//case 27:
+					//choix = 0 ;
+					//break;
+					
 										
 				case 10:
 					
@@ -458,7 +488,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 					wattroff(boutique,A_BOLD);
 					wattroff(boutique,A_REVERSE);
 					
-					mvwprintw(boutique, hMenu-5,1,"%-6.2f",current->price);
+					mvwprintw(boutique, hMenu-5,0,"%-6.2f",current->price);
 					
 						while(achatConvulsif){
 						
@@ -467,11 +497,16 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, int hMenu, int wMenu,int yMenu,i
 							if( ch == 'O' ){
 								achatBoutique(highScore, current);
 								afficheScoreRev(scr,highScore);
+								
+								strcpy(message,"Achat: ");
+								strcat(message, current->name);
+								prinfLog (log, message);
+								
 								wrefresh(scr);			
 							}
 							if( ch == 'N' ) {
 								achatConvulsif=0;
-								mvwprintw(boutique, hMenu-5,1,"                          ");
+								mvwprintw(boutique, hMenu-5,0,"                          ");
 								afficheScore(scr,highScore);
 								wrefresh(scr);	
 							}
@@ -509,7 +544,7 @@ int achatBoutique(SCORE* highScore, OBJET* objet){
 }
 					
 //FONCTION A FINIR: ON re vend et utilise depuis l' inventaire?
-void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yMenu,int xMenu, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
+void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
 
 	OBJET* current;
 	int n = 0;
@@ -519,7 +554,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 	int ch;
 
 	inventaire = inventaireMenu(inventaire, hMenu, wMenu,yMenu,xMenu);	
-	mvwprintw(inventaire, hMenu-4,wMenu-17,"return: press q");
+	mvwprintw(inventaire, hMenu-5,wMenu-17,"return: press q");
 	
 	keypad(inventaire,TRUE);
 	
@@ -531,7 +566,8 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 				
 	afficheObjetWinReverse(inventaire,objetInventaire, n);
 	
-	mvwprintw(inventaire, hMenu-4,1,"%-100s",current->description);
+	//mvwprintw(inventaire, hMenu-5,0,"%-100s",current->description);
+	prinfLog (log, current->description);
 			
 	wrefresh(inventaire);
 			
@@ -543,7 +579,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 			
 				case KEY_RIGHT:
 				
-					mvwprintw(inventaire, hMenu-5,1,"                          ");
+					//mvwprintw(inventaire, hMenu-5,0,"                          ");
 					
 					if(n!=cmptObjet-1){
 						current=current->suivant;
@@ -553,7 +589,9 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 					afficheObjetWinReverse(inventaire,current, n);
 					afficheObjetWin(inventaire,current->precedent, n-1);
 					
-					mvwprintw(inventaire, hMenu-4,1,"%-100s",current->description);
+					//mvwprintw(inventaire, hMenu-5,0,"%-100s",current->description);
+					prinfLog (log, current->description);
+					
 							
 					wrefresh(inventaire);
 					
@@ -561,7 +599,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 								
 				case KEY_LEFT:
 	
-					mvwprintw(inventaire, hMenu-5,1,"                          ");
+					mvwprintw(inventaire, hMenu-5,0,"                          ");
 					
 					if(n!=0){
 						current=current->precedent;
@@ -570,7 +608,8 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 					afficheObjetWin(inventaire,current->suivant, n+1);
 					afficheObjetWinReverse(inventaire,current, n);
 					
-					mvwprintw(inventaire, hMenu-4,1,"%-100s",current->description);
+					//mvwprintw(inventaire, hMenu-5,0,"%-100s",current->description);
+					prinfLog (log, current->description);
 					
 					wrefresh(inventaire);
 					
@@ -586,13 +625,13 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 					wattron(inventaire,A_BOLD);
 					wattron(inventaire,A_REVERSE);
 					
-					mvwprintw(inventaire, hMenu-5,10,"O/N?");
+					mvwprintw(inventaire, hMenu-6,10,"O/N?");
 										
 					wattroff(inventaire,COLOR_PAIR(1));
 					wattroff(inventaire,A_BOLD);
 					wattroff(inventaire,A_REVERSE);
 					
-					mvwprintw(inventaire, hMenu-5,1,"%-6.2f",current->price);
+					mvwprintw(inventaire, hMenu-6,0,"%-6.2f",current->price);
 					
 						while(useConvulsif){
 						
@@ -606,7 +645,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, int hMenu, int wMenu,int yM
 							}
 							if( ch == 'N' ) {
 								useConvulsif=0;
-								mvwprintw(inventaire, hMenu-5,1,"                          ");
+								mvwprintw(inventaire, hMenu-6,0,"                          ");
 								//afficheScore(scr,highScore);
 								//wrefresh(scr);	
 							}
@@ -668,7 +707,34 @@ void fenetreIntro(void){
 
 
 
+void prinfLog (WINDOW* win, char* message ){
 
+
+	int yMax,xMax;
+	getmaxyx(stdscr,yMax,xMax);
+
+	int hLog = 7;
+	int wLog = xMax;
+	int yLog = yMax-hLog;
+	int xLog = 0;
+	
+	wclear(win);
+	
+	win = fenetreLog(win, hLog, wLog, yLog, xLog);
+	
+	wattron(win,COLOR_PAIR(1));
+	wattron(win,A_BOLD);
+	wattron(win,A_BLINK);
+
+
+	mvwaddstr(win,2,1,message);
+	wrefresh(win);
+	
+	wattroff(win,COLOR_PAIR(1));
+	wattroff(win,A_BOLD);
+	wattroff(win,A_BLINK);
+
+}
 
 
 
