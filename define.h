@@ -1,0 +1,8 @@
+#ifndef INCLUDED_DEFINE_H
+#define INCLUDED_DEFINE_H
+
+#define CHAR_NAME_MAX 50
+#define CHAR_DESC_MAX 200
+
+
+#endif

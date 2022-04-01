@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <string.h>
+#include "define.h"
+#include "structure.h"
+#include "linkedlist.h"
 #include "fenetre.h"
 
-//void fenetrePlateau(PERSO* perso, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
-void fenetrePlateau(GAMESTATE *GameState){
+void fenetrePlateau(GameState *gamestate){
 
 	int finPlateau = 1; //tant que le combat est pas fini
  
@@ -58,27 +60,27 @@ void fenetrePlateau(GAMESTATE *GameState){
 		game = fenetreGame(game,hGame,wGame,yGame,xGame);
 		log = fenetreLog(log, hLog, wLog, yLog, xLog);	
 		score = fenetreScore(score, hScore, wScore,yScore,xScore);
-		afficheScore(score,GameState->highScore);
+		afficheScore(score,gamestate->highscore);
 		menu = fenetreMenu(menu,hMenu,wMenu,yMenu,xMenu);
 		
-		affichePersoWin(game,GameState->perso);
+		affichePersoWin(game,gamestate->team_player);
 		
 		wrefresh(log);
 		wrefresh(game); 
 		wrefresh(score);
 		wrefresh(menu);
 
-		finPlateau = selectionMenu(menu,score, log, hMenu, wMenu, yMenu, xMenu, 1, 1, GameState->objetBoutique, GameState->objetInventaire, GameState->highScore);
+		finPlateau = selectionMenu(menu,score, log, hMenu, wMenu, yMenu, xMenu, 1, 1, gamestate->shop, gamestate->inventory, gamestate->highscore);
 	}
 
 }
-void afficheScore(WINDOW* win,SCORE* score){
+void afficheScore(WINDOW* win,Score* score){
 
 	mvwprintw(win, 2,1,"ALT: %d",score->alt);
 	mvwprintw(win, 3,1,"MONEY: %-9.2f",score->money);	
 }
 
-void afficheScoreRev(WINDOW* win,SCORE* score){
+void afficheScoreRev(WINDOW* win,Score* score){
 
 	wattron(win,COLOR_PAIR(1));
 	wattron(win,A_BOLD);
@@ -91,10 +93,10 @@ void afficheScoreRev(WINDOW* win,SCORE* score){
 	wattroff(win,A_REVERSE);	
 }
 
-void affichePersoWin(WINDOW* win,PERSO* perso){
+void affichePersoWin(WINDOW* win,Node* perso){
 
 	int espace = 15; //espace entre perso
-	PERSO* current;
+	Node* current;
 	int n = 0;
 	
 	current = perso;
@@ -102,45 +104,45 @@ void affichePersoWin(WINDOW* win,PERSO* perso){
 
 	while (current != NULL){
 
-		mvwprintw(win, 2,espace*n+1,"%s",current->name);
-		mvwprintw(win, 3,espace*n+1,"PV: %d",current->id);
+		mvwprintw(win, 2,espace*n+1,"%s",getEntity(current)->name);
+		//mvwprintw(win, 3,espace*n+1,"PV: %d",getEntity(current)->id);
 		
-		current=current->suivant;
+		current=current->next;
 		n++;
 		
 	}
 }
 
-void afficheAllObjetWin(WINDOW* win,OBJET* objet){
+void afficheAllObjetWin(WINDOW* win,Node* objet){
 
 
 	int espace = 16; //espace entre perso
-	OBJET* current;
+	Node* current;
 	int n = 0;
 	
 	current = objet;
 
 	while (current != NULL){
 
-		mvwprintw(win, 1,espace*n,"%-16s",current->name);
-		mvwprintw(win, 2,espace*n,"Price: %-9.2f",current->price);
+		mvwprintw(win, 1,espace*n,"%-16s",getItem(current)->name);
+		mvwprintw(win, 2,espace*n,"Price: %-9.2f",getItem(current)->price);
 		
-		current=current->suivant;
+		current=current->next;
 		n++;		
 	}
 }
 
 
-void afficheObjetWin(WINDOW* win,OBJET* objet, int n){
+void afficheObjetWin(WINDOW* win,Node* objet, int n){
 
 	int espace = 16; //espace entre objet
 
-	mvwprintw(win, 1,espace*n,"%-16s",objet->name);
-	mvwprintw(win, 2,espace*n,"Price: %-9.2f",objet->price);	
+	mvwprintw(win, 1,espace*n,"%-16s",getItem(objet)->name);
+	mvwprintw(win, 2,espace*n,"Price: %-9.2f",getItem(objet)->price);	
 }
 
 
-void afficheObjetWinReverse(WINDOW* win,OBJET* objet, int n){
+void afficheObjetWinReverse(WINDOW* win,Node* objet, int n){
 
 	int espace = 16; //espace entre objet
 
@@ -148,8 +150,8 @@ void afficheObjetWinReverse(WINDOW* win,OBJET* objet, int n){
 	wattron(win,A_BOLD);
 	wattron(win,A_REVERSE);
 
-	mvwprintw(win, 1,espace*n,"%-16s",objet->name);
-	mvwprintw(win, 2,espace*n,"Price: %-9.2f",objet->price);
+	mvwprintw(win, 1,espace*n,"%-16s",getItem(objet)->name);
+	mvwprintw(win, 2,espace*n,"Price: %-9.2f",getItem(objet)->price);
 	
 	wattroff(win,COLOR_PAIR(1));
 	wattroff(win,A_BOLD);
@@ -192,7 +194,7 @@ WINDOW* fenetreScore(WINDOW* score, int hScore, int wScore,int yScore,int xScore
 		wattron(score,COLOR_PAIR(1));
 		wattron(score,A_BOLD);
 		box(score, 0,0);
-		mvwprintw(score, 1,1,"SCORE");		   	
+		mvwprintw(score, 1,1,"Score");		   	
 		wattroff(score,COLOR_PAIR(1));
 		
 		return score;
@@ -260,7 +262,7 @@ WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xM
 
 }
 
-int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore) {
+int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, Node* shop, Node* inventory, Score* highscore) {
 
 	int selection;
 	int choix = 1;
@@ -334,7 +336,7 @@ int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,in
 				
 
 				if ( selection == 0 ){
-					menuBoutique(win,scr, log, hMenu, wMenu, yMenu, xMenu, objetBoutique, objetInventaire, highScore);
+					menuBoutique(win,scr, log, hMenu, wMenu, yMenu, xMenu, shop, inventory, highscore);
 					choix = 0 ;
 					
 					
@@ -349,7 +351,7 @@ int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,in
 				}
 				
 				if ( selection == 1 ){
-					menuInventaire(win,scr, log, hMenu, wMenu, yMenu, xMenu, objetBoutique, objetInventaire, highScore);
+					menuInventaire(win,scr, log, hMenu, wMenu, yMenu, xMenu, shop, inventory, highscore);
 					choix = 0 ;
 					
 					return 1;
@@ -375,26 +377,26 @@ int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,in
 	return 1;
 }
 
+// Replace by countList(Node*);
+int compterObjet(Node* objet){
 
-int compterObjet(OBJET* objet){
-
-	OBJET* current;
+	Node* current;
 	int n = 0;
 	
 	current = objet;
 
 	while (current != NULL){
 
-		current=current->suivant;
+		current=current->next;
 		n++;	
 	}
 	
 	return n;
 }
 
-void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu,OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
+void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu,Node* shop, Node* inventory, Score* highscore){
 
-	OBJET* current;
+	Node* current;
 	
 	char message[CHAR_DESC_MAX];
 	int n = 0;
@@ -408,17 +410,17 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 	
 	keypad(boutique,TRUE);
 	
-	current = objetBoutique;
+	current = shop;
 
-	afficheAllObjetWin(boutique,objetBoutique);
+	afficheAllObjetWin(boutique,shop);
 			
-	cmptObjet = compterObjet(objetBoutique);
+	cmptObjet = compterObjet(shop);
 				
-	afficheObjetWinReverse(boutique,objetBoutique, n);
+	afficheObjetWinReverse(boutique,shop, n);
 	
 	//mvwprintw(boutique, hMenu-5,0,"%-100s",current->description);
 	//mvwaddstr(boutique, hMenu-5,0,current->description);
-	prinfLog (log, current->description);
+	prinfLog (log, getItem(current)->description);
 			
 	wrefresh(boutique);
 			
@@ -433,14 +435,14 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					mvwprintw(boutique, hMenu-5,0,"                          ");
 					
 					if(n!=cmptObjet-1){
-						current=current->suivant;
+						current=current->next;
 						n++;
 					}			
 						
 					afficheObjetWinReverse(boutique,current, n);
-					afficheObjetWin(boutique,current->precedent, n-1);
+					afficheObjetWin(boutique,current->prev, n-1);
 					
-					prinfLog (log, current->description);
+					prinfLog (log, getItem(current)->description);
 					//mvwprintw(boutique, hMenu-5,0,"%-100s",current->description);
 					//mvwaddstr(boutique, hMenu-5,0,current->description);
 							
@@ -453,13 +455,13 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					mvwprintw(boutique, hMenu-5,0,"                          ");
 					
 					if(n!=0){
-						current=current->precedent;
+						current=current->prev;
 						n--;
 					}
-					afficheObjetWin(boutique,current->suivant, n+1);
+					afficheObjetWin(boutique,current->next, n+1);
 					afficheObjetWinReverse(boutique,current, n);
 					
-					prinfLog (log, current->description);
+					prinfLog (log, getItem(current)->description);
 					//mvwprintw(boutique, hMenu-5,0,"%-100s",current->description);
 					//mvwaddstr(boutique, hMenu-5,0,current->description);
 					
@@ -488,18 +490,18 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					wattroff(boutique,A_BOLD);
 					wattroff(boutique,A_REVERSE);
 					
-					mvwprintw(boutique, hMenu-5,0,"%-6.2f",current->price);
+					mvwprintw(boutique, hMenu-5,0,"%-6.2f",getItem(current)->price);
 					
 						while(achatConvulsif){
 						
 							ch = wgetch(boutique);			
 						
 							if( ch == 'O' ){
-								achatBoutique(highScore, current);
-								afficheScoreRev(scr,highScore);
+								achatBoutique(highscore, current);
+								afficheScoreRev(scr,highscore);
 								
 								strcpy(message,"Achat: ");
-								strcat(message, current->name);
+								strcat(message, getItem(current)->name);
 								prinfLog (log, message);
 								
 								wrefresh(scr);			
@@ -507,13 +509,13 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 							if( ch == 'N' ) {
 								achatConvulsif=0;
 								mvwprintw(boutique, hMenu-5,0,"                          ");
-								afficheScore(scr,highScore);
+								afficheScore(scr,highscore);
 								wrefresh(scr);	
 							}
 							
 							if( ch == 'q' ) {
 								choix = 0;
-								afficheScore(scr,highScore);
+								afficheScore(scr,highscore);
 								achatConvulsif=0;
 							}							
 						}
@@ -530,23 +532,23 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 }
 
 
-int achatBoutique(SCORE* highScore, OBJET* objet){
+int achatBoutique(Score* highscore, Node* objet){
 
 	
-	if( highScore->money-objet->price < 0) {
+	if( highscore->money - getItem(objet)->price < 0) {
 		return 1; 	
 	}
 	
 	else{ 
-		highScore->money=highScore->money-objet->price;
+		highscore->money=highscore->money - getItem(objet)->price;
 		return 0; 	
 	}
 }
 					
 //FONCTION A FINIR: ON re vend et utilise depuis l' inventaire?
-void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, OBJET* objetBoutique, OBJET* objetInventaire, SCORE* highScore){
+void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, Node* shop, Node* inventory, Score* highscore){
 
-	OBJET* current;
+	Node* current;
 	int n = 0;
 	int useConvulsif;
 	int cmptObjet;
@@ -558,16 +560,16 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 	
 	keypad(inventaire,TRUE);
 	
-	current = objetInventaire;
+	current = inventory;
 
-	afficheAllObjetWin(inventaire,objetInventaire);
+	afficheAllObjetWin(inventaire,inventory);
 			
-	cmptObjet = compterObjet(objetInventaire);
+	cmptObjet = compterObjet(inventory);
 				
-	afficheObjetWinReverse(inventaire,objetInventaire, n);
+	afficheObjetWinReverse(inventaire,inventory, n);
 	
 	//mvwprintw(inventaire, hMenu-5,0,"%-100s",current->description);
-	prinfLog (log, current->description);
+	prinfLog (log, getItem(current)->description);
 			
 	wrefresh(inventaire);
 			
@@ -582,15 +584,15 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 					//mvwprintw(inventaire, hMenu-5,0,"                          ");
 					
 					if(n!=cmptObjet-1){
-						current=current->suivant;
+						current=current->next;
 						n++;
 					}			
 						
 					afficheObjetWinReverse(inventaire,current, n);
-					afficheObjetWin(inventaire,current->precedent, n-1);
+					afficheObjetWin(inventaire,current->prev, n-1);
 					
 					//mvwprintw(inventaire, hMenu-5,0,"%-100s",current->description);
-					prinfLog (log, current->description);
+					prinfLog (log, getItem(current)->description);
 					
 							
 					wrefresh(inventaire);
@@ -602,14 +604,14 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 					mvwprintw(inventaire, hMenu-5,0,"                          ");
 					
 					if(n!=0){
-						current=current->precedent;
+						current=current->prev;
 						n--;
 					}
-					afficheObjetWin(inventaire,current->suivant, n+1);
+					afficheObjetWin(inventaire,current->next, n+1);
 					afficheObjetWinReverse(inventaire,current, n);
 					
 					//mvwprintw(inventaire, hMenu-5,0,"%-100s",current->description);
-					prinfLog (log, current->description);
+					prinfLog (log, getItem(current)->description);
 					
 					wrefresh(inventaire);
 					
@@ -631,7 +633,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 					wattroff(inventaire,A_BOLD);
 					wattroff(inventaire,A_REVERSE);
 					
-					mvwprintw(inventaire, hMenu-6,0,"%-6.2f",current->price);
+					mvwprintw(inventaire, hMenu-6,0,"%-6.2f",getItem(current)->price);
 					
 						while(useConvulsif){
 						
@@ -639,14 +641,14 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 						
 							if( ch == 'O' ){
 								//USE ITEM FCT() ou vend?
-								//achatBoutique(highScore, current);
-								//afficheScoreRev(scr,highScore);
+								//achatBoutique(highscore, current);
+								//afficheScoreRev(scr,highscore);
 								//wrefresh(scr);			
 							}
 							if( ch == 'N' ) {
 								useConvulsif=0;
 								mvwprintw(inventaire, hMenu-6,0,"                          ");
-								//afficheScore(scr,highScore);
+								//afficheScore(scr,highscore);
 								//wrefresh(scr);	
 							}
 							

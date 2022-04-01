@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "define.h"
+#include "linkedlist.h"
 #include "fenetre.h"
 #include <ncurses.h>
 
@@ -7,50 +9,49 @@ int main (){
 
 
 //Pour avoir des datas ...
-	PERSO perso1={"HERCULE",12,NULL};
-	PERSO perso2={"FLAMBI",13,NULL};
+	GameState gamestate;
+	memset(&gamestate,0,sizeof(GameState));
 	
-	OBJET objet1={"EPEE", "Epée de décoration qui peut couper de la purée",23.7,NULL,NULL};
-	OBJET objet2={"FOURCHETTE", "Pour manger et piquer les monstres acessoireement",212.9,NULL,NULL};
-	
-	OBJET objet3={"DOUDOUNE", "Vetement de demi saison, procure une defense plutot faible",4.7,NULL,NULL};
-	OBJET objet4={"POTION TABASCO", "Un remontant qui ne laisse pas indifferent",29.9,NULL,NULL};
-	OBJET objet5={"TABAC", "Un peu fumeux pour une arme",20.5,NULL,NULL};
-	
-	SCORE score={100,200.0};
-	
-	OBJET *inventaire;
-	OBJET *boutique;
-	
-	perso1.suivant = &perso2;
-	
-	objet1.suivant =&objet2;
-	objet2.precedent=&objet1;
-	
-	objet3.suivant =&objet4;
-	objet4.suivant=&objet5;
-	objet4.precedent=&objet3;
-	objet5.precedent=&objet4;
-	
-	inventaire = &objet1;
-	boutique = &objet3;
-	
-	GAMESTATE GameState={&perso1,boutique,inventaire,&score};
+	Entity perso1={"HERCULE",100, 10, 10, 10};
+	Entity perso2={"FLAMBI",100, 10, 10, 10};
 
-//
+	Item objet1={"EPEE", "Epée de décoration qui peut couper de la purée",23.7};
+	Item objet2={"FOURCHETTE", "Pour manger et piquer les monstres acessoireement",212.9};
+	
+	Item objet3={"DOUDOUNE", "Vetement de demi saison, procure une defense plutot faible",4.7};
+	Item objet4={"POTION TABASCO", "Un remontant qui ne laisse pas indifferent",29.9,};
+	Item objet5={"TABAC", "Un peu fumeux pour une arme",20.5};
+	
+	Score score={100,200.0};
+	gamestate.highscore = &score;
+	
+	// Entities
+	
+	push(&gamestate.team_player, &perso1, sizeof(Entity));
+	push(&gamestate.team_player, &perso2, sizeof(Entity));
+	
+	// Items inventory
+	push(&gamestate.inventory, &objet1, sizeof(Item));
+	push(&gamestate.inventory, &objet2, sizeof(Item));
+	
+	// Items shop
+	push(&gamestate.shop, &objet3, sizeof(Item));
+	push(&gamestate.shop, &objet4, sizeof(Item));
+	push(&gamestate.shop, &objet5, sizeof(Item));
+
+
 	//Init ncurses
 	initscr();
 	cbreak();
 	noecho();
 	start_color();
-	//
 	
 	fenetreIntro();
-	fenetrePlateau(&GameState);
+	fenetrePlateau(&gamestate);
 	
 	//End ncurses
 	endwin();
-	//
+	
 
 	printf("BYE PADAWANN!!!!!!!!\n");	
 	
