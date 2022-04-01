@@ -27,6 +27,7 @@ typedef struct Node
 {
 	void* data;
 	struct Node* next;
+	struct Node* prev;
 } Node;
 
 void push(Node** head, const void* data, const size_t data_size)
@@ -38,10 +39,21 @@ void push(Node** head, const void* data, const size_t data_size)
 
 	new_node->data = malloc(data_size);
 	new_node->next = *head;
+	new_node->prev = NULL;
+	if (*head)
+		(*head)->prev = new_node;
 
 	memcpy(new_node->data, data, data_size);
 
 	*head = new_node;
+}
+
+double getSpeed(Node* node)
+{
+	if (!node)
+		return 0;
+
+	return ((Entity*) node->data)->speed;
 }
 
 void printList(Node* head, void (*fptr)(const void*))
@@ -51,6 +63,18 @@ void printList(Node* head, void (*fptr)(const void*))
 
 	fptr(head->data);
 	printList(head->next, fptr);
+}
+
+void debugList(Node* head)
+{
+	if (!head)
+		return;
+	
+	printf("\n@ %p\n", head);
+	printf("\tnext is @ %p\n", head->next);
+	printf("\tprev is @ %p\n", head->prev);
+
+	debugList(head->next);
 }
 
 void printEntity(const void* data)
@@ -124,8 +148,10 @@ int main (int argc, char** argv)
 	push(&item_list, &item2, sizeof(item2));
 	push(&item_list, &item3, sizeof(item3));
 
-	printList(entity_list, printEntity);
-	printList(item_list, printItem);
+	//printList(entity_list, printEntity);
+	//printList(item_list, printItem);
+
+	printf("%lf\n", getSpeed(entity_list));
 
 	return 0;
 }
