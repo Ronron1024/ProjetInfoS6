@@ -82,3 +82,53 @@ Item* getItem(Node* liste)
 	return (Item*) liste->data;
 
 }
+
+//OB
+void sup(Node** head, Node* objet)
+{
+	if (!head || !objet)
+		return;
+
+	Node* current = *head;
+	Node* prev = NULL;
+	
+	while (current != NULL){
+	
+		if( strcmp(getItem(objet)->name, getItem(current)->name) == 0){
+
+			if(prev == NULL){
+			
+				*head = current->next;				
+				current->prev = NULL;	
+				return;
+			}
+			
+			else{	
+				
+				if(current->next == NULL) {
+					prev->next =NULL;
+				}
+				else{
+					prev->next=current->next;
+					current=current->next;
+					current->prev = prev;	
+					return;
+				}		
+			}			
+		}
+		
+	prev = current;
+	current=current->next;
+		
+	}
+	
+	return;
+			
+}
+
+
+
+
+
+
+

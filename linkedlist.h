@@ -13,6 +13,9 @@ void printItem(const void* data);
 Entity* getEntity(Node* liste);
 Item* getItem(Node* liste);
 
+//OB
+void sup(Node** head, Node* objet);
+
 
 
 #endif

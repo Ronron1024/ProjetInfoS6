@@ -24,7 +24,12 @@ typedef struct
 {
 	char name[CHAR_NAME_MAX];
 	char description[CHAR_DESC_MAX];
+	char type[CHAR_TYPE_MAX]; // EQUIPEMENT // PIEGE // ITEM
 	float price;
+	double health;
+	double attack;
+	double defense;
+	double speed;
 } Item;
 
 
