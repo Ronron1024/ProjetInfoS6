@@ -17,3 +17,9 @@ Same as **printwCentered(str)** but with defined value **x** for the horizontal 
 # void splashscreen()
 
 Display an ascii art splashscreen stored in **SPLASHSCREEN_PATH** text file.
+
+# GameMode homeMenu()
+
+Clear screen and return the selection between *Play*,*Continue*,*Debug*.
+
+**GameMode** is an integer (typedef).
