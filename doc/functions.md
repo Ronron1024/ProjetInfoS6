@@ -13,3 +13,7 @@ Same as **printwCentered(str)** but with defined value **y** for the vertical ax
 # void printwYCentered(int x, const char* str)
 
 Same as **printwCentered(str)** but with defined value **x** for the horizontal axis.
+
+# void splashscreen()
+
+Display an ascii art splashscreen stored in **SPLASHSCREEN_PATH** text file.
