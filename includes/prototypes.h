@@ -1,8 +1,9 @@
-#ifndef INCLUDED_FENETRE_H
-#define INCLUDED_FENETRE_H
+#ifndef PROTOTYPES_H_INCLUDED
+#define PROTOTYPES_H_INCLUDED
 
 #include <ncurses.h>
-#include "define.h"
+#include "defines.h"
+#include "structures.h"
 
 void fenetrePlateau(GameState *gamestate);
 
@@ -61,5 +62,26 @@ int useItem(Node** headItem, Node* objet,Node** headEntity, Node* entity);
 void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState* gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 void coutFouille(Node** teamPlayer, int cout);
 
+
+void push(Node** head, const void* data, const size_t data_size);
+
+void printList(Node* head, void (*fptr)(const void*));
+void debugList(Node* head);
+void printEntity(const void* data);
+void printItem(const void* data);
+
+Entity* getEntity(Node* liste);
+Item* getItem(Node* liste);
+
+//OB
+void sup(Node** head, Node* objet);
+
+
+void printwCentered(const char* str);
+void printwXCentered(int y, const char* str);
+void printwYCentered(int x, const char* str);
+
+void splashscreen();
+GameMode homeMenu();
 
 #endif

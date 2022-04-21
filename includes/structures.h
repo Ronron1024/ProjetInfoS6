@@ -1,7 +1,7 @@
 #ifndef INCLUDED_STRUCTURE_H
 #define INCLUDED_STRUCTURE_H
 
-#include "define.h"
+#include "defines.h"
 
 typedef struct Node
 {
@@ -32,12 +32,19 @@ typedef struct
 	double speed;
 } Item;
 
-
 typedef struct
 {
 	int alt;
 	float money;
 } Score;
+
+typedef struct
+{
+	Node* monsters;
+	Node* traps;
+	Node* items;
+	int remain_searches; // ???
+} Plateau;
 
 typedef struct
 {
@@ -47,5 +54,8 @@ typedef struct
 	Node* shop;
 	Score* highscore;
 } GameState;
+
+// For homeMenu()
+typedef int GameMode;
 
 #endif

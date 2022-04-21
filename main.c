@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "define.h"
-#include "linkedlist.h"
-#include "fenetre.h"
 #include <string.h>
 #include <ncurses.h>
+#include "includes/defines.h"
+#include "includes/prototypes.h"
 
 int main (){
 
+	GameMode gamemode = GAMEMODE_PLAY;
 
 //Pour avoir des datas ...
 	GameState gamestate;
@@ -56,17 +56,39 @@ int main (){
 	//Init ncurses
 	initscr();
 	cbreak();
+	keypad(stdscr, TRUE); // Enable FN Keys reading
 	noecho();
+
 	start_color();
+    init_pair(PAIR_YELLOW_BLUE, COLOR_YELLOW, COLOR_BLUE);
+    init_pair(PAIR_RED_CYAN, COLOR_RED, COLOR_CYAN);
+    init_pair(PAIR_RED_BLACK, COLOR_RED, COLOR_BLACK);
+    init_pair(PAIR_WHITE_RED, COLOR_WHITE, COLOR_RED);
 	
-	fenetreIntro();
-	fenetrePlateau(&gamestate);
+	//fenetreIntro(); // To be removed
+
+	splashscreen();
+    getch();
+    gamemode = homeMenu();
+
+	switch (gamemode)
+    {
+        case GAMEMODE_PLAY:
+			fenetrePlateau(&gamestate);
+            break;
+        case GAMEMODE_CONTINUE:
+			// To be implemented
+            break;
+        case GAMEMODE_DEBUG:
+			// To be implemented
+            break;
+    }
 	
 	//End ncurses
 	endwin();
 	
 
-	printf("BYE PADAWANN!!!!!!!!\n");	
+	printf("BYE PADAWANN!!!!!!!!\n");
 	
 	return 0;
 }

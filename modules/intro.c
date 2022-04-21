@@ -1,25 +1,8 @@
-#include <ncurses.h>
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-// Not defined in curses.h ?
-#define KEY_RETURN 10
-
-#define CHAR_NAME_MAX 50
-
-#define SPLASHSCREEN_PATH "splashscreen.txt"
-#define ASCII_ART_BUFFER_SIZE 2048
-
-typedef int GameMode;
-#define GAMEMODE_PLAY 0
-#define GAMEMODE_CONTINUE 1
-#define GAMEMODE_DEBUG 2
-
-#define PAIR_YELLOW_BLUE 1
-#define PAIR_RED_CYAN 2
-#define PAIR_RED_BLACK 3
-#define PAIR_WHITE_RED 4
+#include <string.h>
+#include <ncurses.h>
+#include "../includes/structures.h"
 
 void printwCentered(const char* str)
 {
@@ -120,40 +103,4 @@ GameMode homeMenu()
 
     clear();
     return selected_item;
-}
-
-int main (int argc, char** argv)
-{
-    GameMode gamemode;
-
-    initscr();
-    cbreak(); // Disable buffering when typing (useless on windows ?)
-    keypad(stdscr, TRUE); // Enable FN Keys reading
-    noecho();
-    start_color();
-    init_pair(PAIR_YELLOW_BLUE, COLOR_YELLOW, COLOR_BLUE);
-    init_pair(PAIR_RED_CYAN, COLOR_RED, COLOR_CYAN);
-    init_pair(PAIR_RED_BLACK, COLOR_RED, COLOR_BLACK);
-    init_pair(PAIR_WHITE_RED, COLOR_WHITE, COLOR_RED);
-
-    splashscreen();
-    getch();
-    gamemode = homeMenu();
-    
-    endwin();
-
-    switch (gamemode)
-    {
-        case GAMEMODE_PLAY:
-            printf("Play\n");
-            break;
-        case GAMEMODE_CONTINUE:
-            printf("Continue\n");
-            break;
-        case GAMEMODE_DEBUG:
-            printf("Debug\n");
-            break;
-    }
-
-    return 0;
 }

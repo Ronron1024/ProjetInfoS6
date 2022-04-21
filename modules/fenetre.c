@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <string.h>
-#include "define.h"
-#include "structure.h"
-#include "linkedlist.h"
-#include "fenetre.h"
+#include "../includes/defines.h"
+#include "../includes/structures.h"
+#include "../includes/prototypes.h"
 
 void fenetrePlateau(GameState *gamestate){
 

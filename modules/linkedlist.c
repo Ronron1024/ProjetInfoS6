@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "linkedlist.h"
+#include "../includes/prototypes.h"
 
 void push(Node** head, const void* data, const size_t data_size)
 {
