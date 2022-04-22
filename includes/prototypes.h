@@ -5,6 +5,9 @@
 #include "defines.h"
 #include "structures.h"
 
+// C'est un peu le bordel là ...
+
+
 void fenetrePlateau(GameState *gamestate);
 
 WINDOW* fenetreGame(WINDOW* game, int hGame,int wGame,int yGame,int xGame);
@@ -51,7 +54,8 @@ void afficheLog(WINDOW* log, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX
 void afficheAllLog(WINDOW* log, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 void shiftArraw(char logText[LINE_LOG_MAX][CHAR_DESC_MAX] );
 
-void fenetreIntro(void);
+// To be removed
+//void fenetreIntro(void);
 
 WINDOW* frameWindow(int number);
 

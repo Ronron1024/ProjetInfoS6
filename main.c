@@ -12,23 +12,25 @@ int main (){
 //Pour avoir des datas ...
 	GameState gamestate;
 	memset(&gamestate,0,sizeof(GameState));
+
+	Item null_item = {"NULL", "NULL",NULL_ITEM,0,0,0,0,0};
 	
-	Entity perso1={"GEREM",10, 10, 10, 10};
+	Entity perso1={"GEREM",null_item, null_item, 10, 10, 10, 10};
 	
-	Entity monster1={"JCVD",999,999,999,999};
-	Entity monster2={"FLAMBI",100, 10, 10, 10};
-	Entity monster3={"HERCULE",100, 10, 10, 10};
+	Entity monster1={"JCVD",null_item, null_item, 999,999,999,999};
+	Entity monster2={"FLAMBI",null_item, null_item, 100, 10, 10, 10};
+	Entity monster3={"HERCULE",null_item, null_item, 100, 10, 10, 10};
 
 
-	Item objet1={"EPEE", "Epée de décoration qui peut couper de la purée","EQUIPEMENT",23.7,1,1,1,1};
-	Item objet2={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement","EQUIPEMENT",212.9,1,1,1,1};
-	Item objet6={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement","EQUIPEMENT",212.9,1,1,1,1};
-	Item objet7={"CROISSANT", "Pur beurre, muscle les poignets d' amours","ITEM",12.9,1,1,1,1};
+	Item objet1={"EPEE", "Epée de décoration qui peut couper de la purée",EQUIPMENT,23.7,1,1,1,1};
+	Item objet2={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
+	Item objet6={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
+	Item objet7={"CROISSANT", "Pur beurre, muscle les poignets d' amours",ITEM,12.9,1,1,1,1};
 	
-	Item objet3={"DOUDOUNE", "Vetement de demi saison, procure une defense plutot faible","EQUIPEMENT",4.7,1,1,1,1};
-	Item objet4={"POTION TABASCO", "Un remontant qui ne laisse pas indifferent","ITEM",29.9,1,1,1,1};
-	Item objet5={"TABAC", "Un peu fumeux pour une arme","ITEM",20.5,1,1,1,1};
-	Item objet8={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement","EQUIPEMENT",212.9,1,1,1,1};
+	Item objet3={"DOUDOUNE", "Vetement de demi saison, procure une defense plutot faible",EQUIPMENT,4.7,1,1,1,1};
+	Item objet4={"POTION TABASCO", "Un remontant qui ne laisse pas indifferent",ITEM,29.9,1,1,1,1};
+	Item objet5={"TABAC", "Un peu fumeux pour une arme",ITEM,20.5,1,1,1,1};
+	Item objet8={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
 	
 	Score score={100,200.0};
 	gamestate.highscore = &score;

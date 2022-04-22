@@ -10,27 +10,28 @@ typedef struct Node
 	struct Node* prev;
 } Node;
 
-
-typedef struct
-{
-	char name[CHAR_NAME_MAX];
-	double health;
-	double attack;
-	double defense;
-	double speed;
-} Entity;
-
 typedef struct
 {
 	char name[CHAR_NAME_MAX];
 	char description[CHAR_DESC_MAX];
-	char type[CHAR_TYPE_MAX]; // EQUIPEMENT // PIEGE // ITEM
+	Type type; // EQUIPEMENT // PIEGE // ITEM
 	float price;
 	double health;
 	double attack;
 	double defense;
 	double speed;
 } Item;
+
+typedef struct
+{
+	char name[CHAR_NAME_MAX];
+	Item weapon;
+	Item armor;
+	double health;
+	double attack;
+	double defense;
+	double speed;
+} Entity;
 
 typedef struct
 {
@@ -54,8 +55,5 @@ typedef struct
 	Node* shop;
 	Score* highscore;
 } GameState;
-
-// For homeMenu()
-typedef int GameMode;
 
 #endif

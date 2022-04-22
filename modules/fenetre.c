@@ -1072,8 +1072,8 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 }
 
 
-
-void fenetreIntro(void){
+// To be removed
+/* void fenetreIntro(void){
 
 	WINDOW* intro;
 
@@ -1108,7 +1108,7 @@ void fenetreIntro(void){
 	return;
 	
 
-}
+} */
 
 
 
@@ -1415,9 +1415,9 @@ void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,
 	
 
 	//Pour test...
-	Node* headTrap;
-	Node* trap;
-	Item objet999={"TUILE", "Et oui ça arrive à tout le monde","PIEGE",23.7,-1,-1,-1,-1};
+	Node* headTrap = NULL;
+	Node* trap = NULL;
+	Item objet999={"TUILE", "Et oui ca arrive a tout le monde",TRAP,23.7,-1,-1,-1,-1};
 	push(&headTrap, &objet999, sizeof(Item));
 	trap = headTrap;
 	//...
@@ -1534,7 +1534,7 @@ void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,
 	
 							//"Item random: cherche un objet dans un file .csv, retourne un objet"
 								
-							if ( strcmp( getItem(trap)->type, "PIEGE") == 0 ){
+							if ( getItem(trap)->type == TRAP ){
 								
 								//Log
 								strcpy(message,"PIEGE: ");
@@ -1558,7 +1558,7 @@ void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,
 							}
 								
 								
-							if ( strcmp( getItem(trap)->type, "EQUIPEMENT") == 0 ){
+							if ( getItem(trap)->type == EQUIPMENT ){
 								
 								//PUSH inventaire
 								//push(inventory, getItem(current), sizeof(Item));
@@ -1566,7 +1566,7 @@ void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,
 							}
 								
 								
-							if ( strcmp( getItem(trap)->type, "ITEM") == 0 ){
+							if ( getItem(trap)->type == ITEM ){
 								
 								//PUSH inventaire
 								//push(inventory, getItem(current), sizeof(Item));
