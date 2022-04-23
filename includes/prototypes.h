@@ -7,6 +7,10 @@
 
 // C'est un peu le bordel là ...
 
+int randInt(int min, int max);
+bool fight(Node** team1, Node** team2, char* log);
+double attack(Entity* attacker, Entity* defender);
+
 
 void fenetrePlateau(GameState *gamestate);
 
@@ -68,13 +72,18 @@ void coutFouille(Node** teamPlayer, int cout);
 
 
 void push(Node** head, const void* data, const size_t data_size);
+void delete(Node** list, Node* node);
 
 void printList(Node* head, void (*fptr)(const void*));
 void debugList(Node* head);
+int count(Node* list);
+Node* getRandomNode(Node* list);
+
 void printEntity(const void* data);
 void printItem(const void* data);
-
 Entity* getEntity(Node* liste);
+Entity getEntityComputedStats(Entity entity);
+bool isDead(Entity entity);
 Item* getItem(Node* liste);
 
 //OB

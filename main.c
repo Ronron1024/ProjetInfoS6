@@ -1,97 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <ncurses.h>
 #include "includes/defines.h"
 #include "includes/prototypes.h"
 
 int main (){
+	// Init random generation
+	srand(time(NULL));
 
-	GameMode gamemode = GAMEMODE_PLAY;
+	#pragma region Declaration
+	char log[CHAR_LOG_MAX] = {0};
 
-//Pour avoir des datas ...
-	GameState gamestate;
-	memset(&gamestate,0,sizeof(GameState));
+	Node* team_player = NULL;
+	Node* team_monster = NULL;
 
-	Item null_item = {"NULL", "NULL",NULL_ITEM,0,0,0,0,0};
-	
-	Entity perso1={"GEREM",null_item, null_item, 10, 10, 10, 10};
-	
-	Entity monster1={"JCVD",null_item, null_item, 999,999,999,999};
-	Entity monster2={"FLAMBI",null_item, null_item, 100, 10, 10, 10};
-	Entity monster3={"HERCULE",null_item, null_item, 100, 10, 10, 10};
+	Item nothing = {
+		"Nothing",
+		"Nothing",
+		EQUIPMENT,
+		0.0, 0, 0, 0, 0
+	};
 
+	Item sword = {
+		"Sword",
+		"Wooden sword",
+		EQUIPMENT,
+		10.0, 0, 3, 0, 0
+	};
+	Item plate = {
+		"Plate",
+		"Wooden plate",
+		EQUIPMENT,
+		15.0, 0, 0, 2, 0
+	};
 
-	Item objet1={"EPEE", "Epée de décoration qui peut couper de la purée",EQUIPMENT,23.7,1,1,1,1};
-	Item objet2={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
-	Item objet6={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
-	Item objet7={"CROISSANT", "Pur beurre, muscle les poignets d' amours",ITEM,12.9,1,1,1,1};
-	
-	Item objet3={"DOUDOUNE", "Vetement de demi saison, procure une defense plutot faible",EQUIPMENT,4.7,1,1,1,1};
-	Item objet4={"POTION TABASCO", "Un remontant qui ne laisse pas indifferent",ITEM,29.9,1,1,1,1};
-	Item objet5={"TABAC", "Un peu fumeux pour une arme",ITEM,20.5,1,1,1,1};
-	Item objet8={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
-	
-	Score score={100,200.0};
-	gamestate.highscore = &score;
-	
-	// Entities
-	
-	push(&gamestate.team_player, &perso1, sizeof(Entity));
-	
-	push(&gamestate.team_monster, &monster1, sizeof(Entity));
-	push(&gamestate.team_monster, &monster2, sizeof(Entity));	
-	push(&gamestate.team_monster, &monster3, sizeof(Entity));
+	Entity player1 = {
+		"Gerem1",
+		sword,
+		plate,
+		5, 1, 0, 0
+	};
 
-	// Items inventory
-	push(&gamestate.inventory, &objet1, sizeof(Item));
-	push(&gamestate.inventory, &objet2, sizeof(Item));
-	push(&gamestate.inventory, &objet6, sizeof(Item));
-	push(&gamestate.inventory, &objet7, sizeof(Item));
-	
-	// Items shop
-	push(&gamestate.shop, &objet3, sizeof(Item));
-	push(&gamestate.shop, &objet4, sizeof(Item));
-	push(&gamestate.shop, &objet5, sizeof(Item));
-	push(&gamestate.shop, &objet8, sizeof(Item));
+	Entity player2 = {
+		"Gerem2",
+		sword,
+		nothing,
+		5, 1, 0, 0
+	};
 
-	//Init ncurses
-	initscr();
-	cbreak();
-	keypad(stdscr, TRUE); // Enable FN Keys reading
-	noecho();
+	Entity player3 = {
+		"Gerem3",
+		nothing,
+		nothing,
+		5, 1, 0, 0
+	};
 
-	start_color();
-    init_pair(PAIR_YELLOW_BLUE, COLOR_YELLOW, COLOR_BLUE);
-    init_pair(PAIR_RED_CYAN, COLOR_RED, COLOR_CYAN);
-    init_pair(PAIR_RED_BLACK, COLOR_RED, COLOR_BLACK);
-    init_pair(PAIR_WHITE_RED, COLOR_WHITE, COLOR_RED);
-	
-	//fenetreIntro(); // To be removed
+	Entity monster1 = {
+		"Monster1",
+		nothing,
+		nothing,
+		10, 1, 1, 0
+	};
 
-	splashscreen();
-    getch();
-    gamemode = homeMenu();
+	Entity monster2 = {
+		"Monster2",
+		nothing,
+		plate,
+		10, 1, 1, 0
+	};
 
-	switch (gamemode)
-    {
-        case GAMEMODE_PLAY:
-			fenetrePlateau(&gamestate);
-            break;
-        case GAMEMODE_CONTINUE:
-			// To be implemented
-            break;
-        case GAMEMODE_DEBUG:
-			// To be implemented
-            break;
-    }
+	push(&team_player, &player1, sizeof(Entity));
+	push(&team_player, &player2, sizeof(Entity));
+	push(&team_player, &player3, sizeof(Entity));
 	
-	//End ncurses
-	endwin();
-	
+	push(&team_monster, &monster1, sizeof(Entity));
+	push(&team_monster, &monster2, sizeof(Entity));
+	#pragma endregion
 
-	printf("BYE PADAWANN!!!!!!!!\n");
-	
+	while (fight(&team_player, &team_monster, log))
+	{
+		printf("%s\n", log);
+		//getchar();
+	} printf("%s\n", log); // fight outcome
+
 	return 0;
 }
 

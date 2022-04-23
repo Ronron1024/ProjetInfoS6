@@ -3,12 +3,16 @@
 
 // ALIASES
 // For data
+typedef int Team;
+#define TEAM1 0
+#define TEAM2 1
+
 typedef int Type;
 #define NULL_ITEM 0
 #define ITEM 1
 #define EQUIPMENT 2
 #define TRAP 3
-// For homeMenu()
+
 typedef int GameMode;
 #define GAMEMODE_PLAY 0
 #define GAMEMODE_CONTINUE 1
@@ -17,6 +21,7 @@ typedef int GameMode;
 // Strings size
 #define CHAR_NAME_MAX 50
 #define CHAR_DESC_MAX 200
+#define CHAR_LOG_MAX 128
 
 // Settings
 #define LINE_LOG_MAX	10
