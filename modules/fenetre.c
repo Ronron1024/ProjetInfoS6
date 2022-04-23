@@ -1659,7 +1659,7 @@ int generationRun(int nblevel, Node** headPlateau){
 	return 0; //OK
 }
       	
-int uddateGamestate(Node* plateau, GameState* gamestate){
+int updateGamestate(Node* plateau, GameState* gamestate){
 
 	if(!gamestate || !plateau)
 		return 1;

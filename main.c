@@ -1,22 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <ncurses.h>
 #include "includes/defines.h"
 #include "includes/prototypes.h"
 
 int main (){
 
+    // Init random generation
+	srand(time(NULL));
+
 	GameMode gamemode = GAMEMODE_PLAY;
 	
 	Node* headPlateau = NULL;		//run
 	Node* plateau = NULL;
 	
-//Pour avoir des datas ...
+	//Pour avoir des datas ...
 	GameState gamestate;
 	memset(&gamestate,0,sizeof(GameState));
 
-	Item null_item = {"NULL", "NULL",NULL_ITEM,0,0,0,0,0};
+	Item null_item = {"NULL", "NULL",NULL_ITEM,0,0,0,0,0};	
 	
 	Entity perso1={"GEREM",null_item, null_item, 10, 10, 10, 10};
 	
@@ -39,7 +43,6 @@ int main (){
 	gamestate.highscore = &score;
 	
 	// Entities
-	
 	push(&gamestate.team_player, &perso1, sizeof(Entity));
 	
 	push(&gamestate.team_monster, &monster1, sizeof(Entity));
@@ -69,72 +72,69 @@ int main (){
     init_pair(PAIR_RED_CYAN, COLOR_RED, COLOR_CYAN);
     init_pair(PAIR_RED_BLACK, COLOR_RED, COLOR_BLACK);
     init_pair(PAIR_WHITE_RED, COLOR_WHITE, COLOR_RED);
-	
-	//fenetreIntro(); // To be removed
 
-	splashscreen();
-    getch();
-    gamemode = homeMenu();
+	// splashscreen();
+    // getch();
+    // gamemode = homeMenu();
 
 	switch (gamemode)
     {
         case GAMEMODE_PLAY:
-        
         	generationRun(NB_LEVEL, &headPlateau);			//Generation liste chainée plateau
-		plateau = headPlateau;						//Init 1er niveau
+			plateau = headPlateau;						//Init 1er niveau
 
-		while ( plateau != NULL ){ 
+			while ( plateau != NULL ){ 
+			
+				updateGamestate(plateau, &gamestate);         	//Inclut les données du plateau dans le gamestate
+				int combat = 1;					//1 => Combat non resolu / 0 => combat résolu  ??
 		
-        		uddateGamestate(plateau, &gamestate);         	//Inclut les données du plateau dans le gamestate
-        		int combat = 1;					//1 => Combat non resolu / 0 => combat résolu  ??
-	
-			while (combat){
+				while (combat){
+			
+					switch ( fenetrePlateau(&gamestate) ){	//recup le status de fenetre plateau
+					
+					
+						case 1://ALGO COMBAT?
+						
+							combat =0;
+							break;
+							
+						case 2://SAVE
+
+							break;
+							
+						case 3://QUITTER LE JEU
+
+							//End ncurses
+							endwin();
+
+							printf("BYE PADAWANN!!!!!!!!\n");
 		
-				switch ( fenetrePlateau(&gamestate) ){	//recup le status de fenetre plateau
-				
-				
-					case 1://ALGO COMBAT?
-					
-						combat =0;
-						break;
+							return 0;
+							
+							break;	
+									
+						case -1:
+							printf("Erreur fatale: Ecran bleu window\n");
+							combat=0;
+							break;
 						
-					case 2://SAVE
+					}
 
-						break;
-						
-					case 3://QUITTER LE JEU
-
-						//End ncurses
-						endwin();
-
-						printf("BYE PADAWANN!!!!!!!!\n");
-	
-						return 0;
-						
-						break;	
-								
-					case -1:
-						printf("Erreur fatale: Ecran bleu window\n");
-						combat=0;
-						break;
-					
 				}
-
+				
+				
+				//FONCTION FOUILLE A FAIRE
+				
+				plateau = plateau->next;
+		
 			}
-			
-			
-			//FONCTION FOUILLE A FAIRE
-			
-			plateau = plateau->next;
-	
-		}
 		
             break;
         case GAMEMODE_CONTINUE:
-		// To be implemented
+			// To be implemented
             break;
         case GAMEMODE_DEBUG:
-		// To be implemented
+			// To be implemented
             break;
     }
 	
@@ -146,4 +146,3 @@ int main (){
 	return 0;
 	
 }
-

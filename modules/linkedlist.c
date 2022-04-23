@@ -41,46 +41,69 @@ void debugList(Node* head)
 	debugList(head->next);
 }
 
-void printEntity(const void* data)
+int count(Node* list)
 {
-	if (!data)
+	int n = 0;
+	if (!list)
+		return 0;
+
+	while (list)
+	{
+		n++;
+		list = list->next;
+	}
+
+	return n;
+}
+
+Node* getRandomNode(Node* list)
+{
+	if (!list)
+		return NULL;
+
+	int random_index = randInt(0, count(list));
+	for (int i = 0; i < random_index - 1; i++)
+		list = list->next;
+
+	return list;
+}
+
+// Ronron Patapon
+// Can be optimized ?
+void delete(Node** list, Node* node)
+{
+	if (!list || !node)
 		return;
 
-	Entity entity = *(Entity*) data;
-
-	printf("\nName : %s\n", entity.name);
-	printf("Health : %lf\n", entity.health);
-	printf("Attack : %lf\n", entity.attack);
-	printf("Defense : %lf\n", entity.defense);
-	printf("Speed : %lf\n", entity.speed);
-}
-
-void printItem(const void* data)
-{
-	if (!data)
+	// Delete only node
+	if (!node->next && !node->prev)
+	{
+		*list = NULL;
+		free(node);
 		return;
+	}
 
-	Item item = *(Item*) data;
+	// Delete first node
+	if (!node->prev)
+	{
+		*list = node->next;
+		node->next->prev = NULL;
+		free(node);
+		return;
+	}
 
-	printf("\nName : %s\n", item.name);
-	printf("Description : %s\n", item.description);
-	printf("Price : %f\n", item.price);
-}
+	// Delete last node
+	if (!node->next)
+	{
+		node->prev->next = NULL;
+		free(node);
+		return;
+	}
 
-Entity* getEntity(Node* liste)
-{
-	if (!liste)
-		return NULL;
-	return (Entity*) liste->data;
-
-}
-
-Item* getItem(Node* liste)
-{
-	if (!liste)
-		return NULL;
-	return (Item*) liste->data;
-
+	// Delete intermediate node
+	node->next->prev = node->prev;
+	node->prev->next = node->next;
+	free(node);
 }
 
 Plateau* getPlateau(Node* liste)
