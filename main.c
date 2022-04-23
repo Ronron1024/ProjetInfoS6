@@ -8,7 +8,10 @@
 int main (){
 
 	GameMode gamemode = GAMEMODE_PLAY;
-
+	
+	Node* headPlateau = NULL;		//run
+	Node* plateau = NULL;
+	
 //Pour avoir des datas ...
 	GameState gamestate;
 	memset(&gamestate,0,sizeof(GameState));
@@ -76,22 +79,71 @@ int main (){
 	switch (gamemode)
     {
         case GAMEMODE_PLAY:
-			fenetrePlateau(&gamestate);
+        
+        	generationRun(NB_LEVEL, &headPlateau);			//Generation liste chainée plateau
+		plateau = headPlateau;						//Init 1er niveau
+
+		while ( plateau != NULL ){ 
+		
+        		uddateGamestate(plateau, &gamestate);         	//Inclut les données du plateau dans le gamestate
+        		int combat = 1;					//1 => Combat non resolu / 0 => combat résolu  ??
+	
+			while (combat){
+		
+				switch ( fenetrePlateau(&gamestate) ){	//recup le status de fenetre plateau
+				
+				
+					case 1://ALGO COMBAT?
+					
+						combat =0;
+						break;
+						
+					case 2://SAVE
+
+						break;
+						
+					case 3://QUITTER LE JEU
+
+						//End ncurses
+						endwin();
+
+						printf("BYE PADAWANN!!!!!!!!\n");
+	
+						return 0;
+						
+						break;	
+								
+					case -1:
+						printf("Erreur fatale: Ecran bleu window\n");
+						combat=0;
+						break;
+					
+				}
+
+			}
+			
+			
+			//FONCTION FOUILLE A FAIRE
+			
+			plateau = plateau->next;
+	
+		}
+		
             break;
         case GAMEMODE_CONTINUE:
-			// To be implemented
+		// To be implemented
             break;
         case GAMEMODE_DEBUG:
-			// To be implemented
+		// To be implemented
             break;
     }
 	
 	//End ncurses
 	endwin();
-	
 
 	printf("BYE PADAWANN!!!!!!!!\n");
 	
 	return 0;
+	
 }
 

@@ -41,10 +41,10 @@ typedef struct
 
 typedef struct
 {
+	int id;		//Lvl
 	Node* monsters;
-	Node* traps;
-	Node* items;
-	int remain_searches; // ???
+	Item treasure;		//hypothetic item function of search or not after fight
+	int remain_searches; 	// ???
 } Plateau;
 
 typedef struct
@@ -54,6 +54,7 @@ typedef struct
 	Node* inventory;
 	Node* shop;
 	Score* highscore;
+	Item treasure;		//hypothetic item function of search or not after fight
 } GameState;
 
 #endif

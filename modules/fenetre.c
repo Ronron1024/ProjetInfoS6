@@ -6,16 +6,20 @@
 #include "../includes/structures.h"
 #include "../includes/prototypes.h"
 
-void fenetrePlateau(GameState *gamestate){
+int fenetrePlateau(GameState *gamestate){
 
-	int finPlateau = 1; //tant que le combat est pas fini
+	if(!gamestate){
+		return -1;
+	}
+
+	int statusPlateau = 0;
 
 	//Pour les logs
 	char logText[LINE_LOG_MAX][CHAR_DESC_MAX];
 	int pLog = 0;	//Position ligne log
 
  	
- 	while(finPlateau){
+ 	while (statusPlateau != 1 && statusPlateau != 2 && statusPlateau != 3) {		//0 RAS /1 COMBAT /2 SAVE /3 QUITTER
 			    	
 		//get screen size
 		int yMax,xMax;
@@ -38,7 +42,7 @@ void fenetrePlateau(GameState *gamestate){
 		
 		//fenetre game	   	
 		xGame = yGame = 0; 
-		hGame = 22;
+		hGame = 26;		//22 avant
 		wGame = xMax;
 		
 		//fenetre input/log	   	
@@ -60,16 +64,12 @@ void fenetrePlateau(GameState *gamestate){
 		hMenu = yMax-hLog-hGame;
 		wMenu = xMax-wScore;
 		
-		
-		//game = fenetreGame(game,hGame,wGame,yGame,xGame);
 		game = frameWindow(1);
-		//log = fenetreLog(log, hLog, wLog, yLog, xLog);	
 		log = frameWindow(2);
-		//score = fenetreScore(score, hScore, wScore,yScore,xScore);
+		
 		score = frameWindow(3);
 		afficheScore(score,gamestate->highscore);
 		
-		//menu = fenetreMenu(menu,hMenu,wMenu,yMenu,xMenu);
 		menu = frameWindow(4);
 		affichePersoWin(game,gamestate->team_player);
 		afficheMonsterWin(game,gamestate->team_monster);
@@ -79,19 +79,28 @@ void fenetrePlateau(GameState *gamestate){
 		wrefresh(score);
 		wrefresh(menu);
 
-		finPlateau = selectionMenu(menu,score, log, hMenu, wMenu, yMenu, xMenu, 1, 1, gamestate, &pLog, logText);
-		
-		
+		statusPlateau = selectionMenu(menu,score, log, hMenu, wMenu, yMenu, xMenu, 1, 1, gamestate, &pLog, logText);
+			
 	}
+	
+	return statusPlateau;
 
 }
 void afficheScore(WINDOW* win,Score* score){
+
+	if(!win || !score){
+		return;
+	}
 
 	mvwprintw(win, 2,1,"ALT: %d",score->alt);
 	mvwprintw(win, 3,1,"MONEY: %-9.2f",score->money);	
 }
 
 void afficheScoreRev(WINDOW* win,Score* score){
+
+	if(!win || !score){
+		return;
+	}
 
 	wattron(win,COLOR_PAIR(1));
 	wattron(win,A_BOLD);
@@ -106,6 +115,10 @@ void afficheScoreRev(WINDOW* win,Score* score){
 
 void affichePersoWin(WINDOW* win,Node* perso){
 
+	if(!win || !perso){
+		return;
+	}
+
 	int espace = 15; //espace entre perso
 	Node* current;
 	int n = 0;
@@ -115,13 +128,13 @@ void affichePersoWin(WINDOW* win,Node* perso){
 
 	while (current != NULL){
 
-		mvwprintw(win, 12,espace*n+1,"%s",getEntity(current)->name);
+		mvwprintw(win, 14,espace*n+1,"%s",getEntity(current)->name);
 
 		wattroff(win,A_BOLD);
-		mvwprintw(win, 13,espace*n+1,"HP : %4.0lf",getEntity(current)->health);
-		mvwprintw(win, 14,espace*n+1,"ATT: %4.0lf",getEntity(current)->attack);
-		mvwprintw(win, 15,espace*n+1,"DEF: %4.0lf",getEntity(current)->defense);
-		mvwprintw(win, 16,espace*n+1,"SPD: %4.0lf",getEntity(current)->speed);
+		mvwprintw(win, 15,espace*n+1,"HP : %4.0lf",getEntity(current)->health);
+		mvwprintw(win, 16,espace*n+1,"ATT: %4.0lf",getEntity(current)->attack);
+		mvwprintw(win, 17,espace*n+1,"DEF: %4.0lf",getEntity(current)->defense);
+		mvwprintw(win, 18,espace*n+1,"SPD: %4.0lf",getEntity(current)->speed);
 		
 		wattron(win,A_BOLD);
 		
@@ -132,6 +145,10 @@ void affichePersoWin(WINDOW* win,Node* perso){
 }
 
 void affichePersoReverseWin(WINDOW* win,Node* perso){
+
+	if(!win || !perso){
+		return;
+	}
 
 	int espace = 15; //espace entre perso
 	Node* current;
@@ -146,10 +163,10 @@ void affichePersoReverseWin(WINDOW* win,Node* perso){
 		wattron(win,A_BOLD);
 		wattron(win,A_REVERSE);
 
-		mvwprintw(win, 13,espace*n+1,"HP : %4.0lf",getEntity(current)->health);
-		mvwprintw(win, 14,espace*n+1,"ATT: %4.0lf",getEntity(current)->attack);
-		mvwprintw(win, 15,espace*n+1,"DEF: %4.0lf",getEntity(current)->defense);
-		mvwprintw(win, 16,espace*n+1,"SPD: %4.0lf",getEntity(current)->speed);
+		mvwprintw(win, 15,espace*n+1,"HP : %4.0lf",getEntity(current)->health);
+		mvwprintw(win, 16,espace*n+1,"ATT: %4.0lf",getEntity(current)->attack);
+		mvwprintw(win, 17,espace*n+1,"DEF: %4.0lf",getEntity(current)->defense);
+		mvwprintw(win, 18,espace*n+1,"SPD: %4.0lf",getEntity(current)->speed);
 		
 		wattroff(win,COLOR_PAIR(1));
 		wattroff(win,A_BOLD);
@@ -163,7 +180,11 @@ void affichePersoReverseWin(WINDOW* win,Node* perso){
 
 void afficheMonsterWin(WINDOW* win,Node* monster){
 
-	int espace = 15; //space between entity
+	if(!win || !monster){
+		return;
+	}
+
+	int espace = 15; //space between entities
 	Node* current;
 	int n = 0;
 	
@@ -306,8 +327,8 @@ WINDOW* fenetreMenu(WINDOW* menu, int hMenu, int wMenu,int yMenu,int xMenu){
 
 	mvwprintw(menu, 2,1,"BOUTIQUE");
 	mvwprintw(menu, 2,16,"INVENTAIRE");
-	mvwprintw(menu, 2,31,"FOUILLER");
-	mvwprintw(menu, 2,46,"FIGHT");
+	mvwprintw(menu, 2,31,"FIGHT");
+	mvwprintw(menu, 2,46,"SAVE");
 	mvwprintw(menu, 2,61,"QUITTER");
 
 	return menu;
@@ -335,18 +356,15 @@ WINDOW* fouilleMenu(WINDOW* fouille, int hMenu, int wMenu,int yMenu,int xMenu){
 
 	fouille = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
 	
-	//Pour ecrire dans la fenetre
-	/*wattron(fouille,COLOR_PAIR(1));
-	wattron(fouille,A_BOLD);
-	mvwprintw(fouille, 2,1,"FOUILLE");
-	wattroff(fouille,COLOR_PAIR(1));
-	wattroff(fouille,A_BOLD);*/
 
-	mvwprintw(fouille, 2,1,"Un cadavre");	
-	mvwprintw(fouille, 3,1,"Nos poches");	
-	mvwprintw(fouille, 4,1,"Les coins");
-	mvwprintw(fouille, 5,1,"Un coffre");	
-	mvwprintw(fouille, 6,1,"Procrastiner");	
+char menuT[5][CHAR_DESC_MAX]={"CADAVRES","POCHES","RECOINS","COFFRE","STATUETTE"};
+
+
+	mvwprintw(fouille, 2,0,"CADAVRES");	
+	mvwprintw(fouille, 3,0,"POCHES");	
+	mvwprintw(fouille, 4,0,"RECOINS");
+	mvwprintw(fouille, 5,0,"COFFRE");	
+	mvwprintw(fouille, 6,0,"STATUETTE");	
 
 	keypad(fouille,TRUE);
 
@@ -367,17 +385,6 @@ void boutiqueFct(WINDOW* boutique) {
 WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xMenu){
 
 	inventaire = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
-	
-	//Pour ecrire dans la fenetre
-	/*wattron(inventaire,COLOR_PAIR(2));
-	wattron(inventaire,A_BOLD);
-	box(inventaire, 0,0);
-	mvwprintw(inventaire, 2,1,"INVENTAIRE");
-	mvwprintw(inventaire, 1,1,"INVENTAIRE");
-	wattroff(inventaire,COLOR_PAIR(1));
-	wattroff(inventaire,A_BOLD);
-	*/
-	
 	mvwprintw(inventaire, hMenu-5,wMenu-15,"QUIT: press q");
 	
 	return inventaire;
@@ -386,18 +393,10 @@ WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xM
 
 int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]) {
 
-/*
-	Node** teamPlayer = &(gamestate->team_player); 
-	Node* shop = gamestate->shop;
-	Node** inventory = &(gamestate->inventory);
-	Score* highscore = gamestate->highscore;
-	
-*/
-
 	int selection;
 	int choix = 1;
 	
-	char menuT[5][CHAR_NAME_MAX]={"BOUTIQUE","INVENTAIRE","FOUILLER","FIGHT","QUITTER"};
+	char menuT[5][CHAR_NAME_MAX]={"BOUTIQUE","INVENTAIRE","FIGHT","SAVE","QUITTER"};
 	
 	keypad(win,TRUE);
 	
@@ -467,7 +466,7 @@ int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,in
 			
 				
 
-				if ( selection == 0 ){
+				if ( selection == 0 ){ //BOUTIQUE
 	
 					menuBoutique(win,scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);
 					choix = 0 ;
@@ -480,35 +479,35 @@ int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,in
 					
 					
 					
-					return 1;
+					return 0;
 				}
 				
-				if ( selection == 1 ){
+				if ( selection == 1 ){ //INVENTAIRE
 					
 					menuInventaire(win,scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);
 					choix = 0 ;
 					
-					return 1;
+					return 0;
 				}
 				
 	
-				if ( selection == 2 ){
-					menuFouille(win,scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);
-					choix = 0 ;
+				if ( selection == 2 ){ //FIGHT
+					//menuFouille(win,scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);
+					//choix = 0 ;
 					
 					return 1;
 				}			
 	
-				if ( selection == 3 ){
+				if ( selection == 3 ){ //SAVE
 					//choix = 0;
 					
-					return 0;
+					return 2;
 				}
 				
-				if ( selection == 4 ){
+				if ( selection == 4 ){ //QUITTER
 					//choix = 0;
 					
-					return 0;
+					return 3;
 				}
 				
 				
@@ -849,7 +848,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 									keypad(inventaire,TRUE);
 									afficheAllObjetWin(inventaire,*inventory);
 								
-									//On se recalle sur le meme 
+									//On se recalle sur le meme item si i l existe
 									if ( sameItem(inventory,  current) >= 0){
 			
 										afficheObjetWinReverse(inventaire,current, sameItem(inventory,  current ) );
@@ -860,7 +859,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 									else{
 									
 										n = 0;
-										
+	
 										afficheObjetWinReverse(inventaire,*inventory, n); //On ré affiche le 1er item en yellow
 										useConvulsif =0;
 										
@@ -869,15 +868,14 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 										mvwaddstr(inventaire, hMenu-5,0,getItem(current)->description);
 										
 									}
-									
-									wrefresh(inventaire);	
-									
+							
 									//Update affichage perso/monster
 									WINDOW* game = frameWindow(1);	
 									afficheMonsterWin(game,*teamMonster);
 									affichePersoWin(game,*teamPlayer);
 									affichePersoReverseWin(game,entity);
-									wrefresh(game);										
+									wrefresh(game);
+									wrefresh(inventaire);										
 
 								}
 								
@@ -941,27 +939,7 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 									}
 									
 									wrefresh(inventaire);	
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								}
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
-								
+								}								
 								
 								else{
 									strcpy(message, "MERGE: ");
@@ -1071,47 +1049,6 @@ void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int
 		}
 }
 
-
-// To be removed
-/* void fenetreIntro(void){
-
-	WINDOW* intro;
-
-	//get screen size
-	int yMax,xMax;
-	getmaxyx(stdscr,yMax,xMax);
-	
-	//definition couleur
-	//init_pair(1, COLOR_RED,COLOR_CYAN);
-	init_pair(1, COLOR_YELLOW,COLOR_BLUE);
-		
-	intro = newwin(yMax,xMax,0,0);
-	
-	wattron(intro,COLOR_PAIR(1));
-	wattron(intro,A_BOLD);
-	box(intro, 0,0);
-	mvwprintw(intro, 1,1,"INTRO");	
-	wattroff(intro,COLOR_PAIR(1));
-	wattroff(intro,A_BOLD);
-	 
-	wrefresh(intro);
-	
-	while( wgetch(intro) != 10 ){ 
-
-		wrefresh(intro);
-		
-	}
-	
-	clear();
-	refresh();
-	
-	return;
-	
-
-} */
-
-
-
 void printfLog (WINDOW* win, char* message, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX] ){
 
 	WINDOW* log;
@@ -1215,7 +1152,7 @@ WINDOW* frameWindow(int number){
 		
 	//fenetre game	   	
 	xGame = yGame = 0; 
-	hGame = 22;
+	hGame = 26;		//22 avant
 	wGame = xMax;
 		
 	//fenetre input/log	   	
@@ -1411,19 +1348,18 @@ void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,
 	Score* highscore = gamestate->highscore;
 	
 	char message[CHAR_DESC_MAX];
-	
-	
 
 	//Pour test...
 	Node* headTrap = NULL;
 	Node* trap = NULL;
-	Item objet999={"TUILE", "Et oui ca arrive a tout le monde",TRAP,23.7,-1,-1,-1,-1};
+	
+	//Item objet999={"TUILE", "Et oui ça arrive à tout le monde","PIEGE",23.7,-1,-1,-1,-1};
+	Item objet999={"TUILE", "Et oui ça arrive à tout le monde",TRAP,23.7,-1,-1,-1,-1};
 	push(&headTrap, &objet999, sizeof(Item));
 	trap = headTrap;
 	//...
 
-
-	int fouilleConvulsif=1;
+	int fouilleConvulsif;
 	int ch;
 	
 	//Trame de fond
@@ -1438,145 +1374,148 @@ void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,
 	printfLog(log, message2, pLog, logText);
 	
 
-	int selection;
+	int selection=0;
 	int choix = 1;
 
-	char menuT[5][CHAR_DESC_MAX]={"Un cadavre","Nos poches","Les coins","Un coffre","Procrastiner"};
+	//char menuT[5][CHAR_DESC_MAX]={"Un cadavre","Nos poches","Les coins","Un coffre","Procrastiner"};
+	char menuT[5][CHAR_DESC_MAX]={"CADAVRES","POCHES","RECOINS","COFFRE","STATUETTE"};
 	
+	keypad(fouille,TRUE);
 	
-	while(fouilleConvulsif){
-
-		keypad(fouille,TRUE);
+	while( choix ){
 	
-		selection = 0;
-
-		while( choix ){
+		fouilleConvulsif=1; //:)
 		
-			wattron(fouille,COLOR_PAIR(1));
-			wattron(fouille,A_BOLD);
-			wattron(fouille,A_REVERSE);
-			mvwprintw(fouille, 2+selection, 1,"%s",&menuT[selection][0]);
-			wrefresh(fouille);
+		wattron(fouille,COLOR_PAIR(1));
+		wattron(fouille,A_BOLD);
+		wattron(fouille,A_REVERSE);
+		mvwprintw(fouille, 2+selection, 0,"%s",&menuT[selection][0]);
+		wrefresh(fouille);
 			
-			switch ( wgetch(fouille) ){
+		switch ( wgetch(fouille) ){
 			
-				case KEY_DOWN:
+			case KEY_DOWN:
 							
-					wattroff(fouille,COLOR_PAIR(1));
-					wattroff(fouille,A_BOLD);
-					wattroff(fouille,A_REVERSE);
-					mvwprintw(fouille, 2+selection,1,"%s",&menuT[selection][0]);
+				wattroff(fouille,COLOR_PAIR(1));
+				wattroff(fouille,A_BOLD);
+				wattroff(fouille,A_REVERSE);
+				mvwprintw(fouille, 2+selection,0,"%s",&menuT[selection][0]);
 
-					if(selection!=4){
+				if(selection!=4){
 					selection++;
-					}
+				}
 					
-					wattron(fouille,COLOR_PAIR(1));
-					wattron(fouille,A_BOLD);
-					wattron(fouille,A_REVERSE);
-					mvwprintw(fouille, 2+selection, 1,"%s",&menuT[selection][0]);
+				wattron(fouille,COLOR_PAIR(1));
+				wattron(fouille,A_BOLD);
+				wattron(fouille,A_REVERSE);
+				mvwprintw(fouille, 2+selection, 0,"%s",&menuT[selection][0]);
 					
-					wrefresh(fouille);
+				wrefresh(fouille);
 					
-					break;
+				break;
 								
-				case KEY_UP:
+			case KEY_UP:
 				
-					wattroff(fouille,COLOR_PAIR(1));
-					wattroff(fouille,A_BOLD);
-					wattroff(fouille,A_REVERSE);
-					mvwprintw(fouille, 2+selection, 1,"%s",&menuT[selection][0]);
+				wattroff(fouille,COLOR_PAIR(1));
+				wattroff(fouille,A_BOLD);
+				wattroff(fouille,A_REVERSE);
+				mvwprintw(fouille, 2+selection, 0,"%s",&menuT[selection][0]);
 				
-					if(selection!=0){
-						selection--;
-					}
+				if(selection!=0){
+					selection--;
+				}
 					
-					wattron(fouille,COLOR_PAIR(1));
-					wattron(fouille,A_BOLD);
-					wattron(fouille,A_REVERSE);
-					mvwprintw(fouille,2+selection, 1,"%s",&menuT[selection][0]);
-					wrefresh(fouille);
+				wattron(fouille,COLOR_PAIR(1));
+				wattron(fouille,A_BOLD);
+				wattron(fouille,A_REVERSE);
+				mvwprintw(fouille,2+selection, 0,"%s",&menuT[selection][0]);
+				wrefresh(fouille);
 					
-					break;
+				break;
+						
+			case 'q':
+				choix = 0 ;
+				break;
 		
-				case 10:	//touche enter			
+			case 10:	//touche enter			
 								
-					wattron(fouille,COLOR_PAIR(1));
-					wattron(fouille,A_BOLD);
-					wattron(fouille,A_REVERSE);
-					wattron(fouille,A_ITALIC);
-					mvwprintw(fouille, 2+selection, 1,"%s",&menuT[selection][0]);
-					wrefresh(fouille);
-					
-					
-					
-					//On ecrit dans le log	
-					strcpy(message,"Search or Not [S/N]");								
-					printfLog (log, message, pLog, logText);
+				wattron(fouille,COLOR_PAIR(1));
+				wattron(fouille,A_BOLD);
+				wattron(fouille,A_REVERSE);
+				wattron(fouille,A_ITALIC);
+				mvwprintw(fouille, 2+selection, 0,"%s",&menuT[selection][0]);
+				wrefresh(fouille);
+		
+				//On ecrit dans le log	
+				strcpy(message,"Search or Not [S/N]");								
+				printfLog (log, message, pLog, logText);
 																
-					wattroff(fouille,COLOR_PAIR(1));
-					wattroff(fouille,A_BOLD);
-					wattroff(fouille,A_REVERSE);
-
-						
-					ch = wgetch(fouille);			
-						
+				wattroff(fouille,COLOR_PAIR(1));
+				wattroff(fouille,A_BOLD);
+				wattroff(fouille,A_REVERSE);
+				
+				while(fouilleConvulsif){
+				
+					keypad(fouille,TRUE);		
+					ch = wgetch(fouille);	
+							
 					if( ch == 'S' || ch == 's' ){
-			
+		
 						//Cout de la fouile		
 						coutFouille(teamPlayer, COUT_HP_FOUILLE);
 		
-						if ( selection == 0 ){		//Fouiller un cadavre
-							
-							//Log
-							strcpy(message,&menuT[selection][0]);
-							printfLog (log, message, pLog, logText);
-	
-							//"Item random: cherche un objet dans un file .csv, retourne un objet"
-								
-							if ( getItem(trap)->type == TRAP ){
-								
-								//Log
-								strcpy(message,"PIEGE: ");
-								strcat(message, getItem(trap)->name);					
-								printfLog (log, message, pLog, logText);
-
-								//Use item
-								
-									//Choix du 1er de la liste
-									Node* entity = *teamPlayer;
-							
-								useItem(&headTrap, trap,teamPlayer, entity);
-								
-								//Update affichage perso/monster
-								WINDOW* game = frameWindow(1);
-								afficheMonsterWin(game,*teamMonster);
-								affichePersoWin(game,*teamPlayer);
-								affichePersoReverseWin(game,entity);
-								wrefresh(game);
-										
-							}
-								
-								
-							if ( getItem(trap)->type == EQUIPMENT ){
-								
-								//PUSH inventaire
-								//push(inventory, getItem(current), sizeof(Item));
-								
-							}
-								
-								
-							if ( getItem(trap)->type == ITEM ){
-								
-								//PUSH inventaire
-								//push(inventory, getItem(current), sizeof(Item));
-								
-							}
-											
-						}
+						switch  (selection){
 						
-							
-						if ( selection == 1 ){ 	//Fouiller nos poches
+							case 0:	//Fouiller un cadavre
+							case 1:	//Fouiller nos poches
+							case 2:	//Fouiller les coins
+							case 3:	//Fouiller un coffre
+							case 4:	//Statuette
+		
+								//"Item random: cherche un objet dans un file .csv, retourne un objet"
+									
+								//if ( strcmp( getItem(trap)->type, "PIEGE") == 0 ){
+								if ( getItem(trap)->type == TRAP ){	
+									//Log
+									strcpy(message,"SEARCH: ");
+									strcat(message,&menuT[selection][0]);
+									strcat(message," -> PIEGE: ");
+									strcat(message, getItem(trap)->name);					
+									printfLog (log, message, pLog, logText);
+
+									//Use item
+									
+										//Choix du 1er player de la liste
+										Node* entity = *teamPlayer;
+								
+									useItem(&headTrap, trap,teamPlayer, entity);
+									
+									//Update affichage perso/monster
+									WINDOW* game = frameWindow(1);
+									afficheMonsterWin(game,*teamMonster);
+									affichePersoWin(game,*teamPlayer);
+									affichePersoReverseWin(game,entity);
+									wrefresh(game);
+									
+									strcpy(message,"Search or Not [S/N]");								
+									printfLog (log, message, pLog, logText);	
+											
+								}
+												
+								if ( getItem(trap)->type ==  EQUIPMENT ){	
+									//PUSH inventaire
+									//push(inventory, getItem(current), sizeof(Item));	
+								}
+										
+								if ( getItem(trap)->type == ITEM ){	
+									//PUSH inventaire
+									//push(inventory, getItem(current), sizeof(Item));	
+								}
+								
+								break;					
+						
+							/*
+							case 1:		//Fouiller nos poches
 							
 							//Log
 							strcpy(message,&menuT[selection][0]);
@@ -1585,82 +1524,65 @@ void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,
 							//choix = 0 ; //pour quitter
 			
 								//return 1;
-						}
-							
-				
-						if ( selection == 2 ){		//Fouiller les coins"
-							
-							//Log
-							strcpy(message,&menuT[selection][0]);
-							printfLog (log, message, pLog, logText);
-			
-								//return 1;
-						}			
-				
-						if ( selection == 3 ){		//Fouiller un coffre
+								
+								break;
 
-							//Log
-							strcpy(message,&menuT[selection][0]);
-							printfLog (log, message, pLog, logText);
+							
+							case 2:		//Fouiller les coins"
+								
+								//Log
+								strcpy(message,&menuT[selection][0]);
+								printfLog (log, message, pLog, logText);
+				
+									//return 1;
+								break;	
+								
+								
+										
+				
+							case 3:		//Fouiller un coffre
+
+								//Log
+								strcpy(message,&menuT[selection][0]);
+								printfLog (log, message, pLog, logText);
 								
 								//return 0;
-						}
+								break;
+
 							
-						if ( selection == 4 ){		//Procrastiner
-
-
-							//Log
-							strcpy(message,&menuT[selection][0]);
-							printfLog (log, message, pLog, logText);
+							case 4:		//Statuette
+								//Log
+								strcpy(message,&menuT[selection][0]);
+								printfLog (log, message, pLog, logText);
+							
+								choix = 0 ;
+								fouilleConvulsif = 0;
+								break;
+							*/
 						
-							choix = 0 ;
-							fouilleConvulsif = 0;
 						}
-	
-					wattroff(fouille,COLOR_PAIR(1));
-					wattroff(fouille,A_BOLD);
-					wattroff(fouille,A_REVERSE);
-					wattroff(fouille,A_ITALIC);
-						
-					wrefresh(fouille);
-					
-					}
-						
-					
-					
-					if( ch == 'N' || ch == 'n' ){	
-					
-					
-					
-						choix = 0;
-					
-					
-					
-					}
+												
+						wattroff(fouille,COLOR_PAIR(1));
+						wattroff(fouille,A_BOLD);
+						wattroff(fouille,A_REVERSE);
+						wattroff(fouille,A_ITALIC);
+							
+						wrefresh(fouille);
 						
 						
 						
-						
-						break;
-						
-						
-					case 'q':
-						choix = 0;
-						fouilleConvulsif = 0;
-						break;
-
-					default:		
-						break;
 						
 				}
-						
+				
+				if( ch == 'N' || ch == 'n' ){
 					
-		
+					//choix = 0;
+					fouilleConvulsif = 0;
+				}
+			}
+							
 		}
-	
-	
-	}	
-	//return 1;
+	}
 }
 
 
@@ -1698,6 +1620,9 @@ int venteInventaire(Score* highscore, Node** headInventory, Node* objet){
 
 int sameItem(Node** inventory, Node* objet){
 
+	if(!inventory && !objet)
+		return -1;
+
 	Node* current = *inventory;
 	int n=0;
 	
@@ -1711,11 +1636,39 @@ int sameItem(Node** inventory, Node* objet){
 		n++;
 	}
 
-
 	return -1;
 }
 
+//Plateau* generationRun(int nblevel,FILE* bdd_monster, FILE* bdd_item){ //Attente fct Thomas
+int generationRun(int nblevel, Node** headPlateau){
 
+	if(!headPlateau)
+		return 1; //ko
 
+	Plateau current;
 
+	for(int i = nblevel; i > 0; i--){
+	
+		current.id = i;
+		current.monsters = NULL;
+		//current->treasure = NULL
+		push(headPlateau, &current, sizeof(Plateau));
+		
+	}
+	
+	return 0; //OK
+}
+      	
+int uddateGamestate(Node* plateau, GameState* gamestate){
 
+	if(!gamestate || !plateau)
+		return 1;
+			
+	//current->team_monster = run->monsters;
+	gamestate->team_monster = getPlateau(plateau)->monsters;
+	gamestate->treasure = getPlateau(plateau)->treasure;
+	gamestate->highscore->alt = ( getPlateau(plateau)->id ) * 1000;
+	
+	return 0;
+
+}

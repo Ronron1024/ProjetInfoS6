@@ -7,17 +7,30 @@
 
 // C'est un peu le bordel là ...
 
+//Retourne un status en fonction du besoin: -1 ERREUR / 0 RAS / 1 FIGHT/ 2 SAVE / 3 QUITTER
+int fenetrePlateau(GameState *gamestate);
 
-void fenetrePlateau(GameState *gamestate);
 
+//Affichage...
+
+//Retourne les fenetres qui composent l' ecran de jeu principal
 WINDOW* fenetreGame(WINDOW* game, int hGame,int wGame,int yGame,int xGame);
 WINDOW* fenetreLog(WINDOW* log, int hLog,int wLog,int yLog,int xLog);
 WINDOW* fenetreScore(WINDOW* score, int hScore, int wScore,int yScore,int xScore);
 WINDOW* fenetreMenu(WINDOW* menu, int hMenu, int wMenu,int yMenu,int xMenu);
 
+//Retourne la fenetre qui compose le menu boutique
 WINDOW* boutiqueMenu(WINDOW* boutique, int hMenu, int wMenu,int yMenu,int xMenu);
+
+//Retourne la fenetre qui compose le menu inventaire
+WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xMenu);
+//...
+
+
+
 void boutiqueFct(WINDOW* boutique);
 
+//Fontion qui retourne le choix utilisateur 0=>Boutique / 1=>Inventaire / 2=>Combat / 3=>Save / 4=>Quitter et qui transmet les log et le gamestate aux fonctions descendantes 
 int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
 
@@ -33,17 +46,16 @@ void afficheObjetWinReverse(WINDOW* win,Node* objet, int n);
 
 
 int compterObjet(Node* objet);
-//void menuBoutique(WINDOW* boutique, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, Node* objetBoutique, Node** inventaire, Score* highScore, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 void menuBoutique(WINDOW* boutique, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
+
+//Affiche la partie score avec une police classique
 void afficheScore(WINDOW* win,Score* highScore);
+//Affiche le champ money de la partie score avec une police reverse
 void afficheScoreRev(WINDOW* win,Score* score);
+
 int achatBoutique(Score* highScore, Node* objet);
 
-
-
-WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xMenu);
-//void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, Node** teamPlayer, Node* objetBoutique, Node** objetInventaire, Score* highScore, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 int venteInventaire(Score* highscore, Node** headInventory, Node* objet);
 int sameItem(Node** inventory, Node* objet);
@@ -53,9 +65,6 @@ void printfLog (WINDOW* win, char* message, int* pLog, char logText[LINE_LOG_MAX
 void afficheLog(WINDOW* log, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 void afficheAllLog(WINDOW* log, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 void shiftArraw(char logText[LINE_LOG_MAX][CHAR_DESC_MAX] );
-
-// To be removed
-//void fenetreIntro(void);
 
 WINDOW* frameWindow(int number);
 
@@ -76,8 +85,9 @@ void printItem(const void* data);
 
 Entity* getEntity(Node* liste);
 Item* getItem(Node* liste);
+Plateau* getPlateau(Node* liste);
 
-//OB
+//OB à revoir
 void sup(Node** head, Node* objet);
 
 
@@ -87,5 +97,13 @@ void printwYCentered(int x, const char* str);
 
 void splashscreen();
 GameMode homeMenu();
+
+
+//Creation d' une liste chainée de plateau en fonction du nombre de level <=> une run // return 0 si OK
+int generationRun(int nblevel,Node** headPlateau);
+
+//Maj de la liste monstre et treasure dans le gamestate // return 0 si OK
+int uddateGamestate(Node* plateau, GameState* gamestate);
+
 
 #endif

@@ -83,7 +83,14 @@ Item* getItem(Node* liste)
 
 }
 
-//OB
+Plateau* getPlateau(Node* liste)
+{
+	if (!liste)
+		return NULL;
+	return (Plateau*) liste->data;
+
+}
+
 void sup(Node** head, Node* objet)
 {
 	if (!head || !objet)
@@ -126,9 +133,38 @@ void sup(Node** head, Node* objet)
 			
 }
 
+/*
+void sup(Node** head, Node* objet){
 
+	if (!head || !objet)
+		return;
 
+	Node* current = objet;
+	Node* prev = NULL;
 
+	//Element à sup en debut de liste
+	if(current->prev == NULL){
+			
+		*head = current->next;				
+		return;
+	}
+	
+	//Element à sup en fin de liste		
+	if( current->next == NULL) {
+	
+		prev = current->prev;
+		prev->next = NULL;
+		return;
+	}
+	
+	//Element à sup en milieu de liste
+	else{
 
-
-
+		prev = current->prev;
+		prev->next = current->next;
+		current->prev = prev;
+	}		
+						
+	return;			
+}
+*/

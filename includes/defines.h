@@ -24,6 +24,7 @@ typedef int GameMode;
 #define COEFF_VENTE 0.9
 #define SPLASHSCREEN_PATH "splashscreen.txt"
 #define ASCII_ART_BUFFER_SIZE 2048
+#define NB_LEVEL 10
 
 // Ncurses
 #define KEY_RETURN 10 // Not defined in curses.h ?
