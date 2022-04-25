@@ -25,7 +25,7 @@ int main (){
 	Entity monster3={"HERCULE",null_item, null_item, 100, 10, 10, 10};
 
 
-	Item objet1={"EPEE", "Epée de décoration qui peut couper de la purée",EQUIPMENT,23.7,1,1,1,1};
+	Item objet1={"EPEE", "Epee de decoration qui peut couper de la puree",EQUIPMENT,23.7,1,1,1,1};
 	Item objet2={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
 	Item objet6={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
 	Item objet7={"CROISSANT", "Pur beurre, muscle les poignets d' amours",ITEM,12.9,1,1,1,1};

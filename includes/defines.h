@@ -25,6 +25,7 @@ typedef int GameMode;
 #define SPLASHSCREEN_PATH "splashscreen.txt"
 #define ASCII_ART_BUFFER_SIZE 2048
 #define NB_LEVEL 10
+#define MAX_OBJET_AFFICHAGE 11
 
 // Ncurses
 #define KEY_RETURN 10 // Not defined in curses.h ?
@@ -32,5 +33,10 @@ typedef int GameMode;
 #define PAIR_RED_CYAN 2
 #define PAIR_RED_BLACK 3
 #define PAIR_WHITE_RED 4
+
+//Equipement
+typedef int TypeEquipment;
+#define ARMOR 0
+#define WEAPON 1
 
 #endif

@@ -27,6 +27,11 @@ WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xM
 //...
 
 
+//Fct menu inventaire
+void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+
+
+
 
 void boutiqueFct(WINDOW* boutique);
 
@@ -39,9 +44,10 @@ void affichePersoWin(WINDOW* win,Node* perso);
 void affichePersoReverseWin(WINDOW* win,Node* perso);
 void afficheMonsterWin(WINDOW* win,Node* monster);
 
+//Affiche les objets item dans la fenetre win par page
+void afficheAllObjetWin(WINDOW* win,Node* objet, int page);
 
-void afficheAllObjetWin(WINDOW* win,Node* objet);
-void afficheObjetWin(WINDOW* win,Node* objet, int n);
+//void afficheObjetWin(WINDOW* win,Node* objet, int n);
 void afficheObjetWinReverse(WINDOW* win,Node* objet, int n);
 
 
@@ -56,9 +62,13 @@ void afficheScoreRev(WINDOW* win,Score* score);
 
 int achatBoutique(Score* highScore, Node* objet);
 
-void menuInventaire(WINDOW* inventaire, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+//Retourne 0 si la vente de l' objet est faite
 int venteInventaire(Score* highscore, Node** headInventory, Node* objet);
+
+//Retourne la position de objet dans la liste
 int sameItem(Node** inventory, Node* objet);
+//Retourne le nombre d' objet dans la liste
+int multiSameItem(Node** inventory, Node* objet);
 
 
 void printfLog (WINDOW* win, char* message, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX] );
@@ -68,11 +78,15 @@ void shiftArraw(char logText[LINE_LOG_MAX][CHAR_DESC_MAX] );
 
 WINDOW* frameWindow(int number);
 
-int mergeItem(Node* objet,Node** inventory);
+Node* mergeItem(Node* objet,Node** inventory);
 void upgradeItem(Node* objet,Node** inventory);
-int useItem(Node** headItem, Node* objet,Node** headEntity, Node* entity);
 
-void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState* gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+//Ajoute les stats de l 'objet à l' entité, retourne si cela s' est bien passé
+int useItem(Node** headItem, Node* objet,Node** headEntity, Node* entity);
+//Retire les stats de l 'objet à l' entité
+int notUseItem(Node** headItem, Node* objet,Node** headEntity, Node* entity);
+
+//void menuFouille(WINDOW* fouille,WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState* gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 void coutFouille(Node** teamPlayer, int cout);
 
 
@@ -105,5 +119,28 @@ int generationRun(int nblevel,Node** headPlateau);
 //Maj de la liste monstre et treasure dans le gamestate // return 0 si OK
 int uddateGamestate(Node* plateau, GameState* gamestate);
 
+//Copie un objet dans la structure Item (on utimsera entity->weapon or armor)
+void copyItemToPerso(Node* objet, Item* item );
+
+//Supprime un Item (on utimsera entity->weapon or armor)
+void removeItemToPerso(Item* item );
+
+//Affiche en reverse  l' item de type equiptement à la position n dans la fenetre win
+void afficheEquipmentReverseWin(WINDOW* win,Item* item, TypeEquipment, int n);
+
+//Rajoute au nom de l' équipement un status qui indique si il est porté ou non (*)
+void ajoutStatusEquipment(Node* objet,TypeEquipment typeEquipment);
+void supStatusEquipment(Node* objet);
+
+
+
+//Fonction qui retourne 0 si l' objet est equipé
+int testItemEquiped(Node* objet);
+
+//Fonction qui retourne -1 si il n y a plus de place dispo sur le perso / 0 pour position ARMOR libre / 1 pour position WEAPON libre
+int testEntityEquiped(Node* entity);
+
+//Recherche de la position occupé par l' objet sur l' entité => retourne -1 si probleme / 0 pour position ARMOR  / 1 pour position WEAPON 
+int searchEntityEquiped(Node* objet);
 
 #endif

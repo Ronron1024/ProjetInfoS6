@@ -100,18 +100,18 @@ void sup(Node** head, Node* objet)
 	Node* prev = NULL;
 	
 	while (current != NULL){
-	
+
 		if( strcmp(getItem(objet)->name, getItem(current)->name) == 0){
 
 			if(prev == NULL){
-			
+	
 				*head = current->next;				
 				current->prev = NULL;	
+			
 				return;
 			}
 			
 			else{	
-				
 				if(current->next == NULL) {
 					prev->next =NULL;
 				}
