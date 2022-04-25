@@ -20,7 +20,7 @@ typedef struct
 	double speed;
 } Entity;
 
-typedef struct
+typedef struct objet
 {
 	char name[CHAR_NAME_MAX];
 	char description[CHAR_DESC_MAX];
@@ -30,6 +30,7 @@ typedef struct
 	double attack;
 	double defense;
 	double speed;
+	struct objet* suiv;
 } Item;
 
 typedef struct

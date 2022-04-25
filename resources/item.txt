@@ -1,0 +1,4 @@
+EPEE,Epée de décoration qui peut couper de la purée,EQUIPEMENT,23.7,1,1,1,1
+FOURCHETTE,Pour manger et piquer les monstres acessoirement,EQUIPEMENT,212.9,1,1,1,1
+COUTEAU,Pour planter les monstres,EQUIPEMENT,212.9,1,1,1,1
+CROISSANT,Pur beurre muscle les poignets d' amours,ITEM,12.9,1,1,1,1
