@@ -20,7 +20,7 @@ typedef int GameMode;
 
 // Settings
 #define LINE_LOG_MAX	10
-#define COUT_HP_FOUILLE 2
+//#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
 #define SPLASHSCREEN_PATH "splashscreen.txt"
 #define ASCII_ART_BUFFER_SIZE 2048

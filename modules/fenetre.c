@@ -79,7 +79,7 @@ int fenetrePlateau(GameState *gamestate){
 		wrefresh(score);
 		wrefresh(menu);
 
-		statusPlateau = selectionMenu(menu,score, log, hMenu, wMenu, yMenu, xMenu, 1, 1, gamestate, &pLog, logText);
+		statusPlateau = selectionMenu(hMenu, wMenu, yMenu, xMenu, 1, 1, gamestate, &pLog, logText);
 			
 	}
 	
@@ -88,7 +88,7 @@ int fenetrePlateau(GameState *gamestate){
 }
 void afficheScore(WINDOW* win,Score* score){
 
-	if(!score){
+	if(!score || !win){
 		return;
 	}
 
@@ -98,7 +98,7 @@ void afficheScore(WINDOW* win,Score* score){
 
 void afficheScoreRev(WINDOW* win,Score* score){
 
-	if(!score){
+	if(!score || !win){
 		return;
 	}
 
@@ -115,7 +115,7 @@ void afficheScoreRev(WINDOW* win,Score* score){
 
 void affichePersoWin(WINDOW* win,Node* perso){
 
-	if(!perso){
+	if(!perso || !win){
 		return;
 	}
 
@@ -153,7 +153,7 @@ void affichePersoWin(WINDOW* win,Node* perso){
 
 void affichePersoReverseWin(WINDOW* win,Node* perso){
 
-	if(!perso){
+	if(!perso || !win){
 		return;
 	}
 
@@ -187,9 +187,9 @@ void affichePersoReverseWin(WINDOW* win,Node* perso){
 
 void afficheEquipmentReverseWin(WINDOW* win, Item* item, TypeEquipment typeEquipment, int n){
 
-	//if(!item){
-	//	return;
-	//}
+	if(!item || !win){
+		return;
+	}
 
 	int espace = 15; //espace entre perso
 	
@@ -248,7 +248,7 @@ void supStatusEquipment(Node* objet){
 
 void afficheMonsterWin(WINDOW* win,Node* monster){
 
-	if(!win || !monster){
+	if(!monster || !win){
 		return;
 	}
 
@@ -277,15 +277,16 @@ void afficheMonsterWin(WINDOW* win,Node* monster){
 
 void afficheAllObjetWin(WINDOW* win,Node* objet, int page){
 
-	//if(!objet)
-	//	return;
+	if ( !objet || !win ){
+		return;
+	}
 
 	int espace = 16; //espace entre perso
 	Node* current;
 	int n = 0;
 		
 	current = objet;
-
+	
 	//On avance le pointeur par rapport à la page ou on se situe
 	for(int i=0; i< page*MAX_OBJET_AFFICHAGE;i++){	
 		current=current->next;
@@ -309,29 +310,11 @@ void afficheAllObjetWin(WINDOW* win,Node* objet, int page){
 	}
 }
 
-void afficheObjetWin(WINDOW* win,Node* objet, int n){
-
-	//if(!objet)
-	//	return;
-
-	int espace = 16; //espace entre objet
-
-	wattron(win,A_BOLD);
-	mvwprintw(win, 1,espace*n,"%-16s",getItem(objet)->name);	
-	wattroff(win,A_BOLD);
-	
-	mvwprintw(win, 2,espace*n,"Price: %-9.2f",getItem(objet)->price);	
-	
-	mvwprintw(win, 3,espace*n,"HP : %4.0lf",getItem(objet)->health);
-	mvwprintw(win, 4,espace*n,"ATT: %4.0lf",getItem(objet)->attack);
-	mvwprintw(win, 5,espace*n,"DEF: %4.0lf",getItem(objet)->defense);
-	mvwprintw(win, 6,espace*n,"SPD: %4.0lf",getItem(objet)->speed);
-}
-
 void afficheObjetWinReverse(WINDOW* win,Node* objet, int n){
 
-	//if(!objet)
-	//	return;
+	if ( !objet || !win ){
+		return;
+	}
 
 	int espace = 16; //espace entre objet
 
@@ -347,51 +330,59 @@ void afficheObjetWinReverse(WINDOW* win,Node* objet, int n){
 	wattroff(win,A_REVERSE);
 }
 
-WINDOW* fenetreGame(WINDOW* game, int hGame,int wGame,int yGame,int xGame){
+WINDOW* fenetreGame(int hGame,int wGame,int yGame,int xGame){
 
-		game = newwin(hGame,wGame,yGame,xGame);   //newwin(height, width, start y, start x)
-		wattron(game,A_BOLD);
-		wattron(game,COLOR_PAIR(1));	
-		mvwprintw(game, 1,1,"GAME");		   	   	
-		box(game, 0,0);
+	WINDOW* game;
 		
-		wmove(game, hGame/2, 1);
-		whline(game, xGame , wGame-2 ); 
+	game = newwin(hGame,wGame,yGame,xGame);   //newwin(height, width, start y, start x)
+	wattron(game,A_BOLD);
+	wattron(game,COLOR_PAIR(1));	
+	mvwprintw(game, 1,1,"GAME");		   	   	
+	box(game, 0,0);
+		
+	wmove(game, hGame/2, 1);
+	whline(game, xGame , wGame-2 ); 
 					   	
-		wattroff(game,COLOR_PAIR(1));
+	wattroff(game,COLOR_PAIR(1));
 		
-		return game;
+	return game;
 
 }
 
-WINDOW* fenetreLog(WINDOW* log, int hLog,int wLog,int yLog,int xLog){
+WINDOW* fenetreLog(int hLog,int wLog,int yLog,int xLog){
 
-		log = newwin(hLog,wLog,yLog,xLog);
+	WINDOW* log;
+
+	log = newwin(hLog,wLog,yLog,xLog);
 				
-		wattron(log,COLOR_PAIR(1));
-		wattron(log,A_BOLD);	
-		box(log, 0,0);
-		mvwprintw(log, 1,1,"LOG");
-		wattroff(log,COLOR_PAIR(1));
+	wattron(log,COLOR_PAIR(1));
+	wattron(log,A_BOLD);	
+	box(log, 0,0);
+	mvwprintw(log, 1,1,"LOG");
+	wattroff(log,COLOR_PAIR(1));
 		
-		return log;
+	return log;
 
 }
 
-WINDOW* fenetreScore(WINDOW* score, int hScore, int wScore,int yScore,int xScore){
+WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore){
+	
+	WINDOW* score;
 
-		score = newwin(hScore,wScore,yScore,xScore);
-		wattron(score,COLOR_PAIR(1));
-		wattron(score,A_BOLD);
-		box(score, 0,0);
-		mvwprintw(score, 1,1,"Score");		   	
-		wattroff(score,COLOR_PAIR(1));
+	score = newwin(hScore,wScore,yScore,xScore);
+	wattron(score,COLOR_PAIR(1));
+	wattron(score,A_BOLD);
+	box(score, 0,0);
+	mvwprintw(score, 1,1,"Score");		   	
+	wattroff(score,COLOR_PAIR(1));
 		
-		return score;
+	return score;
 
 }
 
-WINDOW* fenetreMenu(WINDOW* menu, int hMenu, int wMenu,int yMenu,int xMenu){
+WINDOW* fenetreMenu(int hMenu, int wMenu,int yMenu,int xMenu){
+
+	WINDOW* menu;
 
 	menu = newwin(hMenu,wMenu,yMenu,xMenu);
 	wattron(menu,COLOR_PAIR(1));
@@ -411,7 +402,9 @@ WINDOW* fenetreMenu(WINDOW* menu, int hMenu, int wMenu,int yMenu,int xMenu){
 	return menu;
 }
 
-WINDOW* boutiqueMenu(WINDOW* boutique, int hMenu, int wMenu,int yMenu,int xMenu){
+WINDOW* boutiqueMenu(int hMenu, int wMenu,int yMenu,int xMenu){
+
+	WINDOW* boutique;
 
 	boutique = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
 	mvwprintw(boutique, hMenu-5,wMenu-15,"QUIT: press q");
@@ -419,41 +412,11 @@ WINDOW* boutiqueMenu(WINDOW* boutique, int hMenu, int wMenu,int yMenu,int xMenu)
 	return boutique;
 
 }
-/*
-WINDOW* fouilleMenu(WINDOW* fouille, int hMenu, int wMenu,int yMenu,int xMenu){
 
-	fouille = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
+WINDOW* inventaireMenu(int hMenu, int wMenu,int yMenu,int xMenu){
+
+	WINDOW* inventaire;
 	
-
-char menuT[5][CHAR_DESC_MAX]={"CADAVRES","POCHES","RECOINS","COFFRE","STATUETTE"};
-
-
-	mvwprintw(fouille, 2,0,"CADAVRES");	
-	mvwprintw(fouille, 3,0,"POCHES");	
-	mvwprintw(fouille, 4,0,"RECOINS");
-	mvwprintw(fouille, 5,0,"COFFRE");	
-	mvwprintw(fouille, 6,0,"STATUETTE");	
-
-	keypad(fouille,TRUE);
-
-	mvwprintw(fouille, hMenu-5,wMenu-15,"QUIT: press q");
-		
-	return fouille;
-
-}
-*/
-
-
-void boutiqueFct(WINDOW* boutique) {
-	
-	while (wgetch(boutique) != 'q'){
-	
-	}
-}
-
-
-WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xMenu){
-
 	inventaire = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
 	mvwprintw(inventaire, hMenu-5,wMenu-15,"QUIT: press q");
 	
@@ -461,7 +424,22 @@ WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xM
 
 }
 
-int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]) {
+int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]) {
+
+	if(!gamestate)
+		return -1;
+			
+	WINDOW* win; //menu
+	WINDOW* scr;
+	WINDOW* log;
+	
+	win = frameWindow(4);
+	scr = frameWindow(3);
+	log = frameWindow(2);
+
+	wrefresh(win);
+	wrefresh(scr);
+	wrefresh(log);
 
 	int selection;
 	int choix = 1;
@@ -562,22 +540,33 @@ int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,in
 				
 	
 				if ( selection == 2 ){ //FIGHT
-					//menuFouille(win,scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);
+					//FIGHT
 					//choix = 0 ;
+
+
+					if (IsSearch(pLog, logText) == 1){ //Fouille?
+					//On ajoute l' objet à l 'inventaire si snon null
+					//COEF_REWARD lvl*0.5
+
+					push(&gamestate->inventory,&gamestate->treasure , sizeof(Item));
+					}
+
 					
-					return 1;
+					
+					
+					return 0;
 				}			
 	
 				if ( selection == 3 ){ //SAVE
 					//choix = 0;
 					
-					return 2;
+					return 1;
 				}
 				
 				if ( selection == 4 ){ //QUITTER
 					//choix = 0;
 					
-					return 3;
+					return 2;
 				}
 				
 				
@@ -604,8 +593,8 @@ int compterObjet(Node* objet){
 
 	while (current != NULL){
 
+		n++;
 		current=current->next;
-		n++;	
 	}
 	
 	return n;
@@ -745,6 +734,11 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 	//Node* shop = gamestate->shop;
 	Node** inventory = &(gamestate->inventory);
 	Score* highscore = gamestate->highscore;
+	
+	//Choix du 1er de la liste
+	Node* entity = *teamPlayer;
+	
+	Node* current;
 
 	WINDOW* game;
 	game = frameWindow(1);
@@ -755,7 +749,6 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 		
 	char message[CHAR_DESC_MAX];
 
-	Node* current;
 	int n = 0;
 	int cmptObjet;
 	int choix = 1;
@@ -768,31 +761,36 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 	current = *inventory;
 	
 	//Log
-	strcpy(message,"Use, Merge or Sell [U/M/S]");									
-	printfLog (log, message, pLog, logText);											
-
+	if (current != NULL){
+		strcpy(message,"Use, Merge or Sell [U/M/S]");									
+		printfLog (log, message, pLog, logText);											
+	}
+	
 	while(choix){
-
+	
 		//On dessine les objets
 		inventaire = frameWindow(7);	
 		keypad(inventaire,TRUE);
+	
 		afficheAllObjetWin(inventaire,*inventory, page);
-		afficheObjetWinReverse(inventaire,current, n%MAX_OBJET_AFFICHAGE);
-		mvwaddstr(inventaire, hMenu-5,0,getItem(current)->description);
-		cmptObjet = compterObjet(*inventory);
+		afficheObjetWinReverse(inventaire,current, n%MAX_OBJET_AFFICHAGE);	
 		
+		if(current != NULL){
+			mvwaddstr(inventaire, hMenu-5,0,getItem(current)->description);
+		}
+		else{
+			mvwaddstr(inventaire, hMenu-5,0,"C' est vide papa!!");
+		}
+		
+		cmptObjet = compterObjet(*inventory);
 
 		wrefresh(inventaire);
-		
-						
-		//Choix du 1er de la liste
-		Node* entity = *teamPlayer;
-		
+
 			switch ( wgetch(inventaire) ){
 			
 				case KEY_RIGHT:
 
-					if(n!=cmptObjet-1){
+					if( n!=cmptObjet-1 &&  cmptObjet!= 0){
 						current=current->next;
 						n++;
 						page = n / MAX_OBJET_AFFICHAGE;
@@ -806,7 +804,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 								
 				case KEY_LEFT:
 								
-					if(n!=0){
+					if ( n!=0 ) {
 						current=current->prev;
 						n--;
 						page = n / MAX_OBJET_AFFICHAGE;
@@ -822,17 +820,12 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 				case 'Q':
 					choix = 0 ;
 					break;
-
-										
+						
 				case 'U':
 				case 'u':
 
-					if( (getItem(current)->type == ITEM) ){
-										
-						if (useItem(inventory,  current, teamPlayer, entity) !=0 ){
-							return;
-						}
-					
+					if( isUseItem(inventory, current, teamPlayer, entity) == 1 ){
+													
 						//Log
 						strcpy(message, "USE: ");
 						strcat(message, getItem(current)->name);
@@ -862,13 +855,13 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						affichePersoReverseWin(game,entity);
 						wrefresh(game);
 						
-					}									
-		
-					///Test sur l objet et si l' equipement est equipé
-					else if( getItem(current)->type == EQUIPMENT && testItemEquiped(current) == 0 ){
-			
-						if( testItemEquiped(current) == 0){ 	//Test si l' objet est equipé (0 => oui)
 						
+						
+					}									
+
+					///Test sur l objet et si l' equipement est equipé
+					else if( isEquipedItem(current) == 1 ){
+					
 						//On desequipe
 							switch (searchEntityEquiped(current)) {
 							
@@ -922,10 +915,10 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 									break;								
 						 	}
 							
-						}				
+						//}				
 					}
-							
-					else if ( getItem(current)->type == EQUIPMENT && testEntityEquiped(entity) != -1 && testItemEquiped(current) != 0){
+
+					else if ( isEquipItem(current, entity) == 1 ) {
 						
 						//On equipe  						
 						switch ( testEntityEquiped(entity) ){
@@ -986,7 +979,11 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 					else{	
 						//Log
 						strcpy(message, "USE: ");
-						strcat(message, getItem(current)->name);
+						
+						if(current){
+							strcat(message, getItem(current)->name);
+						}
+						
 						strcat(message, " KO");			
 						printfLog(log, message, pLog, logText);
 					}
@@ -1020,15 +1017,20 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 					else{
 						//Log
 						strcpy(message, "MERGE: ");
-						strcat(message, getItem(current)->name);
+						
+						if(current){
+							strcat(message, getItem(current)->name);
+						}
+						
 						strcat(message, " KO");			
 						printfLog(log, message, pLog, logText);			
 					}
 					break;
 									
 				case 'S':
-				case 's':					
-					if( venteInventaire(highscore, inventory, current) == 0){
+				case 's':	
+								
+					if( isSellItem(inventory, current, highscore) == 1 ){
 					
 						//Suppression de l' objet vendu dans l'inventaire
 						sup(inventory, current);
@@ -1060,7 +1062,11 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 					else{
 						//Log	
 						strcpy(message, "SOLD: ");
-						strcat(message, getItem(current)->name);
+						
+						if(current){
+							strcat(message, getItem(current)->name);
+						}
+							
 						strcat(message, " KO");				
 						printfLog(log, message, pLog, logText);			
 					}
@@ -1090,7 +1096,7 @@ void printfLog (WINDOW* win, char* message, int* pLog, char logText[LINE_LOG_MAX
 	
 	wclear(win);
 	
-	win = fenetreLog(win, hLog, wLog, yLog, xLog);
+	win = fenetreLog(hLog, wLog, yLog, xLog);
 	
 	log = newwin(hLog-3,wLog-2,yLog+2,xLog+1);
 	
@@ -1166,8 +1172,6 @@ void shiftArraw(char logText[LINE_LOG_MAX][CHAR_DESC_MAX] ){
 
 WINDOW* frameWindow(int number){
 
-	WINDOW* win = NULL;
-
 	//get screen size
 	int yMax,xMax;
 	getmaxyx(stdscr,yMax,xMax);
@@ -1205,25 +1209,25 @@ WINDOW* frameWindow(int number){
 	switch(number){
 	
 		case 1:
-			return fenetreGame(win,hGame,wGame,yGame,xGame);
+			return fenetreGame(hGame,wGame,yGame,xGame);
 			break;
 			
 			
 		case 2:
-			return fenetreLog(win, hLog, wLog, yLog, xLog);
+			return fenetreLog(hLog, wLog, yLog, xLog);
 			break;
 			
 			
 		case 3:
-			return fenetreScore(win, hScore, wScore,yScore,xScore);
+			return fenetreScore(hScore, wScore,yScore,xScore);
 			break;
 					
 		case 4:
-			return fenetreMenu(win,hMenu,wMenu,yMenu,xMenu);
+			return fenetreMenu(hMenu,wMenu,yMenu,xMenu);
 			break;
 			
 		case 5:
-			return boutiqueMenu(win, hMenu, wMenu,yMenu,xMenu);
+			return boutiqueMenu(hMenu, wMenu,yMenu,xMenu);
 			break;	
 			
 		case 6:	
@@ -1232,7 +1236,7 @@ WINDOW* frameWindow(int number){
 			
 			
 		case 7:	
-			return inventaireMenu(win, hMenu, wMenu,yMenu,xMenu);	
+			return inventaireMenu(hMenu, wMenu,yMenu,xMenu);	
 			break;
 				
 		//case 8:	
@@ -1481,7 +1485,7 @@ int venteInventaire(Score* highscore, Node** headInventory, Node* objet){
 //Retourne la position de objet dans la liste
 int sameItem(Node** inventory, Node* objet){
 
-	if(!inventory && !objet)
+	if ( !inventory && !objet )
 		return -1;
 
 	Node* current = *inventory;
@@ -1503,7 +1507,7 @@ int sameItem(Node** inventory, Node* objet){
 //Retourne le nombre d' objet dans la liste
 int multiSameItem(Node** inventory, Node* objet){
 
-	if(!inventory && !objet)
+	if ( !inventory && !objet )
 		return -1;
 
 	Node* current = *inventory;
@@ -1523,16 +1527,14 @@ int multiSameItem(Node** inventory, Node* objet){
 int testItemEquiped(Node* objet){
 
 	char text[CHAR_NAME_MAX];
-	char c;
 	int i=0;
-	
+
 	strcpy( text, getItem(objet)->name);
 	
-	while( c != '\0'){
+	while( text[i] != '\0'){
 	
-		c = text[i];
+		if( text[i] == '*'){
 		
-		if( c == '*'){
 			return 0;	//equiped
 		}
 		
@@ -1559,23 +1561,19 @@ int testEntityEquiped(Node* entity){
 int searchEntityEquiped(Node* objet){
 
 	char text[CHAR_NAME_MAX];
-	char c;
 	int i=0;
 	
 	strcpy( text, getItem(objet)->name);
 	
-	while( c != '\0'){
-	
-		c = text[i];
-			
-		if( c == '*'){
+	while( text[i] != '\0'){
+		
+		if( text[i] == '*'){
 			
 			i++;
-			c = text[i];
 			
-			if( c == 'A')
+			if( text[i] == 'A')
 				return 0;	//ARMOR equiped
-			if( c == 'W')
+			if( text[i] == 'W')
 				return 1;	//WEAPON equiped
 		}
 		
@@ -1585,6 +1583,107 @@ int searchEntityEquiped(Node* objet){
 	return -1; 			//Not found??
 
 }
+
+
+//Conditions pour utiliser un ITEM: 1 de type ITEM / 2 Ajout au stat c' est bien passé 3 objet non nul
+int isUseItem(Node ** inventory, Node* current, Node** teamPlayer, Node* entity){
+
+	if(!inventory || !current || !teamPlayer || !entity)
+		return -1;
+
+	else 
+		return ( getItem(current)->type == ITEM && useItem(inventory,  current, teamPlayer, entity) == 0 );
+}
+
+
+
+
+///Condition pour désequiper => /1 de type EQUIPEMENT /2 l' equipement est deja equipé /3 objet non null
+int isEquipedItem(Node* current){
+
+	if (!current)
+		return -1;
+	else
+		return ( getItem(current)->type == EQUIPMENT && testItemEquiped(current) == 0 );
+}
+		
+//Condition pour vendre un Item =>1/Equipement non équipé /2 La vente s' est bien déroulé /3 Objet non null
+int isSellItem (Node** inventory, Node* current, Score* highscore){
+
+	if( !inventory || !current || !highscore)
+		return -1;
+	else
+		return ( testItemEquiped(current) !=0 && venteInventaire(highscore, inventory, current) == 0 );
+}
+
+
+
+//Condition pour equiper un equipement =>1/ de type equipement 2/Entity non equipé 3/equipemnt non equipé
+int isEquipItem(Node* current, Node* entity){
+	if(!current || !entity)
+		return -1;
+
+	else 
+	return ( getItem(current)->type == EQUIPMENT && testEntityEquiped(entity) != -1 && testItemEquiped(current) != 0);
+}
+
+//FOUILLE
+//Retoune 0/Si il n' accepte pas /1 si il accepte la fouille 
+int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]){
+
+	WINDOW* win;
+	WINDOW* log;
+	char message[CHAR_NAME_MAX];
+	int choix = 1;
+	
+	log = frameWindow(5);
+	wrefresh(log);
+	
+	//Log									
+	strcpy(message, "FOUILLE [O/N]");				
+	printfLog (log, message, pLog, logText);
+
+	while(choix){
+
+		//Affichage divers
+		win = frameWindow(5);
+		mvwaddstr(win, 0,0,"On fouille ou pas?");	
+		keypad(win,TRUE);
+		wrefresh(win);
+							
+		switch ( wgetch(win) ){
+			
+		
+			case 'O':
+			case 'o':	
+			
+				strcpy(message, "FOUILLE OK");				
+				printfLog (log, message, pLog, logText);					
+					
+				return 1;
+				break;	
+				
+				
+			case 'N':
+			case 'n':	
+			
+				strcpy(message, "FOUILLE KO");				
+				printfLog (log, message, pLog, logText);						
+					
+				return 0;
+				break;		
+											
+			//case 'q':
+			//case 'Q':
+			//	choix = 0 ;
+			//	break;
+				
+		}
+	}
+}
+//...
+
+
 
 //Plateau* generationRun(int nblevel,FILE* bdd_monster, FILE* bdd_item){ //Attente fct Thomas
 int generationRun(int nblevel, Node** headPlateau){
@@ -1598,7 +1697,7 @@ int generationRun(int nblevel, Node** headPlateau){
 	
 		current.id = i;
 		current.monsters = NULL;
-		//current->treasure = NULL
+		current.treasure.price = 190;
 		push(headPlateau, &current, sizeof(Plateau));
 		
 	}

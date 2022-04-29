@@ -7,36 +7,31 @@
 
 // C'est un peu le bordel là ...
 
-//Retourne un status en fonction du besoin: -1 ERREUR / 0 RAS / 1 FIGHT/ 2 SAVE / 3 QUITTER
+//Retourne un status en fonction du besoin: -1 ERREUR / 0 RAS / 0 FIGHT/ 1 SAVE / 2 QUITTER
 int fenetrePlateau(GameState *gamestate);
 
 
 //Affichage...
 
 //Retourne les fenetres qui composent l' ecran de jeu principal
-WINDOW* fenetreGame(WINDOW* game, int hGame,int wGame,int yGame,int xGame);
-WINDOW* fenetreLog(WINDOW* log, int hLog,int wLog,int yLog,int xLog);
-WINDOW* fenetreScore(WINDOW* score, int hScore, int wScore,int yScore,int xScore);
-WINDOW* fenetreMenu(WINDOW* menu, int hMenu, int wMenu,int yMenu,int xMenu);
+WINDOW* fenetreGame(int hGame,int wGame,int yGame,int xGame);
+WINDOW* fenetreLog(int hLog,int wLog,int yLog,int xLog);
+WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore);
+WINDOW* fenetreMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
 //Retourne la fenetre qui compose le menu boutique
-WINDOW* boutiqueMenu(WINDOW* boutique, int hMenu, int wMenu,int yMenu,int xMenu);
+WINDOW* boutiqueMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
 //Retourne la fenetre qui compose le menu inventaire
-WINDOW* inventaireMenu(WINDOW* inventaire, int hMenu, int wMenu,int yMenu,int xMenu);
+WINDOW* inventaireMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 //...
 
 
 //Fct menu inventaire
 void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
-
-
-
-void boutiqueFct(WINDOW* boutique);
-
 //Fontion qui retourne le choix utilisateur 0=>Boutique / 1=>Inventaire / 2=>Combat / 3=>Save / 4=>Quitter et qui transmet les log et le gamestate aux fonctions descendantes 
-int selectionMenu(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
 
 // describe function !!!!
@@ -52,7 +47,7 @@ void afficheObjetWinReverse(WINDOW* win,Node* objet, int n);
 
 
 int compterObjet(Node* objet);
-void menuBoutique(WINDOW* boutique, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+void menuBoutique(WINDOW* win, WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
 
 //Affiche la partie score avec une police classique
@@ -143,4 +138,18 @@ int testEntityEquiped(Node* entity);
 //Recherche de la position occupé par l' objet sur l' entité => retourne -1 si probleme / 0 pour position ARMOR  / 1 pour position WEAPON 
 int searchEntityEquiped(Node* objet);
 
+//Conditions pour utiliser un ITEM: 1 de type ITEM / 2 Ajout au stat c' est bien passé 3 objet non nul
+int isUseItem(Node ** inventory, Node* current, Node** teamPlayer, Node* entity);
+
+//Condition pour désequiper => /1 de type EQUIPEMENT /2 l' equipement est deja equipé /3 objet non null
+int isEquipedItem(Node* current);
+
+//Condition pour vendre un Item =>1/Equipement non équipé /2 La vente s' est bien déroulé /3 Objet non null
+int isSellItem (Node** inventory, Node* current, Score* highscore);
+
+//Condition pour equiper un equipement =>1/ de type equipement 2/Entity non equipé 3/equipemnt non equipé
+int isEquipItem(Node* current, Node* entity);
+
+//Retoune 0/Si il n' accepte pas /1 si il accepte la fouille 
+int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 #endif

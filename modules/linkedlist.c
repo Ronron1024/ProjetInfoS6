@@ -77,8 +77,11 @@ Entity* getEntity(Node* liste)
 
 Item* getItem(Node* liste)
 {
-	if (!liste)
-		return NULL;
+	if (!liste){
+		//printf("PAPAPAPAPA\n");
+		return NULL;	
+	}
+		
 	return (Item*) liste->data;
 
 }
