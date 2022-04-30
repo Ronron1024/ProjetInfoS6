@@ -63,3 +63,23 @@ Item* getItem(Node* liste)
 	return (Item*) liste->data;
 
 }
+
+Item getNullItem()
+{
+	Item null_item = {
+		"Nothing",
+		"Nothing",
+		NULL_ITEM,
+		0, 0, 0, 0, 0
+	};
+
+	return null_item;
+}
+
+Plateau* getPlateau(Node* liste)
+{
+	if (!liste)
+		return NULL;
+	return (Plateau*) liste->data;
+
+}

@@ -106,14 +106,6 @@ void delete(Node** list, Node* node)
 	free(node);
 }
 
-Plateau* getPlateau(Node* liste)
-{
-	if (!liste)
-		return NULL;
-	return (Plateau*) liste->data;
-
-}
-
 void sup(Node** head, Node* objet)
 {
 	if (!head || !objet)

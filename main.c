@@ -89,20 +89,13 @@ int main (){
 				int combat = 1;					//1 => Combat non resolu / 0 => combat résolu  ??
 		
 				while (combat){
-			
 					switch ( fenetrePlateau(&gamestate) ){	//recup le status de fenetre plateau
-					
-					
-						case 1://ALGO COMBAT?
-						
-							combat =0;
-							break;
-							
-						case 2://SAVE
+
+						case 1://SAVE
 
 							break;
 							
-						case 3://QUITTER LE JEU
+						case 2://QUITTER LE JEU
 
 							//End ncurses
 							endwin();
@@ -119,7 +112,6 @@ int main (){
 							break;
 						
 					}
-
 				}
 				
 				
