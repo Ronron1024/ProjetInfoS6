@@ -10,7 +10,7 @@ typedef struct Node
 	struct Node* prev;
 } Node;
 
-typedef struct
+typedef struct Item
 {
 	char name[CHAR_NAME_MAX];
 	char description[CHAR_DESC_MAX];
@@ -22,7 +22,7 @@ typedef struct
 	double speed;
 } Item;
 
-typedef struct
+typedef struct Entity
 {
 	char name[CHAR_NAME_MAX];
 	Item weapon;
@@ -33,13 +33,13 @@ typedef struct
 	double speed;
 } Entity;
 
-typedef struct
+typedef struct Score
 {
 	int alt;
 	float money;
 } Score;
 
-typedef struct
+typedef struct Plateau
 {
 	int id;		//Lvl
 	Node* monsters;
@@ -47,7 +47,7 @@ typedef struct
 	int remain_searches; 	// ???
 } Plateau;
 
-typedef struct
+typedef struct GameState
 {
 	Node* team_player;
 	Node* team_monster;
