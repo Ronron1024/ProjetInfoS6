@@ -1,0 +1,2 @@
+Fusil;Armes a feu tirant plusieurs projectiles;Armes a feu;4.000000;45.000000;0.000000;0.000000;4.000000
+hr;fvf;ff;0.000000;0.000000;0.000000;0.000000;0.000000
