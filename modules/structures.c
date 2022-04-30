@@ -2,6 +2,29 @@
 #include "../includes/structures.h"
 #include "../includes/prototypes.h"
 
+void initGameState(GameState* gamestate)
+{
+	gamestate->team_player = NULL;
+	gamestate->team_monster = NULL;
+	gamestate->inventory = NULL;
+	gamestate->shop = NULL;
+	gamestate->highscore = NULL;
+	gamestate->treasure = getNullItem();
+}
+
+void initShop(Node** shop)
+{
+	Item item1={"DOUDOUNE", "Vetement de demi saison, procure une defense plutot faible",EQUIPMENT,4.7,1,1,1,1};
+	Item item2={"POTION TABASCO", "Un remontant qui ne laisse pas indifferent",ITEM,29.9,1,1,1,1};
+	Item item3={"TABAC", "Un peu fumeux pour une arme",ITEM,20.5,1,1,1,1};
+	Item item4={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
+
+	push(shop, &item1, sizeof(Item));
+	push(shop, &item2, sizeof(Item));
+	push(shop, &item3, sizeof(Item));
+	push(shop, &item4, sizeof(Item));
+}
+
 void printEntity(const void* data)
 {
 	if (!data)
@@ -82,4 +105,28 @@ Plateau* getPlateau(Node* liste)
 		return NULL;
 	return (Plateau*) liste->data;
 
+}
+
+int generateNextPlateau(Node** run)
+{
+	static int id = 0;
+
+	Plateau current;
+	
+	current.id = id; id++;
+
+	current.monsters = NULL;
+	Entity monster = {
+		"Monster",
+		getNullItem(), getNullItem(),
+		10, 10, 10, 10
+	};
+	for (int i = 0; i < id; i++)
+		push(&current.monsters, &monster, sizeof(Entity));
+
+	// Treasure !!
+
+	push(run, &current, sizeof(Plateau));
+	
+	return 0; //OK
 }

@@ -12,6 +12,12 @@ typedef int Type;
 #define EQUIPMENT 2
 #define TRAP 3
 
+typedef int GameStatus;
+#define PLAYING 0
+#define SAVE 1
+#define QUIT 2
+#define RAS 3
+
 typedef int GameMode;
 #define GAMEMODE_PLAY 0
 #define GAMEMODE_CONTINUE 1
@@ -23,6 +29,7 @@ typedef int GameMode;
 #define CHAR_LOG_MAX 128
 
 // Settings
+#define BASE_MONEY 200.0
 #define LINE_LOG_MAX	10
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9

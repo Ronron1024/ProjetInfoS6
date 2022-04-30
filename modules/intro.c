@@ -59,11 +59,10 @@ GameMode homeMenu()
 {
     int key = 0;
 
-    int menu_item_count = 3;
-    char menu_items[3][CHAR_NAME_MAX] = {
-        "Play",
-        "Continue",
-        "Debug"
+    int menu_item_count = 2;
+    char menu_items[2][CHAR_NAME_MAX] = {
+        "New game",
+        "Continue"
     };
     int selected_item = 0;
 

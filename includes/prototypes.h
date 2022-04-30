@@ -117,6 +117,8 @@ void sup(Node** head, Node* objet);
 #pragma region Structures
 // Structures
 
+void initGameState(GameState* gamestate);
+
 void printEntity(const void* data);
 
 Entity* getEntity(Node* liste);
@@ -139,6 +141,9 @@ Plateau* getPlateau(Node* liste);
 #pragma region Gameplay
 // Gameplay
 
+// Init shop when it's a new game
+void initShop(Node** shop);
+
 //Retourne un status en fonction du besoin: -1 ERREUR / 0 RAS / 1 FIGHT/ 2 SAVE / 3 QUITTER
 int fenetrePlateau(GameState *gamestate);
 
@@ -148,6 +153,9 @@ double attack(Entity* attacker, Entity* defender);
 
 //Creation d' une liste chainée de plateau en fonction du nombre de level <=> une run // return 0 si OK
 int generationRun(int nblevel,Node** headPlateau);
+
+// Add next plateau (level)
+int generateNextPlateau(Node** run);
 
 //Maj de la liste monstre et treasure dans le gamestate // return 0 si OK
 int updateGamestate(Node* plateau, GameState* gamestate);

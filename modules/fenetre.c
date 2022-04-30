@@ -12,78 +12,69 @@ int fenetrePlateau(GameState *gamestate){
 		return -1;
 	}
 
-	int statusPlateau = 0;
-
 	//Pour les logs
 	char logText[LINE_LOG_MAX][CHAR_DESC_MAX];
 	int pLog = 0;	//Position ligne log
-
  	
- 	while (statusPlateau != 1 && statusPlateau != 2 && statusPlateau != 3) {		//0 RAS /1 COMBAT /2 SAVE /3 QUITTER
-			    	
-		//get screen size
-		int yMax,xMax;
-		getmaxyx(stdscr,yMax,xMax);
-		
-		//definition couleur
-		init_pair(2, COLOR_RED,COLOR_CYAN);
-		init_pair(1, COLOR_YELLOW,COLOR_BLUE);
-		
-		//Variables fenetres	
-		WINDOW* game;
-		WINDOW* menu; 
-		WINDOW* score;
-		WINDOW* log;
-		   
-		int xGame, yGame, hGame, wGame;
-		int xMenu, yMenu, hMenu, wMenu;
-		int xScore, yScore, hScore, wScore;
-		int xLog, yLog, hLog ,wLog;	
-		
-		//fenetre game	   	
-		xGame = yGame = 0; 
-		hGame = 26;		//22 avant
-		wGame = xMax;
-		
-		//fenetre input/log	   	
-		hLog = 7;
-		wLog = xMax;
-		yLog = yMax-hLog;
-		xLog = 0;
-		
-		//fenetre highscore&Or  	
-		yScore = hGame;
-		hScore = yMax-hLog-hGame;
-		wScore = 20;
-		xScore = xMax-wScore;
-		
-		//fenetre menu
-		xMenu = 0; 
-		yMenu = hGame; 
-		//hMenu = 10;
-		hMenu = yMax-hLog-hGame;
-		wMenu = xMax-wScore;
-		
-		game = frameWindow(1);
-		log = frameWindow(2);
-		
-		score = frameWindow(3);
-		afficheScore(score,gamestate->highscore);
-		
-		menu = frameWindow(4);
-		affichePersoWin(game,gamestate->team_player);
-		afficheMonsterWin(game,gamestate->team_monster);
-		
-		wrefresh(log);
-		wrefresh(game); 
-		wrefresh(score);
-		wrefresh(menu);
-
-		statusPlateau = selectionMenu(hMenu, wMenu, yMenu, xMenu, 1, 1, gamestate, &pLog, logText);
-			
-	}
+ 	//get screen size
+	int yMax,xMax;
+	getmaxyx(stdscr,yMax,xMax);
 	
-	return statusPlateau;
+	//definition couleur
+	init_pair(2, COLOR_RED,COLOR_CYAN);
+	init_pair(1, COLOR_YELLOW,COLOR_BLUE);
+	
+	//Variables fenetres	
+	WINDOW* game;
+	WINDOW* menu; 
+	WINDOW* score;
+	WINDOW* log;
+		
+	int xGame, yGame, hGame, wGame;
+	int xMenu, yMenu, hMenu, wMenu;
+	int xScore, yScore, hScore, wScore;
+	int xLog, yLog, hLog ,wLog;	
+	
+	//fenetre game	   	
+	xGame = yGame = 0; 
+	hGame = 26;		//22 avant
+	wGame = xMax;
+	
+	//fenetre input/log	   	
+	hLog = 7;
+	wLog = xMax;
+	yLog = yMax-hLog;
+	xLog = 0;
+	
+	//fenetre highscore&Or  	
+	yScore = hGame;
+	hScore = yMax-hLog-hGame;
+	wScore = 20;
+	xScore = xMax-wScore;
+	
+	//fenetre menu
+	xMenu = 0; 
+	yMenu = hGame; 
+	//hMenu = 10;
+	hMenu = yMax-hLog-hGame;
+	wMenu = xMax-wScore;
+	
+	game = frameWindow(1);
+	log = frameWindow(2);
+	
+	score = frameWindow(3);
+	afficheScore(score,gamestate->highscore);
+	
+	menu = frameWindow(4);
+	affichePersoWin(game,gamestate->team_player);
+	afficheMonsterWin(game,gamestate->team_monster);
+	
+	wrefresh(log);
+	wrefresh(game); 
+	wrefresh(score);
+	wrefresh(menu);
+
+	return selectionMenu(hMenu, wMenu, yMenu, xMenu, 1, 1, gamestate, &pLog, logText);
 
 }
 void afficheScore(WINDOW* win,Score* score){
@@ -520,14 +511,14 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 					choix = 0 ;
 					
 					
-				wattroff(win,COLOR_PAIR(1));
-				wattroff(win,A_BOLD);
-				wattroff(win,A_REVERSE);
-				wattroff(win,A_ITALIC);
+					wattroff(win,COLOR_PAIR(1));
+					wattroff(win,A_BOLD);
+					wattroff(win,A_REVERSE);
+					wattroff(win,A_ITALIC);
 					
 					
 					
-					return 0;
+					return RAS;
 				}
 				
 				if ( selection == 1 ){ //INVENTAIRE
@@ -535,7 +526,7 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 					menuInventaire(scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);
 					choix = 0 ;
 					
-					return 0;
+					return RAS;
 				}
 				
 	
@@ -544,29 +535,29 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 					//choix = 0 ;
 
 
-					if (IsSearch(pLog, logText) == 1){ //Fouille?
-					//On ajoute l' objet à l 'inventaire si snon null
-					//COEF_REWARD lvl*0.5
+					// if (IsSearch(pLog, logText) == 1){ //Fouille?
+					// //On ajoute l' objet à l 'inventaire si snon null
+					// //COEF_REWARD lvl*0.5
 
-					push(&gamestate->inventory,&gamestate->treasure , sizeof(Item));
-					}
+					// push(&gamestate->inventory,&gamestate->treasure , sizeof(Item));
+					// }
 
 					
 					
 					
-					return 0;
+					return PLAYING;
 				}			
 	
 				if ( selection == 3 ){ //SAVE
 					//choix = 0;
 					
-					return 1;
+					return SAVE;
 				}
 				
 				if ( selection == 4 ){ //QUITTER
 					//choix = 0;
 					
-					return 2;
+					return QUIT;
 				}
 				
 				

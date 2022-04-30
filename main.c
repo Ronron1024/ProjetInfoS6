@@ -11,57 +11,20 @@ int main (){
     // Init random generation
 	srand(time(NULL));
 
+	// Game variables initialization
+	GameStatus game_status = RAS;
 	GameMode gamemode = GAMEMODE_PLAY;
-	
-	Node* headPlateau = NULL;		//run
-	Node* plateau = NULL;
-	
-	//Pour avoir des datas ...
+	Node* run = NULL;
 	GameState gamestate;
-	memset(&gamestate,0,sizeof(GameState));
+	initGameState(&gamestate);	// Prevent segmentation faults
 
-	Item null_item = {"NULL", "NULL",NULL_ITEM,0,0,0,0,0};	
-	
-	Entity perso1={"GEREM",null_item, null_item, 10, 10, 10, 10};
-	
-	Entity monster1={"JCVD",null_item, null_item, 999,999,999,999};
-	Entity monster2={"FLAMBI",null_item, null_item, 100, 10, 10, 10};
-	Entity monster3={"HERCULE",null_item, null_item, 100, 10, 10, 10};
+	Entity player = {
+		"Gerem",
+		getNullItem(), getNullItem(),
+		10, 10, 10, 10
+	};
 
-
-	Item objet1={"EPEE", "Epée de décoration qui peut couper de la purée",EQUIPMENT,23.7,1,1,1,1};
-	Item objet2={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
-	Item objet6={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
-	Item objet7={"CROISSANT", "Pur beurre, muscle les poignets d' amours",ITEM,12.9,1,1,1,1};
-	
-	Item objet3={"DOUDOUNE", "Vetement de demi saison, procure une defense plutot faible",EQUIPMENT,4.7,1,1,1,1};
-	Item objet4={"POTION TABASCO", "Un remontant qui ne laisse pas indifferent",ITEM,29.9,1,1,1,1};
-	Item objet5={"TABAC", "Un peu fumeux pour une arme",ITEM,20.5,1,1,1,1};
-	Item objet8={"FOURCHETTE", "Pour manger et piquer les monstres acessoirement",EQUIPMENT,212.9,1,1,1,1};
-	
-	Score score={100,200.0};
-	gamestate.highscore = &score;
-	
-	// Entities
-	push(&gamestate.team_player, &perso1, sizeof(Entity));
-	
-	push(&gamestate.team_monster, &monster1, sizeof(Entity));
-	push(&gamestate.team_monster, &monster2, sizeof(Entity));	
-	push(&gamestate.team_monster, &monster3, sizeof(Entity));
-
-	// Items inventory
-	push(&gamestate.inventory, &objet1, sizeof(Item));
-	push(&gamestate.inventory, &objet2, sizeof(Item));
-	push(&gamestate.inventory, &objet6, sizeof(Item));
-	push(&gamestate.inventory, &objet7, sizeof(Item));
-	
-	// Items shop
-	push(&gamestate.shop, &objet3, sizeof(Item));
-	push(&gamestate.shop, &objet4, sizeof(Item));
-	push(&gamestate.shop, &objet5, sizeof(Item));
-	push(&gamestate.shop, &objet8, sizeof(Item));
-
-	//Init ncurses
+	// Init ncurses
 	initscr();
 	cbreak();
 	keypad(stdscr, TRUE); // Enable FN Keys reading
@@ -73,55 +36,27 @@ int main (){
     init_pair(PAIR_RED_BLACK, COLOR_RED, COLOR_BLACK);
     init_pair(PAIR_WHITE_RED, COLOR_WHITE, COLOR_RED);
 
+	// Intro
 	// splashscreen();
     // getch();
     // gamemode = homeMenu();
 
+	// Load or create game
 	switch (gamemode)
     {
-        case GAMEMODE_PLAY:
-        	generationRun(NB_LEVEL, &headPlateau);			//Generation liste chainée plateau
-			plateau = headPlateau;						//Init 1er niveau
+        case GAMEMODE_PLAY: // New game
+			push(&gamestate.team_player, &player, sizeof(Entity));
 
-			while ( plateau != NULL ){ 
-			
-				updateGamestate(plateau, &gamestate);         	//Inclut les données du plateau dans le gamestate
-				int combat = 1;					//1 => Combat non resolu / 0 => combat résolu  ??
-		
-				while (combat){
-					switch ( fenetrePlateau(&gamestate) ){	//recup le status de fenetre plateau
+			initShop(&gamestate.shop);
 
-						case 1://SAVE
+			Score score = { 0, BASE_MONEY };
+			gamestate.highscore = &score;
 
-							break;
-							
-						case 2://QUITTER LE JEU
-
-							//End ncurses
-							endwin();
-
-							printf("BYE PADAWANN!!!!!!!!\n");
-		
-							return 0;
-							
-							break;	
-									
-						case -1:
-							printf("Erreur fatale: Ecran bleu window\n");
-							combat=0;
-							break;
-						
-					}
-				}
-				
-				
-				//FONCTION FOUILLE A FAIRE
-				
-				plateau = plateau->next;
-		
-			}
-		
+			// First level
+			generateNextPlateau(&run);
+			updateGamestate(run, &gamestate);
             break;
+
         case GAMEMODE_CONTINUE:
 			// To be implemented
             break;
@@ -129,6 +64,35 @@ int main (){
 			// To be implemented
             break;
     }
+
+	// Game manager
+	//recup le status de fenetre plateau
+	while ((game_status = fenetrePlateau(&gamestate)) != QUIT)
+	{
+		switch ( game_status )
+		{
+			case RAS:	// Nothing to do here
+				break;
+
+			case PLAYING:	// Next level
+				generateNextPlateau(&run);
+				updateGamestate(run, &gamestate);
+				break;
+
+			case SAVE:
+
+				break;
+				
+			case QUIT:
+				// Free malloc
+				break;	
+						
+			case -1:
+				printf("Erreur fatale: Ecran bleu window\n");
+				break;
+			
+		}
+	}
 	
 	//End ncurses
 	endwin();
