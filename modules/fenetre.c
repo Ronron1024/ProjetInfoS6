@@ -428,6 +428,8 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 	scr = frameWindow(3);
 	log = frameWindow(2);
 
+	afficheScore(scr, gamestate->highscore);
+
 	wrefresh(win);
 	wrefresh(scr);
 	wrefresh(log);
