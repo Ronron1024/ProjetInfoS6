@@ -27,6 +27,7 @@ typedef int GameMode;
 #define CHAR_NAME_MAX 50
 #define CHAR_DESC_MAX 200
 #define CHAR_LOG_MAX 128
+#define CHAR_SAVE_MAX 16
 
 // Settings
 #define BASE_MONEY 200.0
@@ -40,6 +41,7 @@ typedef int GameMode;
 
 // Ncurses
 #define KEY_RETURN 10 // Not defined in curses.h ?
+#define KEY_ERASE 8
 #define PAIR_YELLOW_BLUE 1
 #define PAIR_RED_CYAN 2
 #define PAIR_RED_BLACK 3

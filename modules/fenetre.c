@@ -415,6 +415,12 @@ WINDOW* inventaireMenu(int hMenu, int wMenu,int yMenu,int xMenu){
 
 }
 
+WINDOW* saveMenu(int hMenu, int wMenu, int yMenu, int xMenu)
+{
+	WINDOW *saveWin = newwin(hMenu-4,wMenu-2,yMenu+3,xMenu+1);
+	return saveWin;
+}
+
 int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]) {
 
 	if(!gamestate)
@@ -551,8 +557,7 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 				}			
 	
 				if ( selection == 3 ){ //SAVE
-					//choix = 0;
-					
+					menuSave(scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);					
 					return SAVE;
 				}
 				
@@ -1072,6 +1077,48 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 		}
 }
 
+void menuSave(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX])
+{
+	WINDOW* save_win = frameWindow(8);
+	char save_file[CHAR_SAVE_MAX] = {0};
+	int key = 0;
+
+	if (strcmp(gamestate->save_file, "") == 0)	// Save file not defined
+	{
+		mvwprintw(save_win, 2, 2, "Save in : ");
+		input(save_win, save_file, CHAR_SAVE_MAX);
+		strcpy(gamestate->save_file, save_file);
+	}
+	else
+	{
+		mvwprintw(save_win, 2, 2, "Save in %s ? (O/n)", gamestate->save_file);
+		wgetch(save_win);
+	}
+}
+
+void input(WINDOW* win, char* buffer, int buffer_size)
+{
+	int key = 0;
+	while ((key = wgetch(win)) != KEY_RETURN)
+	{
+		if (
+			strlen(buffer) < buffer_size &&
+				((key >= 'A' && key <= 'Z') ||
+				(key >= 'a' && key <= 'z') ||
+				(key >= '0' && key <= '9') ||
+				key == '_' || key == '-' || key == '.')
+		)
+		{
+			wprintw(win, "%c", key);
+			strcat(buffer, &key);
+		}
+		else if (key == KEY_ERASE)
+		{
+
+		}
+	}
+}
+
 void printfLog (WINDOW* win, char* message, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX] ){
 
 	if(!message || !pLog)
@@ -1232,9 +1279,9 @@ WINDOW* frameWindow(int number){
 			return inventaireMenu(hMenu, wMenu,yMenu,xMenu);	
 			break;
 				
-		//case 8:	
-			//return fouilleMenu(win, hMenu, wMenu,yMenu,xMenu);	
-			//break;			
+		case 8:
+			return saveMenu(hMenu, wMenu, yMenu, xMenu);
+			break;			
 			
 		default:
 			break;

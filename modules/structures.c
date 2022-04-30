@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "../includes/structures.h"
 #include "../includes/prototypes.h"
 
@@ -10,6 +11,7 @@ void initGameState(GameState* gamestate)
 	gamestate->shop = NULL;
 	gamestate->highscore = NULL;
 	gamestate->treasure = getNullItem();
+	strcpy(gamestate->save_file, "");
 }
 
 void initShop(Node** shop)

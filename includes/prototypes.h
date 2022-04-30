@@ -24,6 +24,9 @@ void printwYCentered(int x, const char* str);
 void splashscreen();
 GameMode homeMenu();
 
+// Ncurses input text
+void input(WINDOW* win, char* buffer, int buffer_size);
+
 //Retourne les fenetres qui composent l' ecran de jeu principal
 WINDOW* fenetreGame(int hGame,int wGame,int yGame,int xGame);
 WINDOW* fenetreLog(int hLog,int wLog,int yLog,int xLog);
@@ -37,8 +40,14 @@ WINDOW* boutiqueMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 WINDOW* inventaireMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 //...
 
+// Return save window
+WINDOW* saveMenu(int hMenu, int wMenu, int yMenu, int xMenu);
+
 //Fct menu inventaire
 void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+
+// save menu
+void menuSave(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
 //Fontion qui retourne le choix utilisateur 0=>Boutique / 1=>Inventaire / 2=>Combat / 3=>Save / 4=>Quitter et qui transmet les log et le gamestate aux fonctions descendantes 
 int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);

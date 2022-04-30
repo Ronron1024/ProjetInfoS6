@@ -55,6 +55,7 @@ typedef struct GameState
 	Node* shop;
 	Score* highscore;
 	Item treasure;		//hypothetic item function of search or not after fight
+	char save_file[CHAR_SAVE_MAX];
 } GameState;
 
 #endif
