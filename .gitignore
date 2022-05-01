@@ -3,3 +3,5 @@
 .vscode/*
 *.gch
 build.bat
+resources/saves/*
+resources/logs.txt

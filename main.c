@@ -39,14 +39,13 @@ int main (){
 	// Intro
 	// splashscreen();
     // getch();
-    // gamemode = homeMenu();
+	HOMEMENU:
+    gamemode = homeMenu();
 
 	// Load or create game
 	switch (gamemode)
     {
         case GAMEMODE_PLAY: // New game
-			resetLogs();
-
 			push(&gamestate.team_player, &player, sizeof(Entity));
 
 			initShop(&gamestate.shop);
@@ -60,7 +59,10 @@ int main (){
             break;
 
         case GAMEMODE_CONTINUE:
-			// To be implemented
+			strcpy(gamestate.save_file, menuContinue());
+			if (strcmp(gamestate.save_file, "") == 0)
+				goto HOMEMENU; // Oups ...
+			loadGame(&run, &gamestate);
             break;
         case GAMEMODE_DEBUG:
 			// To be implemented
@@ -68,6 +70,7 @@ int main (){
     }
 
 	// Game manager
+	resetLogs();
 	//recup le status de fenetre plateau
 	while ((game_status = fenetrePlateau(&gamestate)) != QUIT)
 	{
@@ -82,7 +85,7 @@ int main (){
 				break;
 
 			case SAVE:
-
+				saveGame(run, gamestate);
 				break;
 				
 			case QUIT:

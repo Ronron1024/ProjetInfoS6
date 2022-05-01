@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ncurses.h>
+#include <dirent.h>
 #include "../includes/structures.h"
 
 void printwCentered(const char* str)
@@ -102,4 +103,89 @@ GameMode homeMenu()
 
     clear();
     return selected_item;
+}
+
+char* menuContinue()
+{
+    DIR* save_dir = opendir(SAVE_FOLDER);
+
+    if (!save_dir)
+    {
+        printf("Error while opening saves folder\n");
+        return "";
+    }
+
+    struct dirent* current_entry;
+    char (*menu_items)[CHAR_SAVE_MAX] = {NULL};
+    int number_items = 0;
+
+    // Count files
+    while ((current_entry = readdir(save_dir)))
+    {
+        if (strcmp(current_entry->d_name, ".") != 0 && strcmp(current_entry->d_name, "..") != 0)
+            number_items++;
+    }
+    seekdir(save_dir, 0);
+
+    // No save
+    if (!number_items)
+        return "";
+
+    // Allocate 2D array (correct ?)
+    menu_items = malloc(sizeof(char) * number_items * CHAR_SAVE_MAX);
+
+    // Fill array
+    int i = 0;
+    while ((current_entry = readdir(save_dir)))
+    {
+        if (strcmp(current_entry->d_name, ".") != 0 && strcmp(current_entry->d_name, "..") != 0)
+        {
+            strcpy(menu_items[i], current_entry->d_name);
+            // Remove file extension
+            menu_items[i][strlen(menu_items[i]) - 4] = '\0';
+            i++;
+        }
+    }
+
+    
+    int key = 0;
+    int selected_item = 0;
+
+    int base_y = (LINES - number_items)  / 2;
+    int base_x = COLS / 2 - 4;
+
+    while (key != KEY_RETURN)
+    {
+        // Move selection
+        if (key == KEY_UP && selected_item > 0)
+            selected_item--;
+        else if (key == KEY_DOWN && selected_item < number_items - 1)
+            selected_item++;
+
+        clear();
+        for (int i = 0; i < number_items; i++)
+        {
+            if (i == selected_item)
+            {
+                attron(A_BOLD);
+                attron(COLOR_PAIR(PAIR_WHITE_RED));
+                mvprintw(base_y + i, base_x - 1, ">");
+            }
+
+            mvprintw(base_y + i, base_x, "%s\n", menu_items[i]);
+
+            if (i == selected_item)
+            {
+                attroff(COLOR_PAIR(PAIR_WHITE_RED));
+                attroff(A_BOLD);
+            }
+        }
+
+        refresh();
+        key = getch();
+    }
+
+    clear();
+    
+    return menu_items[selected_item];
 }

@@ -24,6 +24,9 @@ void printwYCentered(int x, const char* str);
 void splashscreen();
 GameMode homeMenu();
 
+// Continue menu, chose save
+char* menuContinue();
+
 // Ncurses input text
 void input(WINDOW* win, char* buffer, int buffer_size);
 
@@ -120,6 +123,8 @@ void printList(Node* head, void (*fptr)(const void*));
 
 void debugList(Node* head);
 
+void saveList(Node* head, FILE* save_file, void (*fptr)(const void*, FILE*));
+
 Node* getRandomNode(Node* list);
 
 //OB à revoir
@@ -139,6 +144,8 @@ Entity* getEntity(Node* liste);
 
 Entity getEntityComputedStats(Entity entity);
 
+void saveEntity(const void* data, FILE* save_file);
+
 bool isDead(Entity entity);
 
 void printItem(const void* data);
@@ -147,13 +154,23 @@ Item* getItem(Node* liste);
 
 Item getNullItem();
 
+void saveItem(const void* data, FILE* save_file);
+
 Plateau* getPlateau(Node* liste);
+
+void savePlateau(const void* data, FILE* save_file);
 #pragma endregion
 
 
 
 #pragma region Gameplay
 // Gameplay
+
+// Save the game
+void saveGame(Node* run, GameState gamestate);
+
+// Load a game
+void loadGame(Node** run, GameState* gamestate);
 
 // Reset logging when it's a new game
 void resetLogs();
@@ -221,6 +238,9 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 // Misc
 
 int randInt(int min, int max);
+
+int getPlateauId();
+
 #pragma endregion
 
 
