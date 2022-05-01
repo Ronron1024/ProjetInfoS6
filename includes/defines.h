@@ -31,10 +31,11 @@ typedef int GameMode;
 
 // Settings
 #define BASE_MONEY 200.0
-#define LINE_LOG_MAX	10
+#define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
 #define SPLASHSCREEN_PATH "resources/splashscreen.txt"
+#define LOGFILE "resources/logs.txt"
 #define ASCII_ART_BUFFER_SIZE 2048
 #define NB_LEVEL 10
 #define MAX_OBJET_AFFICHAGE 11

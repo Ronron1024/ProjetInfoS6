@@ -33,6 +33,11 @@ WINDOW* fenetreLog(int hLog,int wLog,int yLog,int xLog);
 WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore);
 WINDOW* fenetreMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
+// Logging
+void printLogs();
+void logMessage(char* message);
+
+
 //Retourne la fenetre qui compose le menu boutique
 WINDOW* boutiqueMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
@@ -47,7 +52,7 @@ WINDOW* saveMenu(int hMenu, int wMenu, int yMenu, int xMenu);
 void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
 // save menu
-void menuSave(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+void menuSave(GameState *gamestate);
 
 //Fontion qui retourne le choix utilisateur 0=>Boutique / 1=>Inventaire / 2=>Combat / 3=>Save / 4=>Quitter et qui transmet les log et le gamestate aux fonctions descendantes 
 int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int longueur, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);

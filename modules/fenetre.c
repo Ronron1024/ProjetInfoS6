@@ -347,13 +347,64 @@ WINDOW* fenetreLog(int hLog,int wLog,int yLog,int xLog){
 	log = newwin(hLog,wLog,yLog,xLog);
 				
 	wattron(log,COLOR_PAIR(1));
-	wattron(log,A_BOLD);	
+	wattron(log,A_BOLD);
 	box(log, 0,0);
 	mvwprintw(log, 1,1,"LOG");
 	wattroff(log,COLOR_PAIR(1));
+	wattroff(log, A_BOLD);
 		
 	return log;
 
+}
+
+void printLogs()
+{
+	WINDOW* logs_win = frameWindow(6);
+	FILE* logfile = fopen(LOGFILE, "r");
+	char message[CHAR_LOG_MAX] = {0};
+	char** logs = NULL;
+	int lines = 0;
+
+	// Count lines
+	while (fgets(message, CHAR_LOG_MAX, logfile))
+		lines++;
+	fseek(logfile, 0, SEEK_SET);
+
+	logs = malloc(sizeof(char) * CHAR_LOG_MAX * lines);
+
+	// Place cursor
+	for (int i = 0; i < lines - LINE_LOG_MAX; i++)
+		fgets(message, CHAR_LOG_MAX, logfile);
+
+	// Display LINE_LOG_MAX logs
+	for (int i = 0; i < LINE_LOG_MAX; i++)
+	{
+		fgets(message, CHAR_LOG_MAX, logfile);
+		mvwprintw(logs_win, i, 0, message);
+	}
+
+	wrefresh(logs_win);
+}
+
+void logMessage(char* raw_message)
+{
+	// Because raw_message is const
+	char message[CHAR_LOG_MAX] = {0};
+	strcpy(message, raw_message);
+
+	FILE* logfile = fopen(LOGFILE, "a");
+	if (!logfile) // must handle error
+	{
+		printf("Error while saving file\n");
+		return;
+	}
+
+	strcat(message, "\n");
+	fputs(message, logfile);
+
+	fclose(logfile);
+
+	printLogs();
 }
 
 WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore){
@@ -366,6 +417,7 @@ WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore){
 	box(score, 0,0);
 	mvwprintw(score, 1,1,"Score");		   	
 	wattroff(score,COLOR_PAIR(1));
+	wattroff(score, A_BOLD);
 		
 	return score;
 
@@ -432,13 +484,14 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 	
 	win = frameWindow(4);
 	scr = frameWindow(3);
-	log = frameWindow(2);
+	log = frameWindow(6);
 
 	afficheScore(scr, gamestate->highscore);
+	printLogs();
 
 	wrefresh(win);
 	wrefresh(scr);
-	wrefresh(log);
+	// wrefresh(log);
 
 	int selection;
 	int choix = 1;
@@ -457,9 +510,10 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 		mvwprintw(win, 2,1+selection*15,"%s",&menuT[selection][0]);
 		wrefresh(win);
 
-		afficheAllLog( frameWindow(6), pLog, logText);
-		wrefresh(log);
-		
+		// afficheAllLog( frameWindow(6), pLog, logText);
+
+		// wrefresh(log);
+
 		switch ( wgetch(win) ){
 		
 			case KEY_RIGHT:
@@ -557,7 +611,8 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 				}			
 	
 				if ( selection == 3 ){ //SAVE
-					menuSave(scr, log, hMenu, wMenu, yMenu, xMenu, gamestate, pLog, logText);					
+					menuSave(gamestate);					
+					choix = 0;
 					return SAVE;
 				}
 				
@@ -612,9 +667,10 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 	int cmptObjet;
 	int choix = 1;
 	int page = 0;
-	
+
 	//log
-	printfLog(log, "=> BOUTIQUE", pLog, logText);
+	// printfLog(log, "=> BOUTIQUE", pLog, logText);
+	logMessage("=> BOUTIQUE");
 	
 	//Fenetre
 	boutique = frameWindow(5);	
@@ -626,7 +682,8 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 	//Log									
 	sprintf(message, "%-6.2f",getItem(current)->price);
 	strcat(message, " ACHAT [Oo]");				
-	printfLog (log, message, pLog, logText);
+	// printfLog (log, message, pLog, logText);
+	logMessage(message);
 				
 	while(choix){
 
@@ -654,7 +711,8 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					//Log									
 					sprintf(message, "%-6.2f",getItem(current)->price);
 					strcat(message, " ACHAT [Oo]");				
-					printfLog (log, message, pLog, logText);	
+					// printfLog (log, message, pLog, logText);
+					logMessage(message);
 				}
 				break;
 				
@@ -668,7 +726,8 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					//Log									
 					sprintf(message, "%-6.2f",getItem(current)->price);
 					strcat(message, " ACHAT [Oo]");				
-					printfLog (log, message, pLog, logText);					
+					// printfLog (log, message, pLog, logText);
+					logMessage(message);					
 				}
 				break;		
 			
@@ -686,7 +745,8 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					strcpy(message,"ACHAT: ");
 					strcat(message, getItem(current)->name);
 					strcat(message, " OK");
-					printfLog (log, message, pLog, logText);								
+					// printfLog (log, message, pLog, logText);
+					logMessage(message);		
 				}
 								
 				else{
@@ -694,8 +754,8 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					strcpy(message,"ACHAT: ");
 					strcat(message, getItem(current)->name);
 					strcat(message, " KO");					
-					printfLog (log, message, pLog, logText);
-					
+					// printfLog (log, message, pLog, logText);
+					logMessage(message);
 				}		
 						
 				wrefresh(boutique);
@@ -753,7 +813,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 	int page=0;
 	
 	//Log
-	printfLog(log, "=> INVENTAIRE", pLog, logText);
+	// printfLog(log, "=> INVENTAIRE", pLog, logText);
+	logMessage("=> INVENTAIRE");
 	
 	//Init liste inventaire
 	current = *inventory;
@@ -761,7 +822,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 	//Log
 	if (current != NULL){
 		strcpy(message,"Use, Merge or Sell [U/M/S]");									
-		printfLog (log, message, pLog, logText);											
+		// printfLog (log, message, pLog, logText);
+		logMessage(message);
 	}
 	
 	while(choix){
@@ -795,7 +857,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						
 						//Log
 						strcpy(message,"Use, Merge or Sell [U/M/S]");									
-						printfLog (log, message, pLog, logText);
+						// printfLog (log, message, pLog, logText);
+						logMessage(message);
 
 					}	
 					break;
@@ -809,7 +872,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						
 						//Log
 						strcpy(message,"Use, Merge or Sell [U/M/S]");									
-						printfLog (log, message, pLog, logText);
+						// printfLog (log, message, pLog, logText);
+						logMessage(message);
 
 					}
 					break;
@@ -828,7 +892,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						strcpy(message, "USE: ");
 						strcat(message, getItem(current)->name);
 						strcat(message, " OK");				
-						printfLog(log, message, pLog, logText);
+						// printfLog(log, message, pLog, logText);
+						logMessage(message);
 
 						//Suppression inventaire
 						sup(inventory, current);
@@ -875,7 +940,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 									strcpy(message, "ARMOR REMOVED: ");
 									strcat(message, getItem(current)->name);
 									strcat(message, " OK");
-									printfLog(log, message, pLog, logText);
+									// printfLog(log, message, pLog, logText);
+									logMessage(message);
 									
 									//Affichage
 									game = frameWindow(1);
@@ -900,7 +966,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 									strcpy(message, "WEAPON REMOVED: ");
 									strcat(message, getItem(current)->name);
 									strcat(message, " OK");
-									printfLog(log, message, pLog, logText);
+									// printfLog(log, message, pLog, logText);
+									logMessage(message);
 									
 									//Affichage
 									game = frameWindow(1);
@@ -933,7 +1000,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 								strcpy(message, "ARMOR EQUIPED: ");
 								strcat(message, getItem(current)->name);
 								strcat(message, " OK");
-								printfLog(log, message, pLog, logText);
+								// printfLog(log, message, pLog, logText);
+								logMessage(message);
 								
 								//Affichage
 								game = frameWindow(1);
@@ -958,7 +1026,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 								strcpy(message, "WEAPON EQUIPED: ");
 								strcat(message, getItem(current)->name);
 								strcat(message, " OK");
-								printfLog(log, message, pLog, logText);
+								// printfLog(log, message, pLog, logText);
+								logMessage(message);
 								
 								//Affichage
 								game = frameWindow(1);
@@ -983,7 +1052,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						}
 						
 						strcat(message, " KO");			
-						printfLog(log, message, pLog, logText);
+						// printfLog(log, message, pLog, logText);
+						logMessage(message);
 					}
 					break;
 		
@@ -999,7 +1069,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						strcat(message, getItem(current)->name);
 						strcat(message, " OK");
 									
-						printfLog(log, message, pLog, logText);		
+						// printfLog(log, message, pLog, logText);
+						logMessage(message);
 								
 						//On se repositione sur un objet identique
 						n= sameItem(inventory,  current);
@@ -1021,7 +1092,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						}
 						
 						strcat(message, " KO");			
-						printfLog(log, message, pLog, logText);			
+						// printfLog(log, message, pLog, logText);
+						logMessage(message);		
 					}
 					break;
 									
@@ -1037,7 +1109,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						strcpy(message, "SOLD: ");
 						strcat(message, getItem(current)->name);
 						strcat(message, " OK");				
-						printfLog(log, message, pLog, logText);		
+						// printfLog(log, message, pLog, logText);
+						logMessage(message);
 								
 						//Update affichage "money"
 						afficheScoreRev(scr,highscore);
@@ -1066,7 +1139,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						}
 							
 						strcat(message, " KO");				
-						printfLog(log, message, pLog, logText);			
+						// printfLog(log, message, pLog, logText);
+						logMessage(message);		
 					}
 					
 					break;						
@@ -1077,11 +1151,12 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 		}
 }
 
-void menuSave(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu, GameState *gamestate, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX])
+void menuSave(GameState *gamestate)
 {
 	WINDOW* save_win = frameWindow(8);
 	char save_file[CHAR_SAVE_MAX] = {0};
-	int key = 0;
+	char message[CHAR_LOG_MAX] = {0};
+	int key = -1;
 
 	if (strcmp(gamestate->save_file, "") == 0)	// Save file not defined
 	{
@@ -1092,8 +1167,31 @@ void menuSave(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int xMenu
 	else
 	{
 		mvwprintw(save_win, 2, 2, "Save in %s ? (O/n)", gamestate->save_file);
-		wgetch(save_win);
+		while (key != 0)
+		{
+			key = wgetch(save_win);
+			switch(key)
+			{
+				case 'O':
+				case 'o':
+					key = 0;
+					break;
+				case 'N':
+				case 'n':
+					strcpy(gamestate->save_file, "");
+					wclear(save_win);
+					menuSave(gamestate);
+					return;
+					break;
+				default:
+					key = -1;
+			}
+		}
 	}
+
+	// Save the game
+	sprintf(message, "Game saved in %s", gamestate->save_file);
+	logMessage(message);
 }
 
 void input(WINDOW* win, char* buffer, int buffer_size)
@@ -1110,11 +1208,13 @@ void input(WINDOW* win, char* buffer, int buffer_size)
 		)
 		{
 			wprintw(win, "%c", key);
-			strcat(buffer, &key);
+			strcat(buffer, (char*) &key);
 		}
 		else if (key == KEY_ERASE)
 		{
-
+			buffer[strlen(buffer)-1] = '\0';
+			wclear(win);
+			mvwprintw(win, 2, 2, "Save in : %s", buffer);
 		}
 	}
 }
@@ -1681,7 +1781,8 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]){
 	
 	//Log									
 	strcpy(message, "FOUILLE [O/N]");				
-	printfLog (log, message, pLog, logText);
+	// printfLog (log, message, pLog, logText);
+	logMessage(message);
 
 	while(choix){
 
@@ -1698,7 +1799,8 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]){
 			case 'o':	
 			
 				strcpy(message, "FOUILLE OK");				
-				printfLog (log, message, pLog, logText);					
+				// printfLog (log, message, pLog, logText);
+				logMessage(message);			
 					
 				return 1;
 				break;	
@@ -1708,7 +1810,8 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]){
 			case 'n':	
 			
 				strcpy(message, "FOUILLE KO");				
-				printfLog (log, message, pLog, logText);						
+				// printfLog (log, message, pLog, logText);
+				logMessage(message);						
 					
 				return 0;
 				break;		
@@ -1720,6 +1823,7 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]){
 				
 		}
 	}
+	return 0;
 }
 //...
 
