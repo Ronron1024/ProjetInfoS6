@@ -41,6 +41,15 @@ void debugList(Node* head)
 	debugList(head->next);
 }
 
+void saveList(Node* head, FILE* save_file, void (*fptr)(const void*, FILE*))
+{
+	if (!head || !fptr)
+		return;
+
+	fptr(head->data, save_file);
+	saveList(head->next, save_file, fptr);
+}
+
 int count(Node* list)
 {
 	int n = 0;

@@ -32,6 +32,21 @@ Clear screen and return the selection between *Play*,*Continue*,*Debug*.
 
 # Gameplay
 
+## void saveGame(Node* run, GameState gamestate)
+Save the game. Save file structure :
+- 1 int : number of plateau
+- N Plateau : game levels
+- 1 int : number of player
+- N Entity : player team
+- 1 int : number of monster
+- N Entity : monster team
+- 1 int : number of item in inventory
+- N Item : inventory
+- 1 int : number of item in shop
+- N Item : shop
+- 1 Score : highscore
+- 1 char* : save file
+
 ## bool fight(Node** team1, Node** team2, char* log)
 Compute a *fight turn*. **team1** is the player team. Action made in the turn is stored in **log**.
 

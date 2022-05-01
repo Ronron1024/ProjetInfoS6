@@ -17,6 +17,7 @@ typedef int GameStatus;
 #define SAVE 1
 #define QUIT 2
 #define RAS 3
+#define GAMEOVER 4
 
 typedef int GameMode;
 #define GAMEMODE_PLAY 0
@@ -35,6 +36,7 @@ typedef int GameMode;
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
+#define SAVE_FOLDER "resources/saves/"
 #define SPLASHSCREEN_PATH "resources/splashscreen.txt"
 
 #define EQUIPMENT_PATH "resources/equipment.txt"

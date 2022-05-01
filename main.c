@@ -40,7 +40,8 @@ int main (){
 	// Intro
 	// splashscreen();
     // getch();
-    // gamemode = homeMenu();
+	HOMEMENU:
+    gamemode = homeMenu();
 
 	// Load or create game
 	switch (gamemode)
@@ -59,7 +60,10 @@ int main (){
             break;
 
         case GAMEMODE_CONTINUE:
-			// To be implemented
+			strcpy(gamestate.save_file, menuContinue());
+			if (strcmp(gamestate.save_file, "") == 0)
+				goto HOMEMENU; // Oups ...
+			loadGame(&run, &gamestate);
             break;
         case GAMEMODE_DEBUG:
 			// To be implemented
@@ -67,9 +71,11 @@ int main (){
     }
 
 	// Game manager
+	resetLogs();
 	//recup le status de fenetre plateau
-	while ((game_status = fenetrePlateau(&gamestate)) != QUIT)
+	while (game_status != QUIT && game_status != GAMEOVER)
 	{
+		game_status = fenetrePlateau(&gamestate);
 		switch ( game_status )
 		{
 			case RAS:	// Nothing to do here
@@ -81,8 +87,13 @@ int main (){
 				break;
 
 			case SAVE:
-
+				saveGame(run, gamestate);
 				break;
+
+			case GAMEOVER:
+				deleteSave(gamestate.save_file);
+				gameOverScreen();
+				break; // No break between GAMEOVER and QUIT
 				
 			case QUIT:
 				// Free malloc

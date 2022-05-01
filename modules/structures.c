@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "../includes/structures.h"
 #include "../includes/prototypes.h"
 
@@ -111,20 +112,18 @@ Plateau* getPlateau(Node* liste)
 
 int generateNextPlateau(Node** run)
 {
-	static int id = 0;
-
 	Plateau current;
 	
-	current.id = id; id++;
+	current.id = getPlateauId();
 
 	current.monsters = NULL;
 	Entity monster = {
 		0,			//id
 		"Monster",
 		getNullItem(), getNullItem(),
-		10, 0, 2, 10
+		10, 12, 2, 10
 	};
-	for (int i = 0; i < id; i++)
+	for (int i = 0; i < current.id+1; i++)
 		push(&current.monsters, &monster, sizeof(Entity));
 
 	// Treasure !!
@@ -132,4 +131,149 @@ int generateNextPlateau(Node** run)
 	push(run, &current, sizeof(Plateau));
 	
 	return 0; //OK
+}
+
+void savePlateau(const void* data, FILE* save_file)
+{
+	if (!save_file)
+		return;
+
+	Plateau* plateau = (Plateau*) data;
+
+	int number_monster = count(plateau->monsters);
+
+	fwrite(&number_monster, sizeof(int), 1, save_file);
+
+	saveList(plateau->monsters, save_file, saveEntity);
+
+	plateau->monsters = NULL;
+	fwrite(&plateau, sizeof(Plateau), 1, save_file);
+}
+
+void saveEntity(const void* data, FILE* save_file)
+{
+	if (!save_file)
+		return;
+
+	Entity* entity = (Entity*) data;
+
+	fwrite(entity, sizeof(Entity), 1, save_file);
+}
+
+void saveItem(const void* data, FILE* save_file)
+{
+	if (!save_file)
+		return;
+
+	Item* item = (Item*) data;
+
+	fwrite(item, sizeof(Item), 1, save_file);
+}
+
+void saveGame(Node* run, GameState gamestate)
+{
+	int save_path_length = strlen(SAVE_FOLDER) + CHAR_SAVE_MAX + strlen(".bin");
+	char* save_path = malloc(sizeof(char) * save_path_length);
+	strcpy(save_path, SAVE_FOLDER);
+	strcat(save_path, gamestate.save_file);
+	strcat(save_path, ".bin");
+
+	FILE* save_file = fopen(save_path, "w");
+
+	if (!save_file)
+	{
+		printf("Error while saving game\n");
+		free(save_path);
+		return;
+	}
+
+	int number_plateau = count(run);
+	int number_player = count(gamestate.team_player);
+	int number_monster = count(gamestate.team_monster);
+	int number_inventory = count(gamestate.inventory);
+	int number_shop = count(gamestate.shop);
+
+	fwrite(&number_plateau, sizeof(int), 1, save_file);
+	// saveList(run, save_file, savePlateau);
+
+	fwrite(&number_player, sizeof(int), 1, save_file);
+	saveList(gamestate.team_player, save_file, saveEntity);
+
+	fwrite(&number_monster, sizeof(int), 1, save_file);
+	saveList(gamestate.team_monster, save_file, saveEntity);
+
+	fwrite(&number_inventory, sizeof(int), 1, save_file);
+	saveList(gamestate.inventory, save_file, saveItem);
+
+	fwrite(&number_shop, sizeof(int), 1, save_file);
+	saveList(gamestate.shop, save_file, saveItem);
+
+	fwrite(gamestate.highscore, sizeof(Score), 1, save_file);
+
+	fclose(save_file);
+	free(save_path);
+}
+
+void loadGame(Node** run, GameState* gamestate)
+{
+	int save_path_length = strlen(SAVE_FOLDER) + CHAR_SAVE_MAX + strlen(".bin");
+	char* save_path = malloc(sizeof(char) * save_path_length);
+	strcpy(save_path, SAVE_FOLDER);
+	strcat(save_path, gamestate->save_file);
+	strcat(save_path, ".bin");
+
+	FILE* save_file = fopen(save_path, "r");
+
+	if (!save_file)
+	{
+		printf("Error while loading game\n");
+		free(save_path);
+		return;
+	}
+
+	int number_plateau = 0;
+	fread(&number_plateau, sizeof(int), 1, save_file);
+	for (int i = 0; i < number_plateau; i++)
+		getPlateauId();
+
+	int number_player = 0;
+	Entity current_entity;
+	fread(&number_player, sizeof(int), 1, save_file);
+	for (int i = 0; i < number_player; i++)
+	{
+		fread(&current_entity, sizeof(Entity), 1, save_file);
+		push(&gamestate->team_player, &current_entity, sizeof(Entity));
+	}
+
+	int number_monster = 0;
+	fread(&number_monster, sizeof(int), 1, save_file);
+	for (int i = 0; i < number_monster; i++)
+	{
+		fread(&current_entity, sizeof(Entity), 1, save_file);
+		push(&gamestate->team_monster, &current_entity, sizeof(Entity));
+	}
+
+	int number_inventory = 0;
+	Item current_item;
+	fread(&number_inventory, sizeof(int), 1, save_file);
+	for (int i = 0; i < number_inventory; i++)
+	{
+		fread(&current_item, sizeof(Item), 1, save_file);
+		push(&gamestate->inventory, &current_item, sizeof(Item));
+	}
+
+	int number_shop = 0;
+	fread(&number_shop, sizeof(int), 1, save_file);
+	for (int i = 0; i < number_shop; i++)
+	{
+		fread(&current_item, sizeof(Item), 1, save_file);
+		push(&gamestate->shop, &current_item, sizeof(Item));
+	}
+
+	Score* score = malloc(sizeof(Score));
+	fread(score, sizeof(Score), 1, save_file);
+	gamestate->highscore = score;
+
+	fclose(save_file);
+	free(save_path);
 }
