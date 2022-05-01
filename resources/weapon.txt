@@ -1,0 +1,2 @@
+couteau;arme primaire de survie polyvalente;2;0;5;0;2;0;0
+epee;Arme de base de l'inventaire;2;0;6;0;4;0;0

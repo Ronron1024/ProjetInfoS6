@@ -1525,7 +1525,7 @@ int useItem(Node** headItem, Node* objet,Node** headEntity, Node* entity){
 	
 		if( strcmp(getItem(objet)->name, getItem(current)->name) ==0){
 	
-			getEntity(entity)->health += getItem(objet)->attack;
+			getEntity(entity)->health += getItem(objet)->health;
 			getEntity(entity)->attack += getItem(objet)->attack;
 			getEntity(entity)->defense += getItem(objet)->defense;
 			getEntity(entity)->speed += getItem(objet)->speed;

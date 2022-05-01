@@ -1,0 +1,2 @@
+Carton;Trouve dans une benne;2;0;1;0;0;1;0
+Armure;Rutilante et ciselee;2;0;20;0;0;10;0
