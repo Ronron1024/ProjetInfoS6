@@ -2,6 +2,13 @@
 #include "../includes/structures.h"
 #include "../includes/prototypes.h"
 
+void addStats(Entity* entity, Item item)
+{
+	entity->health += item.health;
+	entity->attack += item.attack;
+	entity->defense += item.defense;
+	entity->speed += item.speed;
+}
 
 double attack(Entity* attacker, Entity* defender)
 {

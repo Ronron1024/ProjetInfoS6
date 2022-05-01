@@ -137,8 +137,29 @@ Entity getNullEntity()
 	return null_entity;
 }
 
+Item getRandomItem()
+{
+	// USE ALIASES !!
+	int alea = randInt(0,2);
+	switch(alea)
+	{
+		case 0:
+			return *getItem(getRandomNode(chargerTxtItem("resources/item.txt")));
+			break;
+		case 1:
+			return *getItem(getRandomNode(chargerTxtItem("resources/armor.txt")));
+			break;
+		case 2:
+			return *getItem(getRandomNode(chargerTxtItem("resources/weapon.txt")));
+			break;
+	}
+}
 
-
+Item getRandomTrap()
+{
+	Node* traps = chargerTxtItem("resources/trap.txt");
+	return *getItem(getRandomNode(traps));
+}
 
 
 Plateau* getPlateau(Node* liste)

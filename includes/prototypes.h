@@ -37,8 +37,8 @@ WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore);
 WINDOW* fenetreMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
 // Logging
-void printLogs();
-void logMessage(char* message);
+WINDOW* printLogs();
+WINDOW* logMessage(char* message);
 
 // Game over screen
 void gameOverScreen();
@@ -164,6 +164,9 @@ void saveItem(const void* data, FILE* save_file);
 
 Entity getNullEntity();
 
+Item getRandomItem();
+Item getRandomTrap();
+
 Plateau* getPlateau(Node* liste);
 
 void savePlateau(const void* data, FILE* save_file);
@@ -196,6 +199,10 @@ void upgradeShop(Node** shop, int level);
 int fenetrePlateau(GameState *gamestate);
 
 bool fight(Node** team1, Node** team2, char* log);
+
+void addStats(Entity* entity, Item item);
+
+void fouille(WINDOW* game, GameState* gamestate);
 
 double attack(Entity* attacker, Entity* defender);
 
