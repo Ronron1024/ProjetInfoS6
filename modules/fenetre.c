@@ -361,7 +361,6 @@ void printLogs()
 {
 	WINDOW* logs_win = frameWindow(6);
 	FILE* logfile = fopen(LOGFILE, "r");
-	char* end_of_file = NULL;
 	char message[CHAR_LOG_MAX] = {0};
 	int lines = 0;
 
@@ -375,15 +374,15 @@ void printLogs()
 		fgets(message, CHAR_LOG_MAX, logfile);
 
 	// Display LINE_LOG_MAX logs
-	for (int i = 0; i < LINE_LOG_MAX && (end_of_file = fgets(message, CHAR_LOG_MAX, logfile)) != NULL; i++)
+	for (int i = 0; i < LINE_LOG_MAX && fgets(message, CHAR_LOG_MAX, logfile); i++)
 	{
-		if (i == LINE_LOG_MAX - 1 || !end_of_file)
+		if (i == LINE_LOG_MAX - 1 || i == lines - 1)
 		{
 			wattron(logs_win, COLOR_PAIR(PAIR_YELLOW_BLUE));
 			wattron(logs_win, A_BOLD);
 		}
 		mvwprintw(logs_win, i, 0, message);
-		if (i == LINE_LOG_MAX - 1 || !end_of_file)
+		if (i == LINE_LOG_MAX - 1 || i == lines - 1)
 		{
 			wattroff(logs_win, A_BOLD);
 			wattroff(logs_win, COLOR_PAIR(PAIR_YELLOW_BLUE));
@@ -608,6 +607,7 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 					while (fight(&gamestate->team_player, &gamestate->team_monster, message))
 					{
 						logMessage(message);
+						game = frameWindow(1);
 						affichePersoWin(game, gamestate->team_player);
 						afficheMonsterWin(game, gamestate->team_monster);
 						wgetch(game); // delay
