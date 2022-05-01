@@ -40,6 +40,8 @@ WINDOW* fenetreMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 void printLogs();
 void logMessage(char* message);
 
+// Game over screen
+void gameOverScreen();
 
 //Retourne la fenetre qui compose le menu boutique
 WINDOW* boutiqueMenu(int hMenu, int wMenu,int yMenu,int xMenu);
@@ -174,6 +176,9 @@ void loadGame(Node** run, GameState* gamestate);
 
 // Reset logging when it's a new game
 void resetLogs();
+
+// Game over, delete save
+void deleteSave(char* save_path);
 
 // Init shop when it's a new game
 void initShop(Node** shop);

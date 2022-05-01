@@ -17,6 +17,7 @@ typedef int GameStatus;
 #define SAVE 1
 #define QUIT 2
 #define RAS 3
+#define GAMEOVER 4
 
 typedef int GameMode;
 #define GAMEMODE_PLAY 0

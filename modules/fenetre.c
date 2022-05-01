@@ -624,8 +624,10 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 						wgetch(game); // delay
 					}				
 					
-					
-					return PLAYING;
+					if (gamestate->team_player)
+						return PLAYING;
+					else
+						return GAMEOVER;
 				}			
 	
 				if ( selection == 3 ){ //SAVE
@@ -1843,6 +1845,13 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]){
 	}
 	return 0;
 }
+
+void gameOverScreen()
+{
+	clear();
+	mvprintw(0,0,"Game over !");
+	getch();
+}
 //...
 
 
@@ -1879,4 +1888,20 @@ int updateGamestate(Node* plateau, GameState* gamestate){
 	
 	return 0;
 
+}
+
+void deleteSave(char* save_path)
+{
+	// No save
+	if (strcmp(save_path, "") == 0)
+		return;
+
+	int save_path_length = strlen(SAVE_FOLDER) + CHAR_SAVE_MAX + strlen(".bin");
+	char* full_save_path = malloc(sizeof(char) * save_path_length);
+	strcpy(full_save_path, SAVE_FOLDER);
+	strcat(full_save_path, save_path);
+	strcat(full_save_path, ".bin");
+
+	remove(full_save_path);
+	free(full_save_path);
 }

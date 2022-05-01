@@ -72,8 +72,9 @@ int main (){
 	// Game manager
 	resetLogs();
 	//recup le status de fenetre plateau
-	while ((game_status = fenetrePlateau(&gamestate)) != QUIT)
+	while (game_status != QUIT && game_status != GAMEOVER)
 	{
+		game_status = fenetrePlateau(&gamestate);
 		switch ( game_status )
 		{
 			case RAS:	// Nothing to do here
@@ -87,6 +88,11 @@ int main (){
 			case SAVE:
 				saveGame(run, gamestate);
 				break;
+
+			case GAMEOVER:
+				deleteSave(gamestate.save_file);
+				gameOverScreen();
+				break; // No break between GAMEOVER and QUIT
 				
 			case QUIT:
 				// Free malloc

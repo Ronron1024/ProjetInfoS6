@@ -120,7 +120,7 @@ int generateNextPlateau(Node** run)
 	Entity monster = {
 		"Monster",
 		getNullItem(), getNullItem(),
-		10, 0, 2, 10
+		10, 12, 2, 10
 	};
 	for (int i = 0; i < current.id+1; i++)
 		push(&current.monsters, &monster, sizeof(Entity));
@@ -272,4 +272,7 @@ void loadGame(Node** run, GameState* gamestate)
 	Score* score = malloc(sizeof(Score));
 	fread(score, sizeof(Score), 1, save_file);
 	gamestate->highscore = score;
+
+	fclose(save_file);
+	free(save_path);
 }
