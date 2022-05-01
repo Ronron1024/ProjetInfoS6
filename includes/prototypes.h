@@ -158,6 +158,8 @@ Item getNullItem();
 
 void saveItem(const void* data, FILE* save_file);
 
+Entity getNullEntity();
+
 Plateau* getPlateau(Node* liste);
 
 void savePlateau(const void* data, FILE* save_file);
@@ -238,8 +240,10 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
 
 
 //BDD
-Item*recupererLigne(char*ligne);
-Node*chargerTxt(char*nomFichier);
+Item* recupererLigne(char*ligne);
+Entity* recupererLigneEntity(char*ligne);
+Node*chargerTxtItem(char*nomFichier);
+Node* chargerTxtEntity(char*nomFichier);
 //Item*insertionAlpha(Item*liste,Item*nouvelElement);
 Item*saisirElementItem(void);
 Item*saisirElementArme(void);
@@ -251,6 +255,9 @@ void saveTxt(Node*liste,char*nomFichier);
 void afficheListe(Node *liste);
 void afficheElement(Item *elem);
 void afficheListeRec(Node *liste);
+Entity selectEntity(Node* head, int n);
+Entity modified(Entity monster, int id);
+
 //
 
 #pragma endregion

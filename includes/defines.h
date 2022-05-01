@@ -33,6 +33,7 @@ typedef int GameMode;
 
 // Settings
 #define BASE_MONEY 200.0
+#define COEFF_DIFFICULTY 1
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
@@ -41,6 +42,7 @@ typedef int GameMode;
 
 #define EQUIPMENT_PATH "resources/equipment.txt"
 #define ITEM_PATH "resources/item.txt"
+#define MONSTERS_PATH "resources/monsters.txt"
 
 #define LOGFILE "resources/logs.txt"
 #define ASCII_ART_BUFFER_SIZE 2048

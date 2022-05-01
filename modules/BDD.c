@@ -194,7 +194,7 @@ void printAjoutListe(void)
 /* charge la liste qui a été save en TXT */
 
 //Item*chargerTxt(char*nomFichier)
-Node* chargerTxt(char*nomFichier)
+Node* chargerTxtItem(char*nomFichier)
 {
 	printf("chargement du fichier %s\n",nomFichier);
 
@@ -222,6 +222,37 @@ Node* chargerTxt(char*nomFichier)
 	fclose(f);
 	return liste;
 }
+
+Node* chargerTxtEntity(char*nomFichier)
+{
+	printf("chargement du fichier %s\n",nomFichier);
+
+	Node*liste = NULL;
+	Entity*new = NULL;
+	FILE*f;
+
+	
+	f = fopen(nomFichier,"r");
+	if (f == NULL )
+	{
+		printf("erreur lecture de fichier %s chargement annulee\n",nomFichier);
+		return NULL;
+	}
+
+	char lineBuffer[LINE_SIZE];
+	
+	while(fgets(lineBuffer,LINE_SIZE,f) != NULL)
+	{
+		new=recupererLigneEntity(lineBuffer);
+		push(&liste, new, sizeof(Entity));
+		//liste=insertionAlpha(liste,new);
+	}
+	
+	fclose(f);
+	return liste;
+}
+
+
 
 /* converti la ligne ecrit en TXT en une structure que le program peut comprendre */
 Item*recupererLigne(char*ligne)
@@ -270,6 +301,89 @@ Item*recupererLigne(char*ligne)
 	return new;
 	
 }
+
+
+
+/* converti la ligne ecrit en TXT en une structure que le program peut comprendre */
+Entity* recupererLigneEntity(char*ligne)
+{
+	Entity* new= malloc(sizeof(Entity));
+	if( new == NULL )
+	{
+		printf("Erreur allocation memoire dans recupererLigne()\n");
+		return NULL;
+	}
+	ligne[strlen(ligne)-1]='\0';
+	
+	char separator[2]=";";
+	char * token =strtok(ligne,separator);
+	
+	new->id = atoi(token);
+	
+	token = strtok(NULL,separator);
+	strcpy(new->name,token);
+//
+	token = strtok(NULL,separator);
+	new->weapon = getNullItem();
+	
+	token = strtok(NULL,separator);
+	new->armor = getNullItem();	
+//
+	token = strtok(NULL,separator);
+	new->health = atof(token);
+	
+	token = strtok(NULL,separator);
+	new->attack = atof(token);
+	
+	token = strtok(NULL,separator);
+	new->defense = atof(token);
+	
+	token = strtok(NULL,separator);
+	new->speed = atof(token);
+	
+	//new->suiv=NULL;
+	
+	return new;
+	
+}
+
+Entity selectEntity(Node* head, int n){
+
+	if(!head)
+		return getNullEntity();
+
+	Entity current;
+
+	int cmp = 1;
+	
+	while (head != NULL){
+		
+		
+		if(cmp == n){
+
+			strcpy(current.name,getEntity(head)->name);
+			
+			current.id 	= 	getEntity(head)->id;
+			current.weapon = 	getEntity(head)->weapon;
+			current.armor =	getEntity(head)->armor;
+			current.health = 	getEntity(head)->health;
+			current.attack = 	getEntity(head)->attack;
+			current.defense =	getEntity(head)->defense;
+			current.speed = 	getEntity(head)->speed;
+
+			return current;
+		}	
+		cmp++;
+		head = head->next;
+	}
+
+
+	return getNullEntity();
+
+}
+
+
+
 
 void saveTxt(Node* liste,char*nomFichier)
 {
@@ -504,5 +618,35 @@ Item*saisirElementObjet(void)
 	afficheElement(new);
 	return new;
 }
+
+
+Entity modified(Entity monster, int id){
+
+	Entity modified;
+	char text[CHAR_NAME_MAX];
+	char tmp[CHAR_NAME_MAX];
+	strcpy(text,monster.name);
+	strcat(text, " L");
+	sprintf(tmp, "%d",id);
+	strcat(text, tmp);
+	
+	strcpy(modified.name, text);
+	modified.weapon 	= getNullItem();
+	modified.armor		= getNullItem();
+	modified.health 	= monster.health	+ monster.health	* id * COEFF_DIFFICULTY;
+	modified.attack 	= monster.attack 	+ monster.attack	* id * COEFF_DIFFICULTY;
+	modified.defense	= monster.defense	+ monster.defense	* id * COEFF_DIFFICULTY;
+	modified.speed 	= monster.speed	+ monster.speed	* id * COEFF_DIFFICULTY;
+	
+	return modified;
+}
+
+
+
+
+
+
+
+
 
 

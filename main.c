@@ -55,8 +55,12 @@ int main (){
 			gamestate.highscore = &score;
 
 			// First level
-			generateNextPlateau(&run);
+			generateNextPlateau(&run);				
 			updateGamestate(run, &gamestate);
+			
+			
+			
+			
             break;
 
         case GAMEMODE_CONTINUE:

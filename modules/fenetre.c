@@ -244,7 +244,7 @@ void afficheMonsterWin(WINDOW* win,Node* monster){
 	}
 
 	int espace = 15; //space between entities
-	Node* current;
+	Node* current = NULL;
 	int n = 0;
 	
 	current = monster;
@@ -509,6 +509,9 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 
 	afficheScore(scr, gamestate->highscore);
 	printLogs();
+
+	//afficheMonsterWin(game, gamestate->team_monster);
+	//wrefresh(game);
 
 	wrefresh(win);
 	wrefresh(scr);
@@ -1860,7 +1863,9 @@ void gameOverScreen()
 
 
 
-//Plateau* generationRun(int nblevel,FILE* bdd_monster, FILE* bdd_item){ //Attente fct Thomas
+
+
+/*Plateau* generationRun(int nblevel,FILE* bdd_monster, FILE* bdd_item){ //Attente fct Thomas
 int generationRun(int nblevel, Node** headPlateau){
 
 	if(!headPlateau)
@@ -1879,13 +1884,15 @@ int generationRun(int nblevel, Node** headPlateau){
 	
 	return 0; //OK
 }
+*/
+   
+   
       	
 int updateGamestate(Node* plateau, GameState* gamestate){
 
 	if(!gamestate || !plateau)
 		return 1;
 			
-	//current->team_monster = run->monsters;
 	gamestate->team_monster = getPlateau(plateau)->monsters;
 	gamestate->treasure = getPlateau(plateau)->treasure;
 	gamestate->highscore->alt = ( getPlateau(plateau)->id ) * 1000;

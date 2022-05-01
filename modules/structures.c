@@ -102,6 +102,22 @@ Item getNullItem()
 	return null_item;
 }
 
+Entity getNullEntity()
+{
+	Entity null_entity = {
+		0,
+		"Nothing",
+		getNullItem(),getNullItem(),
+		0, 0, 0, 0	
+	};
+
+	return null_entity;
+}
+
+
+
+
+
 Plateau* getPlateau(Node* liste)
 {
 	if (!liste)
@@ -112,23 +128,33 @@ Plateau* getPlateau(Node* liste)
 
 int generateNextPlateau(Node** run)
 {
-	Plateau current;
+	//WINDOW* game;
+	static int id = 0;
+	int nbMonster;
+	int n;
+
+	Plateau* current = (Plateau*) malloc(sizeof(Plateau));
+	Entity monster = getNullEntity();
+	Node* head =	(Node*) malloc(sizeof(Node));
+		
+	current->id = id; id++;
+	current->monsters = NULL;
 	
-	current.id = getPlateauId();
+	//Randon fichier avec stats fonctions de l' id +/-1	
+	head = chargerTxtEntity(MONSTERS_PATH);		
+	nbMonster = compterObjet(head);
 
-	current.monsters = NULL;
-	Entity monster = {
-		0,			//id
-		"Monster",
-		getNullItem(), getNullItem(),
-		10, 12, 2, 10
-	};
-	for (int i = 0; i < current.id+1; i++)
-		push(&current.monsters, &monster, sizeof(Entity));
-
+	for (int i = 0; i < id; i++){
+	
+		n = randInt(1, nbMonster);
+		monster = selectEntity(head, n);
+		monster = modified(monster, id);
+		push(&current->monsters, &monster, sizeof(Entity));
+	}
+	
 	// Treasure !!
-
-	push(run, &current, sizeof(Plateau));
+	
+	push(run, current, sizeof(Plateau));
 	
 	return 0; //OK
 }
