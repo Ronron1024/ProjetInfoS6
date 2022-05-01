@@ -121,7 +121,7 @@ int generateNextPlateau(Node** run)
 	Entity monster = {
 		"Monster",
 		getNullItem(), getNullItem(),
-		10, 10, 10, 10
+		10, 0, 2, 10
 	};
 	for (int i = 0; i < id; i++)
 		push(&current.monsters, &monster, sizeof(Entity));

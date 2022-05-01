@@ -361,8 +361,8 @@ void printLogs()
 {
 	WINDOW* logs_win = frameWindow(6);
 	FILE* logfile = fopen(LOGFILE, "r");
+	char* end_of_file = NULL;
 	char message[CHAR_LOG_MAX] = {0};
-	char** logs = NULL;
 	int lines = 0;
 
 	// Count lines
@@ -370,17 +370,24 @@ void printLogs()
 		lines++;
 	fseek(logfile, 0, SEEK_SET);
 
-	logs = malloc(sizeof(char) * CHAR_LOG_MAX * lines);
-
 	// Place cursor
 	for (int i = 0; i < lines - LINE_LOG_MAX; i++)
 		fgets(message, CHAR_LOG_MAX, logfile);
 
 	// Display LINE_LOG_MAX logs
-	for (int i = 0; i < LINE_LOG_MAX; i++)
+	for (int i = 0; i < LINE_LOG_MAX && (end_of_file = fgets(message, CHAR_LOG_MAX, logfile)) != NULL; i++)
 	{
-		fgets(message, CHAR_LOG_MAX, logfile);
+		if (i == LINE_LOG_MAX - 1 || !end_of_file)
+		{
+			wattron(logs_win, COLOR_PAIR(PAIR_YELLOW_BLUE));
+			wattron(logs_win, A_BOLD);
+		}
 		mvwprintw(logs_win, i, 0, message);
+		if (i == LINE_LOG_MAX - 1 || !end_of_file)
+		{
+			wattroff(logs_win, A_BOLD);
+			wattroff(logs_win, COLOR_PAIR(PAIR_YELLOW_BLUE));
+		}
 	}
 
 	wrefresh(logs_win);
@@ -477,12 +484,16 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 
 	if(!gamestate)
 		return -1;
+
+	char message[CHAR_LOG_MAX] = {0};
 			
 	WINDOW* win; //menu
+	WINDOW* game;
 	WINDOW* scr;
 	WINDOW* log;
 	
 	win = frameWindow(4);
+	game = frameWindow(1);
 	scr = frameWindow(3);
 	log = frameWindow(6);
 
@@ -593,18 +604,14 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 				
 	
 				if ( selection == 2 ){ //FIGHT
-					//FIGHT
-					//choix = 0 ;
 
-
-					// if (IsSearch(pLog, logText) == 1){ //Fouille?
-					// //On ajoute l' objet à l 'inventaire si snon null
-					// //COEF_REWARD lvl*0.5
-
-					// push(&gamestate->inventory,&gamestate->treasure , sizeof(Item));
-					// }
-
-					
+					while (fight(&gamestate->team_player, &gamestate->team_monster, message))
+					{
+						logMessage(message);
+						affichePersoWin(game, gamestate->team_player);
+						afficheMonsterWin(game, gamestate->team_monster);
+						wgetch(game); // delay
+					}				
 					
 					
 					return PLAYING;
