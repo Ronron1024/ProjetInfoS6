@@ -37,6 +37,7 @@ typedef int GameMode;
 // Settings
 #define BASE_MONEY 200.0
 #define COEFF_DIFFICULTY 1
+#define COEFF_ITEM_UPGRADE 1.2
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9

@@ -3,6 +3,15 @@
 #include <string.h>
 #include "../includes/prototypes.h"
 
+void freeList(Node* head)
+{
+	if (!head)
+		return;
+	freeList(head->next);
+	free(head->data);
+	free(head);
+};
+
 void push(Node** head, const void* data, const size_t data_size)
 {
 	if (!head || !data)

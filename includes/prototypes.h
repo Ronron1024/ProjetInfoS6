@@ -115,6 +115,8 @@ void coutFouille(Node** teamPlayer, int cout);
 #pragma region LinkedLists
 // Linked Lists
 
+void freeList(Node* head);
+
 void push(Node** head, const void* data, const size_t data_size);
 
 void delete(Node** list, Node* node);
@@ -156,6 +158,8 @@ Item* getItem(Node* liste);
 
 Item getNullItem();
 
+Item* upItem(Item* item, int level);
+
 void saveItem(const void* data, FILE* save_file);
 
 Entity getNullEntity();
@@ -184,6 +188,9 @@ void deleteSave(char* save_path);
 
 // Init shop when it's a new game
 void initShop(Node** shop);
+
+// Upgrade shop according to settings
+void upgradeShop(Node** shop, int level);
 
 //Retourne un status en fonction du besoin: -1 ERREUR / 0 RAS / 1 FIGHT/ 2 SAVE / 3 QUITTER
 int fenetrePlateau(GameState *gamestate);

@@ -26,6 +26,21 @@ void initShop(Node** shop)
 	push(shop, getItem(getRandomNode(weapons)), sizeof(Item));
 }
 
+void upgradeShop(Node** shop, int level)
+{
+	// Empty shop
+	freeList(*shop);
+	*shop = NULL;
+
+	Node* items = chargerTxtItem("resources/item.txt");
+	Node* armors = chargerTxtItem("resources/armor.txt");
+	Node* weapons = chargerTxtItem("resources/weapon.txt");
+
+	push(shop, upItem(getItem(getRandomNode(items)), level), sizeof(Item));
+	push(shop, upItem(getItem(getRandomNode(armors)), level), sizeof(Item));
+	push(shop, upItem(getItem(getRandomNode(weapons)), level), sizeof(Item));
+}
+
 void printEntity(const void* data)
 {
 	if (!data)
@@ -86,6 +101,16 @@ Item* getItem(Node* liste)
 		return NULL;
 	return (Item*) liste->data;
 
+}
+
+Item* upItem(Item* item, int level)
+{
+	item->health *= (COEFF_ITEM_UPGRADE + level/2);
+	item->attack *= (COEFF_ITEM_UPGRADE + level/2);
+	item->defense *= (COEFF_ITEM_UPGRADE + level/2);
+	item->speed *= (COEFF_ITEM_UPGRADE + level/2);
+
+	return item;
 }
 
 Item getNullItem()

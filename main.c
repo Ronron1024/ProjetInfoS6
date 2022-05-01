@@ -83,6 +83,7 @@ int main (){
 
 			case PLAYING:	// Next level
 				generateNextPlateau(&run);
+				upgradeShop(&gamestate.shop, getPlateau(run)->id);
 				updateGamestate(run, &gamestate);
 				break;
 
