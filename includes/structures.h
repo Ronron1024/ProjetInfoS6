@@ -14,7 +14,8 @@ typedef struct Item
 {
 	char name[CHAR_NAME_MAX];
 	char description[CHAR_DESC_MAX];
-	Type type; // EQUIPEMENT // PIEGE // ITEM
+	Type type; 				// WEAPON // ARMOR // TRAP // ITEM
+	int equipped;
 	float price;
 	double health;
 	double attack;
@@ -24,6 +25,7 @@ typedef struct Item
 
 typedef struct Entity
 {
+	int id;				//Pour indentifier le membre dans une team
 	char name[CHAR_NAME_MAX];
 	Item weapon;
 	Item armor;

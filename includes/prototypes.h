@@ -210,8 +210,25 @@ int isEquipItem(Node* current, Node* entity);
 
 //Retoune 0/Si il n' accepte pas /1 si il accepte la fouille 
 int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
-#pragma endregion
 
+
+//BDD
+Item*recupererLigne(char*ligne);
+Node*chargerTxt(char*nomFichier);
+//Item*insertionAlpha(Item*liste,Item*nouvelElement);
+Item*saisirElementItem(void);
+Item*saisirElementArme(void);
+Item*saisirElementObjet(void);
+void printMenu(void);
+void printSousMenu(void);
+void printAjoutListe(void);
+void saveTxt(Node*liste,char*nomFichier);
+void afficheListe(Node *liste);
+void afficheElement(Item *elem);
+void afficheListeRec(Node *liste);
+//
+
+#pragma endregion
 
 
 #pragma region Misc

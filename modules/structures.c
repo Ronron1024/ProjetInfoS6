@@ -95,7 +95,7 @@ Item getNullItem()
 		"Nothing",
 		"Nothing",
 		NULL_ITEM,
-		0, 0, 0, 0, 0
+		0, 0, 0, 0, 0, 0	//Ajout equipped de type int
 	};
 
 	return null_item;
@@ -119,6 +119,7 @@ int generateNextPlateau(Node** run)
 
 	current.monsters = NULL;
 	Entity monster = {
+		0,			//id
 		"Monster",
 		getNullItem(), getNullItem(),
 		10, 0, 2, 10

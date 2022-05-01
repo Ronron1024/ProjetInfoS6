@@ -1226,7 +1226,9 @@ void input(WINDOW* win, char* buffer, int buffer_size)
 	}
 }
 
-void printfLog (WINDOW* win, char* message, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX] ){
+
+//A SUP
+/*void printfLog (WINDOW* win, char* message, int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX] ){
 
 	if(!message || !pLog)
 		return;
@@ -1316,6 +1318,8 @@ void shiftArraw(char logText[LINE_LOG_MAX][CHAR_DESC_MAX] ){
 
 	}
 }
+
+*/
 
 WINDOW* frameWindow(int number){
 
