@@ -155,6 +155,9 @@ Plateau* getPlateau(Node* liste);
 #pragma region Gameplay
 // Gameplay
 
+// Reset logging when it's a new game
+void resetLogs();
+
 // Init shop when it's a new game
 void initShop(Node** shop);
 

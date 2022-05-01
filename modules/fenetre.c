@@ -413,6 +413,17 @@ void logMessage(char* raw_message)
 	printLogs();
 }
 
+void resetLogs()
+{
+	FILE* logfile = fopen(LOGFILE, "w");
+	if (!logfile)
+	{
+		printf("Error while reseting logfile\n");
+		return;
+	}
+	fclose(logfile);
+}
+
 WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore){
 	
 	WINDOW* score;

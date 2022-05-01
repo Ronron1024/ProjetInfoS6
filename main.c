@@ -45,6 +45,8 @@ int main (){
 	switch (gamemode)
     {
         case GAMEMODE_PLAY: // New game
+			resetLogs();
+
 			push(&gamestate.team_player, &player, sizeof(Entity));
 
 			initShop(&gamestate.shop);
