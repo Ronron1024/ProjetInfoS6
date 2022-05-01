@@ -128,8 +128,6 @@ Plateau* getPlateau(Node* liste)
 
 int generateNextPlateau(Node** run)
 {
-	//WINDOW* game;
-	static int id = 0;
 	int nbMonster;
 	int n;
 
@@ -137,18 +135,18 @@ int generateNextPlateau(Node** run)
 	Entity monster = getNullEntity();
 	Node* head =	(Node*) malloc(sizeof(Node));
 		
-	current->id = id; id++;
+	current->id = getPlateauId();
 	current->monsters = NULL;
 	
 	//Randon fichier avec stats fonctions de l' id +/-1	
 	head = chargerTxtEntity(MONSTERS_PATH);		
 	nbMonster = compterObjet(head);
 
-	for (int i = 0; i < id; i++){
+	for (int i = 0; i < current->id+1; i++){
 	
 		n = randInt(1, nbMonster);
 		monster = selectEntity(head, n);
-		monster = modified(monster, id);
+		monster = modified(monster, current->id);
 		push(&current->monsters, &monster, sizeof(Entity));
 	}
 	
