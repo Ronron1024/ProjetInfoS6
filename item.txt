@@ -28,12 +28,32 @@ Poubelle;Pour mettre vos dechets;1;0;10;0;0;0;0
 Lampe de torche;Ultra important pour les expeditions nocturnes;1;0;60;0;0;0;0
 Viseur;Peut s'equiper sur une de vos armes a feu;1;0;40;0;30;0;0
 Cours de traitement du signal;Attention peux faire votre cerveau, a utliser avec prudence;1;0;20;-4;0;0;0
-;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
-Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Agenda;Toujours util pour tenir compte des avancements;1;0;15;0;0;0;0
+Arrosoir;Pourquoi pas ?;1;0;1;0;0;0;0
+Coussin;Pour se detendre tranquillement;1;0;20;30;0;0;0
+Lunette de soleil;Lunette mais contre le soleil;1;0;10;0;0;2;0
+Moustiquaire;Au revoir les piqures de moustiques;1;0;10;27;0;0;0
+DVD;Besoin d'un lecteur DVD pour le lire;1;0;10;0;0;0;0
+Crayon;Pour ecrire dans l'agenda;1;0;4;0;0;0;0
+Telecommande;Pour controler un appareil;1;0;10;0;0;0;0
+Surligneur;Pas de grande utilite;1;0;1;0;0;0;0
+Manivelle;Pour faire tourner quelque chose;1;0;15;0;0;0;0
+Fourchette;Pour ce nourrir ou peux servir d'arme;1;0;30;20;20;0;0
+Fer a repasser;Peux servir d'arme;1;0;100;0;50;0;0
+Allumette;Pour allumer un feu ou une torche;1;0;75;50;0;40;0
+Torche;Eclairer les endroits obscures ou servir d'armes;1;0;30;0;30;0;0
+Refrigirateur;Assez volumineux mais maintient la nourriture au frais;1;0;200;120;0;0;0
+Portefeuille;Pour stocker sa Money Money;1;0;20;0;0;0;0
+Recepteur radio;Pour interagir avec les autres;1;0;100;0;0;0;0
+Montre;Permet de connaitre l'heure;1;0;200;0;0;0;0
+Aspirateur;Ne sert a rien;1;0;15;0;0;0;0
+Porte cle chat;Au bon souvenir de son chat que l'on a mange;1;0;40;5;0;0;0
+Camera;Reste de la batterie pour filmer;1;0;80;0;0;0;0
+Cloche;Pour ce faire reparer;1;0;12;0;0;0;0
+Cafetiere;Un petit cafe au reveil;1;0;10;30;0;0;0
+Cravate;En mode BG jusqu'a la mort;1;0;20;0;0;0;0
+Ipod Mini;Encore un fan d'Apple;1;0;1600;0;0;0;0
+Bidon d'essence;Pour demarrer une voiture;1;0;90;0;0;0;100
+Corde;Multifonction et assez important dans toute les situations;1;0;10;0;0;0;0
+Cuillere;Pour manger les bonnes soupes de mamie;1;0;50;75;0;0;0
+Lave Linge;Chacun lave son linge sale;1;0;300;0;0;0;0
