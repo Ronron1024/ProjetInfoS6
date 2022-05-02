@@ -7,10 +7,13 @@ typedef int Team;
 #define TEAM2 1
 
 typedef int Type;
+typedef int TypeEquipment;
 #define NULL_ITEM 0
 #define ITEM 1
-#define EQUIPMENT 2
+#define ARMOR 0
+#define WEAPON 1
 #define TRAP 3
+#define EQUIPMENT 2
 
 typedef int GameStatus;
 #define PLAYING 0
@@ -34,14 +37,19 @@ typedef int GameMode;
 // Settings
 #define BASE_MONEY 200.0
 #define COEFF_DIFFICULTY 1
+#define COEFF_ITEM_UPGRADE 1.2
+#define TRAP_PROBA 0.5
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
 #define SAVE_FOLDER "resources/saves/"
 #define SPLASHSCREEN_PATH "resources/splashscreen.txt"
 
-#define EQUIPMENT_PATH "resources/equipment.txt"
-#define ITEM_PATH "resources/item.txt"
+#define ALLIES_PATH "resources/allies.txt"
+#define ARMORS_PATH "resources/armors.txt"
+#define WEAPONS_PATH "resources/weapons.txt"
+#define ITEMS_PATH "resources/items.txt"
+#define TRAPS_PATH "resources/traps.txt"
 #define MONSTERS_PATH "resources/monsters.txt"
 
 #define LOGFILE "resources/logs.txt"
@@ -56,10 +64,5 @@ typedef int GameMode;
 #define PAIR_RED_CYAN 2
 #define PAIR_RED_BLACK 3
 #define PAIR_WHITE_RED 4
-
-//Equipement
-typedef int TypeEquipment;
-#define ARMOR 0
-#define WEAPON 1
 
 #endif

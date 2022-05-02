@@ -37,8 +37,8 @@ WINDOW* fenetreScore(int hScore, int wScore,int yScore,int xScore);
 WINDOW* fenetreMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
 // Logging
-void printLogs();
-void logMessage(char* message);
+WINDOW* printLogs();
+WINDOW* logMessage(char* message);
 
 // Game over screen
 void gameOverScreen();
@@ -115,6 +115,8 @@ void coutFouille(Node** teamPlayer, int cout);
 #pragma region LinkedLists
 // Linked Lists
 
+void freeList(Node* head);
+
 void push(Node** head, const void* data, const size_t data_size);
 
 void delete(Node** list, Node* node);
@@ -156,9 +158,14 @@ Item* getItem(Node* liste);
 
 Item getNullItem();
 
+Item* upItem(Item* item, int level);
+
 void saveItem(const void* data, FILE* save_file);
 
 Entity getNullEntity();
+
+Item getRandomItem();
+Item getRandomTrap();
 
 Plateau* getPlateau(Node* liste);
 
@@ -185,10 +192,17 @@ void deleteSave(char* save_path);
 // Init shop when it's a new game
 void initShop(Node** shop);
 
+// Upgrade shop according to settings
+void upgradeShop(Node** shop, int level);
+
 //Retourne un status en fonction du besoin: -1 ERREUR / 0 RAS / 1 FIGHT/ 2 SAVE / 3 QUITTER
 int fenetrePlateau(GameState *gamestate);
 
 bool fight(Node** team1, Node** team2, char* log);
+
+void addStats(Entity* entity, Item item);
+
+void fouille(WINDOW* game, GameState* gamestate);
 
 double attack(Entity* attacker, Entity* defender);
 

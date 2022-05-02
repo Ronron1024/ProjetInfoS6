@@ -196,7 +196,7 @@ void printAjoutListe(void)
 //Item*chargerTxt(char*nomFichier)
 Node* chargerTxtItem(char*nomFichier)
 {
-	printf("chargement du fichier %s\n",nomFichier);
+	//printf("chargement du fichier %s\n",nomFichier);
 
 	Node*liste = NULL;
 	Item*new = NULL;
@@ -225,7 +225,7 @@ Node* chargerTxtItem(char*nomFichier)
 
 Node* chargerTxtEntity(char*nomFichier)
 {
-	printf("chargement du fichier %s\n",nomFichier);
+	//printf("chargement du fichier %s\n",nomFichier);
 
 	Node*liste = NULL;
 	Entity*new = NULL;

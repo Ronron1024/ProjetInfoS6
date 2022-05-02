@@ -357,7 +357,7 @@ WINDOW* fenetreLog(int hLog,int wLog,int yLog,int xLog){
 
 }
 
-void printLogs()
+WINDOW* printLogs()
 {
 	WINDOW* logs_win = frameWindow(6);
 	FILE* logfile = fopen(LOGFILE, "r");
@@ -390,9 +390,10 @@ void printLogs()
 	}
 
 	wrefresh(logs_win);
+	return logs_win;
 }
 
-void logMessage(char* raw_message)
+WINDOW* logMessage(char* raw_message)
 {
 	// Because raw_message is const
 	char message[CHAR_LOG_MAX] = {0};
@@ -402,7 +403,7 @@ void logMessage(char* raw_message)
 	if (!logfile) // must handle error
 	{
 		printf("Error while saving file\n");
-		return;
+		return NULL;
 	}
 
 	strcat(message, "\n");
@@ -410,7 +411,7 @@ void logMessage(char* raw_message)
 
 	fclose(logfile);
 
-	printLogs();
+	return printLogs();
 }
 
 void resetLogs()
@@ -628,7 +629,10 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 					}				
 					
 					if (gamestate->team_player)
+					{
+						fouille(game, gamestate);
 						return PLAYING;
+					}
 					else
 						return GAMEOVER;
 				}			
@@ -657,6 +661,52 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 	}
 	
 	return 1;
+}
+
+void fouille(WINDOW* game, GameState* gamestate)
+{
+	WINDOW* logs_win = logMessage("Voulez-vous fouiller ? (O/n)");
+	char message[CHAR_LOG_MAX] = {0};
+	Item found;
+	int key = -1;
+	while (key != 0)
+	{
+		key = wgetch(logs_win);
+		switch (key)
+		{
+			case 'O':
+			case 'o':
+				key = 0;
+				
+				if ((double)(randInt(1, 100))/100.0 > TRAP_PROBA)
+				{
+					found = getRandomTrap();
+					addStats(getEntity(getRandomNode(gamestate->team_player)), found);
+					affichePersoReverseWin(game, gamestate->team_player);
+				}
+				else
+				{
+					found = getRandomItem();
+					push(&gamestate->inventory, &found, sizeof(Item));
+				}
+
+				strcpy(message, "Vous avez trouve ");
+				strcat(message, found.name);
+				strcat(message, " !");
+				logMessage(message);
+				strcpy(message, found.description);
+				logMessage(message);
+
+				break;
+			case 'N':
+			case 'n':
+				key = 0;
+				logMessage("Vous ne savez pas ce que vous ratez ...");
+				break;
+			default:
+				key = -1;
+		}
+	}
 }
 
 // Replace by countList(Node*);
@@ -1525,7 +1575,7 @@ int useItem(Node** headItem, Node* objet,Node** headEntity, Node* entity){
 	
 		if( strcmp(getItem(objet)->name, getItem(current)->name) ==0){
 	
-			getEntity(entity)->health += getItem(objet)->attack;
+			getEntity(entity)->health += getItem(objet)->health;
 			getEntity(entity)->attack += getItem(objet)->attack;
 			getEntity(entity)->defense += getItem(objet)->defense;
 			getEntity(entity)->speed += getItem(objet)->speed;

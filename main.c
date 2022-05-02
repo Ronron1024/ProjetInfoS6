@@ -57,10 +57,6 @@ int main (){
 			// First level
 			generateNextPlateau(&run);				
 			updateGamestate(run, &gamestate);
-			
-			
-			
-			
             break;
 
         case GAMEMODE_CONTINUE:
@@ -87,6 +83,7 @@ int main (){
 
 			case PLAYING:	// Next level
 				generateNextPlateau(&run);
+				upgradeShop(&gamestate.shop, getPlateau(run)->id);
 				updateGamestate(run, &gamestate);
 				break;
 
