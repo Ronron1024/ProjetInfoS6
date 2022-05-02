@@ -206,6 +206,8 @@ void fouille(WINDOW* game, GameState* gamestate);
 
 double attack(Entity* attacker, Entity* defender);
 
+bool canGetAlly();
+
 // Reward the player at the end of a level
 void rewardPlayer(Score* score, int level);
 

@@ -10,6 +10,11 @@ void addStats(Entity* entity, Item item)
 	entity->speed += item.speed;
 }
 
+bool canGetAlly()
+{
+	return ((double)randInt(1,100))/100.0 < ALLY_PROBA;
+}
+
 double attack(Entity* attacker, Entity* defender)
 {
 	double damage_points = getEntityComputedStats(*attacker).attack - getEntityComputedStats(*defender).defense;

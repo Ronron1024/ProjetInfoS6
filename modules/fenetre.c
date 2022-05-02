@@ -526,6 +526,7 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 	keypad(win,TRUE);
 	
 	selection = 0;
+	Entity ally;
 
 	while( choix ){
 	
@@ -631,6 +632,14 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 					if (gamestate->team_player)
 					{
 						fouille(game, gamestate);
+						if (count(gamestate->team_player) < 5 && canGetAlly())
+						{
+							ally = *getEntity(getRandomNode(chargerTxtEntity(ALLIES_PATH)));
+							push(&gamestate->team_player, &ally, sizeof(Entity));
+							strcpy(message, ally.name);
+							strcat(message, " a rejoint votre equipe !");
+							logMessage(message);
+						}
 						return PLAYING;
 					}
 					else
