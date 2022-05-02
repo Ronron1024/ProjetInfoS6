@@ -19,7 +19,7 @@ int main (){
 	initGameState(&gamestate);	// Prevent segmentation faults
 
 	Entity player = {
-		0,	//id
+		1,	//id
 		"Gerem",
 		getNullItem(), getNullItem(),
 		10, 10, 10, 10

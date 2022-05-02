@@ -996,7 +996,10 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 					}									
 
 					///Test sur l objet et si l' equipement est equipé
-					else if( isEquipedItem(current) == 1 ){
+					//else if( isEquipedItem(current) == 1 ){
+					else if( getItem(current)->equipped != 0 ){
+					
+					printf("AQUI PAS LA \n");
 					
 						//On desequipe
 							switch (searchEntityEquiped(current)) {
@@ -1004,6 +1007,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 								case ARMOR: 
 						 	
 									removeItemToPerso(&getEntity(entity)->armor );
+									getItem(current)->equipped = 0;
 								
 									if (notUseItem(inventory,  current, teamPlayer, entity) !=0 ){
 										return;
@@ -1030,6 +1034,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 								case WEAPON:
 							
 									removeItemToPerso(&getEntity(entity)->weapon );
+									getItem(current)->equipped = 0;
 								
 									if (notUseItem(inventory,  current, teamPlayer, entity) !=0 ){
 										return;
@@ -1056,60 +1061,73 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						//}				
 					}
 
-					else if ( isEquipItem(current, entity) == 1 ) {
-						
+					//else if ( isEquipItem(current, entity) == 1 ) {
+					else if ( getItem(current)->equipped == 0 ) {
+					
 						//On equipe  						
-						switch ( testEntityEquiped(entity) ){
+						switch ( getItem(current)->type ){
 						
 							case ARMOR:
 							
-								copyItemToPerso(current, &getEntity(entity)->armor);
-								
-								if (useItem(inventory,  current, teamPlayer, entity) !=0 ){
-									return;
+								if( getEntity(entity)->armor.type == 0){
+
+									copyItemToPerso(current, &getEntity(entity)->armor);
+									getItem(current)->equipped = getEntity(entity)->id;
+									
+									
+									if (useItem(inventory,  current, teamPlayer, entity) !=0 ){
+										return;
+									}
+									
+									//Log
+									strcpy(message, "ARMOR EQUIPED: ");
+									strcat(message, getItem(current)->name);
+									strcat(message, " OK");
+									// printfLog(log, message, pLog, logText);
+									logMessage(message);
+									
+									//Affichage
+									game = frameWindow(1);
+									affichePersoWin(game,*teamPlayer);
+									affichePersoReverseWin(game,entity);
+									afficheMonsterWin(game,*teamMonster);
+									afficheEquipmentReverseWin(game,&getEntity(entity)->armor,ARMOR,0); //0 <=> au premier perso
+									ajoutStatusEquipment(current,ARMOR);
+									wrefresh(game);
 								}
 								
-								//Log
-								strcpy(message, "ARMOR EQUIPED: ");
-								strcat(message, getItem(current)->name);
-								strcat(message, " OK");
-								// printfLog(log, message, pLog, logText);
-								logMessage(message);
-								
-								//Affichage
-								game = frameWindow(1);
-								affichePersoWin(game,*teamPlayer);
-								affichePersoReverseWin(game,entity);
-								afficheMonsterWin(game,*teamMonster);
-								afficheEquipmentReverseWin(game,&getEntity(entity)->armor,ARMOR,0); //0 <=> au premier perso
-								ajoutStatusEquipment(current,ARMOR);
-								wrefresh(game);
 								
 								break;							
 								
 							case WEAPON:
 							
-								copyItemToPerso(current, &getEntity(entity)->weapon);
-								
-								if (useItem(inventory,  current, teamPlayer, entity) !=0 ){
-									return;
+								if( getEntity(entity)->weapon.type == 0){
+									
+							
+									copyItemToPerso(current, &getEntity(entity)->weapon);
+									getItem(current)->equipped = getEntity(entity)->id;
+									
+									if (useItem(inventory,  current, teamPlayer, entity) !=0 ){
+										return;
+									}
+									
+									//Log
+									strcpy(message, "WEAPON EQUIPED: ");
+									strcat(message, getItem(current)->name);
+									strcat(message, " OK");
+									// printfLog(log, message, pLog, logText);
+									logMessage(message);
+									
+									//Affichage
+									game = frameWindow(1);
+									affichePersoWin(game,*teamPlayer);
+									affichePersoReverseWin(game,entity);
+									afficheMonsterWin(game,*teamMonster);
+									afficheEquipmentReverseWin(game,&getEntity(entity)->weapon,WEAPON,0); //0 <=> au premier perso
+									ajoutStatusEquipment(current,WEAPON);
+									wrefresh(game);
+									
 								}
-								
-								//Log
-								strcpy(message, "WEAPON EQUIPED: ");
-								strcat(message, getItem(current)->name);
-								strcat(message, " OK");
-								// printfLog(log, message, pLog, logText);
-								logMessage(message);
-								
-								//Affichage
-								game = frameWindow(1);
-								affichePersoWin(game,*teamPlayer);
-								affichePersoReverseWin(game,entity);
-								afficheMonsterWin(game,*teamMonster);
-								afficheEquipmentReverseWin(game,&getEntity(entity)->weapon,WEAPON,0); //0 <=> au premier perso
-								ajoutStatusEquipment(current,WEAPON);
-								wrefresh(game);
 								
 								break;
 						}
@@ -1601,7 +1619,7 @@ int notUseItem(Node** headItem, Node* objet,Node** headEntity, Node* entity){
 	
 		if( strcmp(getItem(objet)->name, getItem(current)->name) ==0){
 	
-			getEntity(entity)->health -= getItem(objet)->attack;
+			getEntity(entity)->health -= getItem(objet)->health;
 			getEntity(entity)->attack -= getItem(objet)->attack;
 			getEntity(entity)->defense -= getItem(objet)->defense;
 			getEntity(entity)->speed -= getItem(objet)->speed;
@@ -1624,6 +1642,8 @@ void copyItemToPerso(Node* objet, Item* item ){
 	if(!objet || !item){
 		return;
 	}
+	
+	
 	
 	strcpy( item->name, getItem(objet)->name );
 	strcpy( item->description, getItem(objet)->description );
@@ -1650,7 +1670,7 @@ void removeItemToPerso(Item* item ){
 	item->health = 0;
 	item->attack = 0;
 	item->defense = 0;
-	item->speed = 0;			
+	item->speed = 0;		
 }
 
 
@@ -1743,32 +1763,27 @@ int multiSameItem(Node** inventory, Node* objet){
 //Fonction qui retourne 0 si l' objet est equipé
 int testItemEquiped(Node* objet){
 
-	char text[CHAR_NAME_MAX];
-	int i=0;
+	if(!objet)
+		return -1;
+		
+	if(getItem(objet)->equipped !=0)
+		return 0;			//equiped
 
-	strcpy( text, getItem(objet)->name);
-	
-	while( text[i] != '\0'){
-	
-		if( text[i] == '*'){
-		
-			return 0;	//equiped
-		}
-		
-		i++;
-	}
-	
-	return -1; 			//Not equiped
+	else
+		return -1; 			//Not equiped
 
 }
 
-//Fonction qui retourne -1 si il n y a plus de place dispo sur le perso / 0 pour position ARMOR libre / 1 pour position WEAPON libre
+
 int testEntityEquiped(Node* entity){
 
 	if( getEntity(entity)->armor.type == NULL_ITEM )
+		//return ARMOR;
 		return 0;
+		
 	if( getEntity(entity)->weapon.type == NULL_ITEM )
-		return 1;
+		//return WEAPON;
+		return 0;
 	
 	return -1;
 }
@@ -1789,9 +1804,9 @@ int searchEntityEquiped(Node* objet){
 			i++;
 			
 			if( text[i] == 'A')
-				return 0;	//ARMOR equiped
+				return ARMOR;	//ARMOR equiped
 			if( text[i] == 'W')
-				return 1;	//WEAPON equiped
+				return WEAPON;	//WEAPON equiped
 		}
 		
 		i++;
@@ -1821,7 +1836,7 @@ int isEquipedItem(Node* current){
 	if (!current)
 		return -1;
 	else
-		return ( getItem(current)->type == EQUIPMENT && testItemEquiped(current) == 0 );
+		return ( (getItem(current)->type == ARMOR || getItem(current)->type == WEAPON )  && testItemEquiped(current) == 0 );
 }
 		
 //Condition pour vendre un Item =>1/Equipement non équipé /2 La vente s' est bien déroulé /3 Objet non null
@@ -1841,7 +1856,7 @@ int isEquipItem(Node* current, Node* entity){
 		return -1;
 
 	else 
-	return ( getItem(current)->type == EQUIPMENT && testEntityEquiped(entity) != -1 && testItemEquiped(current) != 0);
+	return ( (getItem(current)->type == ARMOR || getItem(current)->type == WEAPON )  && testEntityEquiped(entity) != -1 && testItemEquiped(current) != 0);
 }
 
 //FOUILLE

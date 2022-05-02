@@ -6,14 +6,23 @@ typedef int Team;
 #define TEAM1 0
 #define TEAM2 1
 
+//typedef int Type;
+//typedef int TypeEquipment;
+//#define NULL_ITEM 0
+//#define ITEM 1
+//#define ARMOR 0
+//#define WEAPON 1
+//#define TRAP 3
+//#define EQUIPMENT 2
+
 typedef int Type;
 typedef int TypeEquipment;
 #define NULL_ITEM 0
 #define ITEM 1
-#define ARMOR 0
-#define WEAPON 1
-#define TRAP 3
-#define EQUIPMENT 2
+#define ARMOR 2
+#define WEAPON 3
+#define TRAP 4
+
 
 typedef int GameStatus;
 #define PLAYING 0
