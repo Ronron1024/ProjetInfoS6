@@ -197,5 +197,9 @@ void story(int level)
 
     level /= STORY_STEPPING;
 
-    
+    DIR* story_dir = opendir(STORY_FOLDER);
+
+    struct dirent* entry = NULL;
+    while (entry = readdir(story_dir))
+        printf("%s\n", entry->d_name);
 }

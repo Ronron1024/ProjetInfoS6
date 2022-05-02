@@ -51,11 +51,12 @@ typedef int GameMode;
 #define COEFF_DIFFICULTY 1
 #define COEFF_ITEM_UPGRADE 1.2
 #define TRAP_PROBA 0.5
-#define ALLY_PROBA 0.3
+#define ALLY_PROBA 0.4
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
 #define SAVE_FOLDER "resources/saves/"
+#define STORY_FOLDER "resources/story"
 #define SPLASHSCREEN_PATH "resources/splashscreen.txt"
 
 #define ALLIES_PATH "resources/allies.txt"
