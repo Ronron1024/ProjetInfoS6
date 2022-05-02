@@ -197,5 +197,34 @@ void story(int level)
 
     level /= STORY_STEPPING;
 
-    
+    DIR* story_dir = opendir(STORY_FOLDER);
+    struct dirent* entry = NULL;
+    char story_file_path [CHAR_STORY_LINE_MAX] = {0};
+    int i = 0;
+    while ((entry = readdir(story_dir)))
+    {
+        if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+            i++;
+        if (i == level)
+        {
+            strcpy(story_file_path, STORY_FOLDER);
+            strcat(story_file_path, entry->d_name);
+            break;
+        }
+    }
+
+    if (i < level) // Story doesn't exist
+        return;
+
+    FILE* story_file = fopen(story_file_path, "r");
+    if (!story_file)
+        return;
+    char story_line[CHAR_STORY_LINE_MAX] = {0};
+
+    fgets(story_line, CHAR_STORY_LINE_MAX, story_file);
+
+    clear();
+    mvprintw(0, 0, story_line);
+    refresh();
+    getch();
 }

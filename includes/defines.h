@@ -37,6 +37,7 @@ typedef int GameMode;
 #define GAMEMODE_DEBUG 2
 
 // Strings size
+#define CHAR_STORY_LINE_MAX 1024
 #define CHAR_NAME_MAX 50
 #define CHAR_DESC_MAX 200
 #define CHAR_LOG_MAX 128
@@ -55,6 +56,7 @@ typedef int GameMode;
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
+#define STORY_FOLDER "resources/story/"
 #define SAVE_FOLDER "resources/saves/"
 #define SPLASHSCREEN_PATH "resources/splashscreen.txt"
 
