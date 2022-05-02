@@ -663,6 +663,11 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 	return 1;
 }
 
+void rewardPlayer(Score* score, int level)
+{
+	score->money += (REWARD_MONEY * COEFF_REWARD * (level+1));
+}
+
 void fouille(WINDOW* game, GameState* gamestate)
 {
 	WINDOW* logs_win = logMessage("Voulez-vous fouiller ? (O/n)");
@@ -802,7 +807,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					// printfLog (log, message, pLog, logText);
 					logMessage(message);					
 				}
-				break;		
+				break;
 			
 			case 'O':
 			case 'o':						
@@ -826,7 +831,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					//Log
 					strcpy(message,"ACHAT: ");
 					strcat(message, getItem(current)->name);
-					strcat(message, " KO");					
+					strcat(message, " KO");
 					// printfLog (log, message, pLog, logText);
 					logMessage(message);
 				}		

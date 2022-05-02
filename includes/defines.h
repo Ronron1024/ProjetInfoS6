@@ -36,6 +36,8 @@ typedef int GameMode;
 
 // Settings
 #define BASE_MONEY 200.0
+#define REWARD_MONEY 10
+#define COEFF_REWARD 1
 #define COEFF_DIFFICULTY 1
 #define COEFF_ITEM_UPGRADE 1.2
 #define TRAP_PROBA 0.5

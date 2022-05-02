@@ -1,3 +1,3 @@
-1;"Olivier";getNullItem();getNullItem();1;1;1;1;
-2;"Andre";getNullItem();getNullItem();2;2;2;2;
-3;"Thomas";getNullItem();getNullItem();3;3;3;3;
+1;Olivier;getNullItem();getNullItem();1;1;1;1;
+2;Andre;getNullItem();getNullItem();2;2;2;2;
+3;Thomas;getNullItem();getNullItem();3;3;3;3;
