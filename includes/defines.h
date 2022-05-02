@@ -45,8 +45,11 @@ typedef int GameMode;
 #define SAVE_FOLDER "resources/saves/"
 #define SPLASHSCREEN_PATH "resources/splashscreen.txt"
 
-#define EQUIPMENT_PATH "resources/equipment.txt"
-#define ITEM_PATH "resources/item.txt"
+#define ALLIES_PATH "resources/allies.txt"
+#define ARMORS_PATH "resources/armors.txt"
+#define WEAPONS_PATH "resources/weapons.txt"
+#define ITEMS_PATH "resources/items.txt"
+#define TRAPS_PATH "resources/traps.txt"
 #define MONSTERS_PATH "resources/monsters.txt"
 
 #define LOGFILE "resources/logs.txt"

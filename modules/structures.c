@@ -17,9 +17,9 @@ void initGameState(GameState* gamestate)
 
 void initShop(Node** shop)
 {
-	Node* items = chargerTxtItem("resources/item.txt");
-	Node* armors = chargerTxtItem("resources/armor.txt");
-	Node* weapons = chargerTxtItem("resources/weapon.txt");
+	Node* items = chargerTxtItem(ITEMS_PATH);
+	Node* armors = chargerTxtItem(ARMORS_PATH);
+	Node* weapons = chargerTxtItem(WEAPONS_PATH);
 
 	push(shop, getItem(getRandomNode(items)), sizeof(Item));
 	push(shop, getItem(getRandomNode(armors)), sizeof(Item));
@@ -32,9 +32,9 @@ void upgradeShop(Node** shop, int level)
 	freeList(*shop);
 	*shop = NULL;
 
-	Node* items = chargerTxtItem("resources/item.txt");
-	Node* armors = chargerTxtItem("resources/armor.txt");
-	Node* weapons = chargerTxtItem("resources/weapon.txt");
+	Node* items = chargerTxtItem(ITEMS_PATH);
+	Node* armors = chargerTxtItem(ARMORS_PATH);
+	Node* weapons = chargerTxtItem(WEAPONS_PATH);
 
 	push(shop, upItem(getItem(getRandomNode(items)), level), sizeof(Item));
 	push(shop, upItem(getItem(getRandomNode(armors)), level), sizeof(Item));
@@ -144,20 +144,22 @@ Item getRandomItem()
 	switch(alea)
 	{
 		case 0:
-			return *getItem(getRandomNode(chargerTxtItem("resources/item.txt")));
+			return *getItem(getRandomNode(chargerTxtItem(ITEMS_PATH)));
 			break;
 		case 1:
-			return *getItem(getRandomNode(chargerTxtItem("resources/armor.txt")));
+			return *getItem(getRandomNode(chargerTxtItem(ARMORS_PATH)));
 			break;
 		case 2:
-			return *getItem(getRandomNode(chargerTxtItem("resources/weapon.txt")));
+			return *getItem(getRandomNode(chargerTxtItem(WEAPONS_PATH)));
 			break;
 	}
+
+	return getNullItem();
 }
 
 Item getRandomTrap()
 {
-	Node* traps = chargerTxtItem("resources/trap.txt");
+	Node* traps = chargerTxtItem(TRAPS_PATH);
 	return *getItem(getRandomNode(traps));
 }
 
