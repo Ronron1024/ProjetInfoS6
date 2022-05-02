@@ -1,12 +1,34 @@
-Couteau;Armes de corps à corps basique;0;3;3.000000;15.000000;6.000000;0.000000;0.000000
-Epee;Ancienne arme mais toujours aussi efficace;0;3;30.000000;50.000000;25.000000;0.000000;0.000000
-Fusil;Armes automatique calibre 7,62mm;0;3;35.000000;70.000000;20.000000;0.000000;0.000000
-Grenade;Explosif pour dégats de zone;0;3;5.000000;0.000000;10.000000;0.000000;0.000000
-Hache;Plutot brutale mais efficace;0;3;10.000000;25.000000;13.000000;0.000000;0.000000
-Katana;Une arme japonaise avec une lame capable de trancher du béton;0;3;20.000000;35.000000;12.500000;10.000000;0.000000
-Lance Roquette;Pour nettoyer une zone rapidement et efficacement;0;3;120.000000;80.000000;150.000000;0.000000;0.000000
-Lance-grenade;Arme explosif lancant des grenades;0;3;20.000000;20.000000;30.000000;0.000000;0.000000
-Mitraillette;Armes à cadence rapide;0;3;5.000000;50.000000;15.000000;0.000000;0.000000
-Pistolet;Armes de poing calibre 9mm;0;3;10.000000;30.000000;12.500000;0.000000;0.000000
-Poing Americain;Le fameux poing américain dévastateur;0;3;50.000000;100.000000;60.000000;0.000000;0.000000
+Couteau; Armes de corps à corps basiqu;3;0;3.000000;0.000000;6.000000;0.000000;0.000000
+Epee;Ancienne arme mais toujours aussi efficace;3;0;30.000000;0.000000;25.000000;0.000000;0.000000
+Fusil;Armes automatique calibre 7,62mm;3;0;35.000000;0.000000;20.000000;0.000000;0.000000
+Grenade;Explosif pour dégats de zone;3;0;5.000000;0.000000;15.000000;0.000000;0.000000
+Hache;Plutot brutale mais efficace;3;0;10.000000;0.000000;13.000000;0.000000;0.000000
+Katana;Une arme japonaise avec une lame capable de trancher du béton;3;0;20.000000;0.000000;12.500000;10.000000;0.000000
+Lance Roquette;Pour nettoyer une zone rapidement et efficacement;3;0;120.000000;0.000000;150.000000;0.000000;0.000000
+Lance-grenade;Arme explosif lancant des grenades;3;0;20.000000;0.000000;30.000000;0.000000;0.000000
+Mitraillette;Armes à cadence rapide;3;0;5.000000;0.000000;15.000000;0.000000;0.000000
+Pistolet;Armes de poing calibre 9mm;3;0;10.000000;0.000000;12.500000;0.000000;0.000000
+Poing Americain;Le fameux poing américain dévastateur;3;0;50.000000;0.000000;60.000000;0.000000;0.000000
+Lance flammes;Brule sale monstre;3;0;20.000000;0.000000;25.000000;0.000000;0.000000
+Arc;En bois mais toujours efficace;3;0;10.000000;0.000000;15.000000;0.000000;0.000000
+Arbalète;Arc amélioré;3;0;25.000000;0.000000;37.500000;0.000000;0.000000
+Boomerang;Attention au retour;3;0;7.000000;0.000000;10.000000;0.000000;0.000000
+Fusil à pompe;Destructrice à courte portée;3;0;30.000000;0.000000;65.000000;0.000000;0.000000
+Sniper;Pour des combats longues distances;3;0;70.000000;0.000000;100.000000;0.000000;0.000000
+Tazer;une bonne décharge de 200 000 volts;3;0;10.000000;0.000000;20.000000;0.000000;0.000000
+Fusil de chasse;Pour abattre des animaux (et l'humain et un animal);3;0;14.000000;0.000000;22.000000;0.000000;0.000000
+Magnum;Le fameux 44 Magnum;3;0;40.000000;0.000000;80.000000;0.000000;0.000000
+Fusil à rafale;Rafales de 3 coups puissants;3;0;20.000000;0.000000;28.000000;0.000000;0.000000
+Sabre;Pour les vrais mousquetaires;3;0;10.000000;0.000000;15.000000;0.000000;0.000000
+Baionette;Une arme 14-18;3;0;17.00000;0.000000;20.000000;0.000000;0.000000
+Savate;La sieste est finie;3;0;100.000000;0.000000;200.000000;0.000000;0.000000
+Ceinture du daron;Une bonne punition;3;0;70.000000;0.000000;100.000000;0.000000;0.000000
+Mitrailleuse;Beaucoup de munition pour beaucoup de dégats;3;0;75.000000;0.000000;120.000000;0.000000;0.000000
+Pistolet Akimbo;Vous etes Lara Croft;3;0;25.000000;0.000000;35.000000;0.000000;0.000000
+Shuriken;Un vrai ninja;3;0;9.000000;0.000000;12.000000;0.000000;0.000000
+pistolet lazer;Bienvenue dans le futur;3;0;200.000000;0.000000;500.000000;0.000000;0.000000
+arme à énergie;Halo 2.0;3;0;150.000000;0.000000;340.000000;0.000000;0.000000
+Sniper automatique;Tirer de loin et avec une cadence élevé c'est toujours bien;3;0;50.000000;0.000000;75.000000;0.000000;0.000000
+
+
 
