@@ -1,2 +1,0 @@
-Croissant;Nourriture apportant 17 PVs;1;0;1.0;17.0;0;0;0
-Gauffre;Nutella banane;1;0;20;20;0;0;0
