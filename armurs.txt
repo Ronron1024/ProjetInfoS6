@@ -18,3 +18,4 @@ Mur de Berlin;Divise l'Allemagne en 2 mais peux aussi proteger;2;0;125;0;0;500;0
 Plaque de metal;Epaisse de 70mm elle protege de quasiment tout les projectiles;2;0;300;0;0;1300;0
 Mur de brique;A part pour un potager ne sert a rien;2;0;5;0;0;10;0
 Poutre;Pas celle que tu as dans le calbar;2;0;15;0;0;20;0
+Portiere de voiture;Pour une fois que ca sert;2;0;40;0;0;100;0
