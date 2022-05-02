@@ -44,13 +44,14 @@ typedef int GameMode;
 #define LINE_SIZE   1000
 
 // Settings
+#define STORY_STEPPING 3
 #define BASE_MONEY 200.0
 #define REWARD_MONEY 10
 #define COEFF_REWARD 1
 #define COEFF_DIFFICULTY 1
 #define COEFF_ITEM_UPGRADE 1.2
 #define TRAP_PROBA 0.5
-#define ALLY_PROBA 0
+#define ALLY_PROBA 0.3
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9

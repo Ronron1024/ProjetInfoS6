@@ -22,7 +22,7 @@ int main (){
 		1,	//id
 		"Gerem",
 		getNullItem(), getNullItem(),
-		10, 10, 10, 10
+		10, 100, 10, 10
 	};
 
 	// Init ncurses
@@ -38,8 +38,8 @@ int main (){
     init_pair(PAIR_WHITE_RED, COLOR_WHITE, COLOR_RED);
 
 	// Intro
-	// splashscreen();
-    // getch();
+	splashscreen();
+    getch();
 	HOMEMENU:
     gamemode = homeMenu();
 
@@ -85,6 +85,7 @@ int main (){
 				generateNextPlateau(&run);
 				rewardPlayer(gamestate.highscore, getPlateau(run)->id);
 				upgradeShop(&gamestate.shop, getPlateau(run)->id);
+				story(getPlateau(run)->id);
 				updateGamestate(run, &gamestate);
 				break;
 
