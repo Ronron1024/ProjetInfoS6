@@ -141,7 +141,7 @@ void affichePersoWin(WINDOW* win,Node* perso){
 		
 	}
 }
-
+/*
 void affichePersoReverseWin(WINDOW* win,Node* perso){
 
 	if(!perso || !win){
@@ -175,6 +175,7 @@ void affichePersoReverseWin(WINDOW* win,Node* perso){
 		
 	}
 }
+*/
 
 void afficheEquipmentReverseWin(WINDOW* win, Item* item, TypeEquipment typeEquipment, int n){
 
@@ -198,6 +199,43 @@ void afficheEquipmentReverseWin(WINDOW* win, Item* item, TypeEquipment typeEquip
 	wattroff(win,A_BOLD);
 	wattroff(win,A_REVERSE);	
 }
+
+void affichePersoReverseWin(WINDOW* win,Node* perso, int id){
+
+	if(!perso || !win){
+		return;
+	}
+
+	int espace = 15; //espace entre perso
+	int n = 0;
+	while (perso)
+	{
+		if (getEntity(perso)->id == id)
+			break;
+		n++;
+		perso = perso->next;
+	}
+
+	
+	wattron(win,COLOR_PAIR(1));
+	wattron(win,A_BOLD);
+	wattron(win,A_REVERSE);
+
+	mvwprintw(win, 15,espace*n+1,"HP : %4.0lf",getEntity(perso)->health);
+	mvwprintw(win, 16,espace*n+1,"ATT: %4.0lf",getEntity(perso)->attack);
+	mvwprintw(win, 17,espace*n+1,"DEF: %4.0lf",getEntity(perso)->defense);
+	mvwprintw(win, 18,espace*n+1,"SPD: %4.0lf",getEntity(perso)->speed);
+		
+	wattroff(win,COLOR_PAIR(1));
+	wattroff(win,A_BOLD);
+	wattroff(win,A_REVERSE);
+
+}
+
+
+
+
+
 
 void ajoutStatusEquipment(Node* objet,TypeEquipment typeEquipment){
 
@@ -683,6 +721,8 @@ void fouille(WINDOW* game, GameState* gamestate)
 	char message[CHAR_LOG_MAX] = {0};
 	Item found;
 	int key = -1;
+	Entity* entity;
+	
 	while (key != 0)
 	{
 		key = wgetch(logs_win);
@@ -695,8 +735,12 @@ void fouille(WINDOW* game, GameState* gamestate)
 				if ((double)(randInt(1, 100))/100.0 > TRAP_PROBA)
 				{
 					found = getRandomTrap();
-					addStats(getEntity(getRandomNode(gamestate->team_player)), found);
-					affichePersoReverseWin(game, gamestate->team_player);
+					
+					entity = getEntity(getRandomNode(gamestate->team_player));
+					
+					addStats(entity, found);
+					
+					affichePersoReverseWin(game, gamestate->team_player,entity->id);
 				}
 				else
 				{
@@ -972,8 +1016,10 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						
 				case 'U':
 				case 'u':
+				
+					entity =selectEntityWin(*teamPlayer, *teamMonster); 
 
-					if( isUseItem(inventory, current, teamPlayer, entity) == 1 ){
+					if( isUseItem(inventory, current, teamPlayer,    entity            ) == 1 ){
 													
 						//Log
 						strcpy(message, "USE: ");
@@ -1002,7 +1048,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						//Update affichage perso/monster	
 						afficheMonsterWin(game,*teamMonster);
 						affichePersoWin(game,*teamPlayer);
-						affichePersoReverseWin(game,entity);
+						affichePersoReverseWin(game,*teamPlayer,getEntity(entity)->id);
 						wrefresh(game);
 						
 						
@@ -1012,9 +1058,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 					///Test sur l objet et si l' equipement est equipé
 					//else if( isEquipedItem(current) == 1 ){
 					else if( getItem(current)->equipped != 0 ){
-					
-					printf("AQUI PAS LA \n");
-					
+				
 						//On desequipe
 							switch (searchEntityEquiped(current)) {
 							
@@ -1037,9 +1081,10 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 									//Affichage
 									game = frameWindow(1);
 									affichePersoWin(game,*teamPlayer);
-									affichePersoReverseWin(game,entity);
+									//affichePersoReverseWin(game,entity,n);
+									affichePersoReverseWin(game,*teamPlayer,getEntity(entity)->id);
 									afficheMonsterWin(game,*teamMonster);
-									afficheEquipmentReverseWin(game,&getEntity(entity)->weapon,ARMOR,0); //0 <=> au premier perso
+									afficheEquipmentReverseWin(game,&getEntity(entity)->armor,ARMOR,0); //0 <=> au premier perso
 									supStatusEquipment(current);
 									wrefresh(game);
 									break;						 	
@@ -1064,7 +1109,8 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 									//Affichage
 									game = frameWindow(1);
 									affichePersoWin(game,*teamPlayer);
-									affichePersoReverseWin(game,entity);
+									//affichePersoReverseWin(game,entity,n);
+									affichePersoReverseWin(game,*teamPlayer,getEntity(entity)->id);
 									afficheMonsterWin(game,*teamMonster);
 									afficheEquipmentReverseWin(game,&getEntity(entity)->weapon,WEAPON,0); //0 <=> au premier perso
 									supStatusEquipment(current);
@@ -1103,7 +1149,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 									//Affichage
 									game = frameWindow(1);
 									affichePersoWin(game,*teamPlayer);
-									affichePersoReverseWin(game,entity);
+									affichePersoReverseWin(game,*teamPlayer,getEntity(entity)->id);
 									afficheMonsterWin(game,*teamMonster);
 									afficheEquipmentReverseWin(game,&getEntity(entity)->armor,ARMOR,0); //0 <=> au premier perso
 									ajoutStatusEquipment(current,ARMOR);
@@ -1135,7 +1181,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 									//Affichage
 									game = frameWindow(1);
 									affichePersoWin(game,*teamPlayer);
-									affichePersoReverseWin(game,entity);
+									affichePersoReverseWin(game,*teamPlayer,getEntity(entity)->id);
 									afficheMonsterWin(game,*teamMonster);
 									afficheEquipmentReverseWin(game,&getEntity(entity)->weapon,WEAPON,0); //0 <=> au premier perso
 									ajoutStatusEquipment(current,WEAPON);
@@ -1995,3 +2041,101 @@ void deleteSave(char* save_path)
 	remove(full_save_path);
 	free(full_save_path);
 }
+
+
+
+
+
+
+Node*  selectEntityWin(Node* headEntity, Node* headMonster){
+
+	if(!headEntity)
+		return NULL;
+
+	WINDOW* game;
+	//Node** teamPlayer = &(gamestate->team_player); 
+	//Node* shop = gamestate->shop;
+	//Node** inventory = &(gamestate->inventory);
+	//Score* highscore = gamestate->highscore;
+
+	Node* current;
+	
+	//char message[CHAR_DESC_MAX];
+	int n = 0;
+	int cmptPlayer;
+	int choix = 1;
+	int page = 0;
+	
+	//Init liste 
+	current = headEntity;
+			
+	while(choix){
+
+		//Affichage perso
+		game = frameWindow(1);	
+		keypad(game,TRUE);	
+		affichePersoWin(game,headEntity);	
+		affichePersoReverseWin(game,current,n);
+		afficheMonsterWin(game,headMonster);
+
+		wrefresh(game);
+				
+		cmptPlayer = compterObjet(headEntity);
+					
+		switch ( wgetch(game) ){
+			
+			case KEY_RIGHT:
+								
+				if(n!=cmptPlayer-1){
+				
+					current=current->next;
+					n++;
+					page = n / MAX_OBJET_AFFICHAGE;
+					
+					affichePersoWin(game,headEntity);	
+					affichePersoReverseWin(game,current,n);
+					afficheMonsterWin(game,headMonster);
+					wrefresh(game);
+
+				}
+				break;
+				
+			case KEY_LEFT:
+						
+				if(n!=0){
+					current=current->prev;
+					n--;
+					page = n / MAX_OBJET_AFFICHAGE;
+					
+					affichePersoWin(game,headEntity);	
+					affichePersoReverseWin(game,current,n);
+					afficheMonsterWin(game,headMonster);
+					wrefresh(game);
+
+				}
+				break;		
+			
+			case 'u':
+			case 'U':
+			case 10:					
+				
+				choix = 0;
+
+				
+				break;	
+
+				
+		}
+	}	
+	return current;	
+}
+
+
+
+
+
+
+
+
+
+

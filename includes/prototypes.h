@@ -64,7 +64,7 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 
 // describe function !!!!
 void affichePersoWin(WINDOW* win,Node* perso);
-void affichePersoReverseWin(WINDOW* win,Node* perso);
+void affichePersoReverseWin(WINDOW* win,Node* perso, int id);
 void afficheMonsterWin(WINDOW* win,Node* monster);
 
 //Affiche les objets item dans la fenetre win par page
@@ -256,6 +256,10 @@ int isEquipItem(Node* current, Node* entity);
 
 //Retoune 0/Si il n' accepte pas /1 si il accepte la fouille 
 int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+
+
+Node*  selectEntityWin(Node* headEntity, Node* headMonster);
+
 
 
 //BDD
