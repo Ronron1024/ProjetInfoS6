@@ -206,6 +206,9 @@ void fouille(WINDOW* game, GameState* gamestate);
 
 double attack(Entity* attacker, Entity* defender);
 
+// Reward the player at the end of a level
+void rewardPlayer(Score* score, int level);
+
 //Creation d' une liste chainée de plateau en fonction du nombre de level <=> une run // return 0 si OK
 int generationRun(int nblevel,Node** headPlateau);
 

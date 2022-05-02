@@ -82,6 +82,7 @@ int main (){
 				break;
 
 			case PLAYING:	// Next level
+				rewardPlayer(gamestate.highscore, getPlateau(run)->id);
 				generateNextPlateau(&run);
 				upgradeShop(&gamestate.shop, getPlateau(run)->id);
 				updateGamestate(run, &gamestate);

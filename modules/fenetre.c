@@ -663,6 +663,11 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 	return 1;
 }
 
+void rewardPlayer(Score* score, int level)
+{
+	score->money += (REWARD_MONEY * COEFF_REWARD * (level+1));
+}
+
 void fouille(WINDOW* game, GameState* gamestate)
 {
 	WINDOW* logs_win = logMessage("Voulez-vous fouiller ? (O/n)");
