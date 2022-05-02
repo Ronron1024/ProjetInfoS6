@@ -10,3 +10,9 @@ int getPlateauId()
     static int id = 0;
     return id++;
 }
+
+int getEntityId()
+{
+    static int id = 2; // Gerem is id = 1
+    return id++;
+}

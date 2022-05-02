@@ -189,3 +189,13 @@ char* menuContinue()
     
     return menu_items[selected_item];
 }
+
+void story(int level)
+{
+    if (level % STORY_STEPPING != 0)
+        return;
+
+    level /= STORY_STEPPING;
+
+    
+}

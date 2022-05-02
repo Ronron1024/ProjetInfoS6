@@ -313,6 +313,7 @@ void loadGame(Node** run, GameState* gamestate)
 	{
 		fread(&current_entity, sizeof(Entity), 1, save_file);
 		push(&gamestate->team_player, &current_entity, sizeof(Entity));
+		getEntityId();
 	}
 
 	int number_monster = 0;

@@ -43,6 +43,9 @@ WINDOW* logMessage(char* message);
 // Game over screen
 void gameOverScreen();
 
+// Story telling
+void story(int level);
+
 //Retourne la fenetre qui compose le menu boutique
 WINDOW* boutiqueMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
@@ -288,6 +291,8 @@ Entity modified(Entity monster, int id);
 int randInt(int min, int max);
 
 int getPlateauId();
+
+int getEntityId();
 
 #pragma endregion
 

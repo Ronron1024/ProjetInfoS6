@@ -635,6 +635,7 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 						if (count(gamestate->team_player) < 5 && canGetAlly())
 						{
 							ally = *getEntity(getRandomNode(chargerTxtEntity(ALLIES_PATH)));
+							ally.id = getEntityId();
 							push(&gamestate->team_player, &ally, sizeof(Entity));
 							strcpy(message, ally.name);
 							strcat(message, " a rejoint votre equipe !");
