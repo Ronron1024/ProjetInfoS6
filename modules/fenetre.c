@@ -807,7 +807,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					// printfLog (log, message, pLog, logText);
 					logMessage(message);					
 				}
-				break;		
+				break;
 			
 			case 'O':
 			case 'o':						
@@ -831,7 +831,7 @@ void menuBoutique(WINDOW* boutique,WINDOW* scr, WINDOW* log, int hMenu, int wMen
 					//Log
 					strcpy(message,"ACHAT: ");
 					strcat(message, getItem(current)->name);
-					strcat(message, " KO");					
+					strcat(message, " KO");
 					// printfLog (log, message, pLog, logText);
 					logMessage(message);
 				}		
