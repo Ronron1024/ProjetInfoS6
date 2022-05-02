@@ -1,11 +1,11 @@
-Couteau;Armes de corps à corps basique;2;3.000000;15.000000;6.000000;0.000000;0.000000
-Epee;Ancienne arme mais toujours aussi efficace;2;30.000000;50.000000;25.000000;0.000000;0.000000
-Fusil;Armes automatique calibre 7,62mm;1;35.000000;70.000000;20.000000;0.000000;0.000000
-Grenade;Explosif pour dégats de zone;3;5.000000;0.000000;10.000000;0.000000;0.000000
-Hache;Plutot brutale mais efficace;2;10.000000;25.000000;13.000000;0.000000;0.000000
-Katana;Une arme japonaise avec une lame capable de trancher du béton;2;20.000000;35.000000;12.500000;10.000000;0.000000
-Lance Roquette;Pour nettoyer une zone rapidement et efficacement;3;120.000000;80.000000;150.000000;0.000000;0.000000
-Lance-grenade;Arme explosif lancant des grenades;3;20.000000;20.000000;30.000000;0.000000;0.000000
-Mitraillette;Armes à cadence rapide;25;0.000000;50.000000;15.000000;0.000000;0.000000
-Pistolet;Armes de poing calibre 9mm;1;10.000000;30.000000;12.500000;0.000000;0.000000
-Poing Americain;Le fameux poing américain dévastateur;2;50.000000;100.000000;60.000000;0.000000;0.000000
+Couteau;Armes de corps à corps basique;0;3;3.000000;15.000000;6.000000;0.000000;0.000000
+Epee;Ancienne arme mais toujours aussi efficace;0;3;30.000000;50.000000;25.000000;0.000000;0.000000
+Fusil;Armes automatique calibre 7,62mm;0;3;35.000000;70.000000;20.000000;0.000000;0.000000
+Grenade;Explosif pour dégats de zone;0;3;5.000000;0.000000;10.000000;0.000000;0.000000
+Hache;Plutot brutale mais efficace;0;3;10.000000;25.000000;13.000000;0.000000;0.000000
+Katana;Une arme japonaise avec une lame capable de trancher du béton;0;3;20.000000;35.000000;12.500000;10.000000;0.000000
+Lance Roquette;Pour nettoyer une zone rapidement et efficacement;0;3;120.000000;80.000000;150.000000;0.000000;0.000000
+Lance-grenade;Arme explosif lancant des grenades;0;3;20.000000;20.000000;30.000000;0.000000;0.000000
+Mitraillette;Armes à cadence rapide;0;3;5.000000;50.000000;15.000000;0.000000;0.000000
+Pistolet;Armes de poing calibre 9mm;0;3;10.000000;30.000000;12.500000;0.000000;0.000000
+Poing Americain;Le fameux poing américain dévastateur;0;3;50.000000;100.000000;60.000000;0.000000;0.000000
