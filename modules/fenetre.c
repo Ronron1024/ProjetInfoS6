@@ -1032,7 +1032,7 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 						sup(inventory, current);
 						
 						//On se repositione sur le meme item si i l' existe
-						if ( sameItem(inventory,  current) >= 0){
+						/*if ( sameItem(inventory,  current) >= 0){
 							
 							n= sameItem(inventory,  current);
 							page = n / MAX_OBJET_AFFICHAGE;
@@ -1043,7 +1043,10 @@ void menuInventaire(WINDOW* scr, WINDOW* log, int hMenu, int wMenu,int yMenu,int
 							current = *inventory;
 							page =0;
 							n = 0;
-						}
+						}*/
+						
+							page =0;
+							n = 0;
 
 						//Update affichage perso/monster	
 						afficheMonsterWin(game,*teamMonster);
@@ -2075,7 +2078,7 @@ Node*  selectEntityWin(Node* headEntity, Node* headMonster){
 		game = frameWindow(1);	
 		keypad(game,TRUE);	
 		affichePersoWin(game,headEntity);	
-		affichePersoReverseWin(game,current,n);
+		affichePersoReverseWin(game,current,getEntity(current)->id);
 		afficheMonsterWin(game,headMonster);
 
 		wrefresh(game);
@@ -2093,7 +2096,7 @@ Node*  selectEntityWin(Node* headEntity, Node* headMonster){
 					page = n / MAX_OBJET_AFFICHAGE;
 					
 					affichePersoWin(game,headEntity);	
-					affichePersoReverseWin(game,current,n);
+					affichePersoReverseWin(game,current,getEntity(current)->id);
 					afficheMonsterWin(game,headMonster);
 					wrefresh(game);
 
@@ -2108,7 +2111,7 @@ Node*  selectEntityWin(Node* headEntity, Node* headMonster){
 					page = n / MAX_OBJET_AFFICHAGE;
 					
 					affichePersoWin(game,headEntity);	
-					affichePersoReverseWin(game,current,n);
+					affichePersoReverseWin(game,current,getEntity(current)->id);
 					afficheMonsterWin(game,headMonster);
 					wrefresh(game);
 
