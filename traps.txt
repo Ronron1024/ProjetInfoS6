@@ -18,3 +18,4 @@ Fourmis;Nombreuse mais pas dangereuse;4;0;0;-1;0;0;0
 Cannabis;Alors ta rencontrer Papa Jhonny ?;4;0;0;0;-10;0;0
 Morsure de rats;Pas de chance en Chine il les bouffent;4;0;0;-3;0;0;0
 Araignee;N'est pas Spiderman qui veux;4;0;0;0;-3;0;0
+Les feux de l'amours;Un episode de plus;4;0;0;0;-50;0;0

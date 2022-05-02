@@ -1,0 +1,39 @@
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Chauve souris;Peux apporter le COVID19;1;0;10;0;25;0;0
+Clef;Permet d'ouvrir UNE porte;1;0;50;0;0;0;0
+Sticker Aller l'OM;Element indispensable d'un fervent supporter de l'OM;1;0;30;0;0;0;0
+Maillot signer de Ronaldo et Messi;Pour les fans de foot;1;0;100;0;0;0;0
+Trou Noir;Apporte le neant;1;0;300;0;2000;0;0
+Chaise;Pour ce reposer en cas de grande faignantise;1;0;20;20.000000;0;0;0
+Lit;Permet de dormir mais pas que;1;0;40;30;0;0;0
+Pioche;Peut servir a creuser mais aussi comme arme;1;0;25;0;25;0;0
+Masque de zombie;Pour faire peur aux enfants;1;0;70;0;0;0;0
+Peigne;Se coiffer est toujours important;1;0;10;0;0;0;0
+Bouteille;Meme vide elle peut etre utile;1;0;40;0;0;0;0
+Pain au chocolat;Viennoserie de qualite;1;0;10;10;0;0;0
+Chouchou;Pour attacher les cheveux longs;1;0;5;0;0;0;0
+Scotch;Multitache;1;0;50;15;0;10;0
+Cable USB-C;Pour recharger son telephone (si vous trouver une source d'alimenttion);1;0;5;0;8;0;0
+Tissu;Peux servir a fabriquer des vetements;1;0;70;50;0;0;0
+TV;Permet (ou pas) de regarder les infos;1;0;10;0;0;0;0
+Generateur;Genere de l'electricite pour faire fonctionner vos appareils;1;0;100;70;0;0;0
+Bout de bois;Pour faire un feu ou peux servir d'armes;1;0;5;0;5;0;0
+Enceinte;Ecouter de la bonne musique;1;0;15;0;0;0;0
+Gilet par balles;Protection renforcee contre les tirs d'armes a feu;1;0;100;0;0;70;0
+Armoire;Stocker et stocker encore;1;0;25;0;0;0;0
+Platine de DJ;Pour faire vos meilleurs soiree;1;0;30;0;0;0;0
+Pot de peinture;Pour peindre n'importe quoi ou pour ce camoufler;1;0;30;0;0;20;0
+Billets de banque de 100 dollars;Money Money Money;1;0;100;0;0;0;0
+Poubelle;Pour mettre vos dechets;1;0;10;0;0;0;0
+Lampe de torche;Ultra important pour les expeditions nocturnes;1;0;60;0;0;0;0
+Viseur;Peut s'equiper sur une de vos armes a feu;1;0;40;0;30;0;0
+Cours de traitement du signal;Attention peux faire votre cerveau, a utliser avec prudence;1;0;20;-4;0;0;0
+;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
+Croissant;Nourriture apportant 17 PVs;1;0;15;17.000000;0;0;0
