@@ -5,7 +5,7 @@ Protege tibia;Attention aux tacles deux pieds décolles;2;0;5;0;0;10;0
 Gants;Pour manipuler son arme dans les meilleurs conditions;2;0;10;0;0;18;0
 Protege Dent;Garantie une dentition à la DiCaprio;2;0;5;0;0;10;0
 Armure en acier;La plus solide de toute;2;0;70;0;0;150;0
-Protection intégrale HALO; Armure intergalactique;2;0;200;0;0;500;0
+Protection integrale HALO; Armure intergalactique;2;0;200;0;0;500;0
 Bouclier;Un bon vieux bouclier qui fait toujours l'affaire;2;0;30;0;0;90;0
 Bouclier d'energie;Creer un mur d'energie devant vous ou aucun projectile ne peux vous attendre;2;0;500;0;0;2000;0
 Armure de chevalier;Equipement datant de 1450 mais toujours aussi efficace;2;0;100;0;0;250;0
