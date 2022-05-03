@@ -1965,12 +1965,7 @@ int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]){
 	return 0;
 }
 
-void gameOverScreen()
-{
-	clear();
-	mvprintw(0,0,"Game over !");
-	getch();
-}
+
 //...
 
 

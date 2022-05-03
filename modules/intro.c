@@ -49,11 +49,47 @@ void splashscreen()
     }
 
     // Display ASCII ART
+    int y = 5;
     attron(A_BOLD);
     while (fgets(ascii_art_buffer, ASCII_ART_BUFFER_SIZE, splashscreen_file))
-        printw("%s", ascii_art_buffer);
+    {
+        printwXCentered(y, ascii_art_buffer);
+        y++;
+    }
     attroff(A_BOLD);
     refresh();
+}
+
+void gameOverScreen()
+{
+	char ascii_art_buffer[ASCII_ART_BUFFER_SIZE] = {0};
+    FILE* splashscreen_file = fopen(GAMEOVER_PATH, "r");
+
+    // Display error message
+    if (!splashscreen_file)
+    {
+        attron(COLOR_PAIR(PAIR_RED_BLACK));
+        attron(A_BOLD);
+        printw("Can't read gameover file : %s", GAMEOVER_PATH);
+        attroff(A_BOLD);
+        attroff(COLOR_PAIR(PAIR_RED_BLACK));
+        refresh();
+        return;
+    }
+
+    // Display ASCII ART
+    clear();
+    int y = 5;
+    mvprintw(y, 25, "Coucou, tu veux voir ma ..");
+    attron(A_BOLD);
+    while (fgets(ascii_art_buffer, ASCII_ART_BUFFER_SIZE, splashscreen_file))
+    {
+        printwXCentered(y, ascii_art_buffer);
+        y++;
+    }
+    attroff(A_BOLD);
+    refresh();
+    getch();
 }
 
 GameMode homeMenu()

@@ -22,7 +22,7 @@ int main (){
 		1,	//id
 		"Gerem",
 		getNullItem(), getNullItem(),
-		100, 100, 100, 10
+		100,100,100,0
 	};
 
 	// Init ncurses

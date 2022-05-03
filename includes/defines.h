@@ -59,6 +59,7 @@ typedef int GameMode;
 #define STORY_FOLDER "resources/story/"
 #define SAVE_FOLDER "resources/saves/"
 #define SPLASHSCREEN_PATH "resources/splashscreen.txt"
+#define GAMEOVER_PATH "resources/gameover.txt"
 
 #define ALLIES_PATH "resources/allies.txt"
 #define ARMORS_PATH "resources/armors.txt"
