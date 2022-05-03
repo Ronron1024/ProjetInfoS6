@@ -821,7 +821,7 @@ void fouille(WINDOW* game, GameState* gamestate)
 			case 'o':
 				key = 0;
 				
-				if ((double)(randInt(1, 100))/100.0 > TRAP_PROBA)
+				if ((double)(randInt(1, 100))/100.0 < TRAP_PROBA)
 				{
 					found = getRandomTrap();
 					

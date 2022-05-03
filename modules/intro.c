@@ -31,6 +31,29 @@ void printwYCentered(int x, const char* str)
     mvprintw(y, x, "%s", str);
 }
 
+void intro()
+{
+    FILE* intro_file = fopen(INTRO_PATH, "r");
+    if (!intro_file)
+    {
+        printf("Error while opening intro\n");
+        return;
+    }
+    char line[CHAR_STORY_LINE_MAX] = {0};
+
+    clear();
+    int y = 10;
+    while (fgets(line, CHAR_STORY_LINE_MAX, intro_file))
+    {
+        printwXCentered(y, line);
+        y++;
+    }
+    
+    fclose(intro_file);
+    refresh();
+    getch();
+}
+
 void splashscreen()
 {
     char ascii_art_buffer[ASCII_ART_BUFFER_SIZE] = {0};
@@ -58,6 +81,7 @@ void splashscreen()
     }
     attroff(A_BOLD);
     refresh();
+    fclose(splashscreen_file);
 }
 
 void gameOverScreen()
@@ -90,6 +114,7 @@ void gameOverScreen()
     attroff(A_BOLD);
     refresh();
     getch();
+    fclose(splashscreen_file);
 }
 
 GameMode homeMenu()
@@ -257,13 +282,17 @@ void story(int level)
         return;
     char story_line[CHAR_STORY_LINE_MAX] = {0};
 
-    fgets(story_line, CHAR_STORY_LINE_MAX, story_file);
+    clear();
+    int y = 10;
+    while (fgets(story_line, CHAR_STORY_LINE_MAX, story_file))
+    {
+        printwXCentered(y, story_line);
+        y++;
+    }
 
     fclose(story_file);
     closedir(story_dir);
 
-    clear();
-    mvprintw(0, 0, story_line);
     refresh();
     getch();
 }

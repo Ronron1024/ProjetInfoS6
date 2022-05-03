@@ -54,6 +54,9 @@ int main (){
 			Score score = { 0, BASE_MONEY };
 			gamestate.highscore = &score;
 
+			// Intro
+			intro();
+
 			// First level
 			generateNextPlateau(&run);				
 			updateGamestate(run, &gamestate);

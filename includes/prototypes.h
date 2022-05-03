@@ -21,6 +21,7 @@ void printwCentered(const char* str);
 void printwXCentered(int y, const char* str);
 void printwYCentered(int x, const char* str);
 
+void intro();
 void splashscreen();
 GameMode homeMenu();
 
