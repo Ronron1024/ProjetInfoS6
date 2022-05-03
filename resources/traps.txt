@@ -1,21 +1,21 @@
 Tuile;Pas de bol;4;0;0;-2;0;0;0
-Joint;Ca se fume ?;4;0;0;0;-3;0;0
+Joint;Ca se fume ?;4;0;0;0;0;-10;0
 Banane;Hop la tu tombe;4;0;0;-5;0;0;0
-Pics;Aie ca pique;4;0;0;0;-6;0;0
+Pics;Aie ca pique;4;0;0;-6;0;0;0
 Rocher;Il vient de tomber sur ta gueule;4;0;0;-6;0;0;0
-Chute;Ta pas vu le trou et t'es tomber;4;0;0;0;-10;0;0
+Chute;Ta pas vu le trou et t'es tomber;4;0;0;-10;0;0;0
 Sol glissant;L'eau ca mouille;4;0;0;-3;0;0;0
-Feu;Le feu ca brule;4;0;0;0;-4;0;0
+Feu;Le feu ca brule;4;0;0;-4;0;0;0
 AVC;Eh BIM trou noir;4;0;0;-7;0;0;0
-COVID19;Epidemie comme une grippe;4;0;0;0;-4;0;0
+COVID19;Epidemie comme une grippe;4;0;0;0;0;-4;0
 Cuite;Faudra pas trop boire la prochaine fois;4;0;0;-8;0;0;0
-Chiasse;Ca sort part derriere a fond la caisse;4;0;0;0;-7;0;0
+Chiasse;Ca sort part derriere a fond la caisse;4;0;0;0;0;-7;0
 Vomi;On recrache tout;4;0;0;-5;0;0;0
-Piqures;Bee,Bee,Bee;4;0;0;0;-6;0;0
+Piqures;Bee,Bee,Bee;4;0;0;0;0;-6;0
 Neige;Ca reste de l'eau;4;0;0;-4;0;0;0
-Insolation;Arrete de bronzer et va bosser;4;0;0;0;-2;0;0
+Insolation;Arrete de bronzer et va bosser;4;0;0;0;0;-2;0
 Fourmis;Nombreuse mais pas dangereuse;4;0;0;-1;0;0;0
-Cannabis;Alors ta rencontrer Papa Jhonny ?;4;0;0;0;-10;0;0
+Cannabis;Alors ta rencontrer Papa Jhonny ?;4;0;0;0;-1;0;0
 Morsure de rats;Pas de chance en Chine il les bouffent;4;0;0;-3;0;0;0
-Araignee;N'est pas Spiderman qui veux;4;0;0;0;-3;0;0
-Les feux de l'amours;Un episode de plus;4;0;0;0;-50;0;0
+Araignee;N'est pas Spiderman qui veux;4;0;0;0;-1;0;0
+Les feux de l'amours;Un episode de plus;4;0;0;0;-2;0;0

@@ -18,6 +18,29 @@ int main (){
 	GameState gamestate;
 	initGameState(&gamestate);	// Prevent segmentation faults
 
+	Item sweat = {
+		"Sweat",
+		"Un sweat a capuche, style hacker sombre",
+		ARMOR,
+		0,
+		10.0,
+		0.0,
+		0.0,
+		0.0,
+		0.0
+	};
+
+	Item vodka = {
+		"Vodka",
+		"Ma plus fidele amie",
+		ITEM,
+		0,
+		0.0, 5.0, 0.0, -1, 0
+	};
+
+	push(&gamestate.inventory, &sweat, sizeof(Item));
+	push(&gamestate.inventory, &vodka, sizeof(Item));
+
 	Entity player = {
 		1,	//id
 		"Gerem",

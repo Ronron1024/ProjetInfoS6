@@ -45,7 +45,7 @@ typedef int GameMode;
 #define LINE_SIZE   1000
 
 // Settings
-#define STORY_STEPPING 3
+#define STORY_STEPPING 4
 #define BASE_MONEY 200.0
 #define REWARD_MONEY 10
 #define COEFF_REWARD 1

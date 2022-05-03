@@ -30,27 +30,19 @@ int fenetrePlateau(GameState *gamestate){
 	WINDOW* score;
 	WINDOW* log;
 		
-	int xGame, yGame, hGame, wGame;
+	int hGame;
 	int xMenu, yMenu, hMenu, wMenu;
-	int xScore, yScore, hScore, wScore;
-	int xLog, yLog, hLog ,wLog;	
+	int wScore;
+	int hLog;	
 	
-	//fenetre game	   	
-	xGame = yGame = 0; 
+	//fenetre game	   
 	hGame = 26;		//22 avant
-	wGame = xMax;
 	
 	//fenetre input/log	   	
 	hLog = 7;
-	wLog = xMax;
-	yLog = yMax-hLog;
-	xLog = 0;
 	
 	//fenetre highscore&Or  	
-	yScore = hGame;
-	hScore = yMax-hLog-hGame;
 	wScore = 20;
-	xScore = xMax-wScore;
 	
 	//fenetre menu
 	xMenu = 0; 
@@ -2046,7 +2038,6 @@ Node*  selectEntityWin(Node* headEntity, Node* headMonster){
 	int n = 0;
 	int cmptPlayer;
 	int choix = 1;
-	int page = 0;
 	
 	//Init liste 
 	current = headEntity;
@@ -2072,7 +2063,6 @@ Node*  selectEntityWin(Node* headEntity, Node* headMonster){
 				
 					current=current->next;
 					n++;
-					page = n / MAX_OBJET_AFFICHAGE;
 					
 					affichePersoWin(game,headEntity);	
 					affichePersoReverseWin3(game,current,n);
@@ -2087,7 +2077,6 @@ Node*  selectEntityWin(Node* headEntity, Node* headMonster){
 				if(n!=0){
 					current=current->prev;
 					n--;
-					page = n / MAX_OBJET_AFFICHAGE;
 					
 					affichePersoWin(game,headEntity);	
 					affichePersoReverseWin3(game,current,n);
