@@ -1,2 +1,21 @@
-Carton;Trouve dans une benne;2;0;1;0;0;1;0
-Armure;Rutilante et ciselee;2;0;20;0;0;10;0
+Carton;Protege mais pas grande chose;2;0;1;0;0;1;0
+Cote de maille;Rutilante et ciselee;2;0;20;0;0;25;0
+Casquette;Pour ce proteger des coups de soleil;2;0;3;0;0;7;0
+Protege tibia;Attention aux tacles deux pieds decolles;2;0;5;0;0;10;0
+Gants;Pour manipuler son arme dans les meilleurs conditions;2;0;10;0;0;18;0
+Protege Dent;Garantie une dentition à la DiCaprio;2;0;5;0;0;10;0
+Armure en acier;La plus solide de toute;2;0;70;0;0;150;0
+Protection HALO; Armure intergalactique;2;0;200;0;0;500;0
+Bouclier;Un bon vieux bouclier qui fait toujours l'affaire;2;0;30;0;0;90;0
+Bouclier d'energie;Creer un mur d'energie devant vous ou aucun projectile ne peux vous attendre;2;0;500;0;0;2000;0
+Armure de chevalier;Equipement datant de 1450 mais toujours aussi efficace;2;0;100;0;0;250;0
+Combinaison biologique;Protege contre les attaques chimiques;2;0;20;0;0;22;0
+Coquille;Protege les bijoux de famille;2;0;50;0;0;100;0
+Armure en beton;Aussi solide que du beton;2;0;70;0;0;150;0
+Armure en bois; Mouai bof;2;0;10;0;0;12.5;0
+Sarcophage;Comme un pharaon;2;0;7;0;0;15;0
+Mur de Berlin;Divise l'Allemagne en 2 mais peux aussi proteger;2;0;125;0;0;500;0
+Plaque;Epaisse de 70mm elle protege de quasiment tout les projectiles;2;0;300;0;0;1300;0
+Mur de brique;A part pour un potager ne sert a rien;2;0;5;0;0;10;0
+Poutre;Pas celle que tu as dans le calbar;2;0;15;0;0;20;0
+Portiere;Pour une fois que ca sert;2;0;40;0;0;100;0

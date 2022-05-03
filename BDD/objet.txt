@@ -1,1 +1,0 @@
-clef;permet d'ouvrir une porte;accesoires;5.000000;0.000000;0.000000;0.000000;0.000000
