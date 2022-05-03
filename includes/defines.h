@@ -40,7 +40,7 @@ typedef int GameMode;
 #define CHAR_STORY_LINE_MAX 1024
 #define CHAR_NAME_MAX 50
 #define CHAR_DESC_MAX 200
-#define CHAR_LOG_MAX 128
+#define CHAR_LOG_MAX 256
 #define CHAR_SAVE_MAX 16
 #define LINE_SIZE   1000
 
@@ -67,6 +67,7 @@ typedef int GameMode;
 #define TRAPS_PATH "resources/traps.txt"
 #define MONSTERS_PATH "resources/monsters.txt"
 
+#define LOGFILE_MAX_LINES 400
 #define LOGFILE "resources/logs.txt"
 #define ASCII_ART_BUFFER_SIZE 2048
 #define NB_LEVEL 10

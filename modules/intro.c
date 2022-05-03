@@ -223,6 +223,9 @@ void story(int level)
 
     fgets(story_line, CHAR_STORY_LINE_MAX, story_file);
 
+    fclose(story_file);
+    closedir(story_dir);
+
     clear();
     mvprintw(0, 0, story_line);
     refresh();

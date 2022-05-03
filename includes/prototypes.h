@@ -38,6 +38,7 @@ WINDOW* fenetreMenu(int hMenu, int wMenu,int yMenu,int xMenu);
 
 // Logging
 WINDOW* printLogs();
+void preventLogfileOverflow();
 WINDOW* logMessage(char* message);
 
 // Game over screen

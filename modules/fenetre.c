@@ -390,11 +390,37 @@ WINDOW* printLogs()
 	}
 
 	wrefresh(logs_win);
+	fclose(logfile);
 	return logs_win;
+}
+
+void preventLogfileOverflow()
+{
+	FILE* logfile = fopen(LOGFILE, "r");
+	if (!logfile)
+		return;
+	char message[CHAR_LOG_MAX] = {0};
+	int lines = 0;
+
+	while (fgets(message, CHAR_LOG_MAX, logfile))
+		lines++;
+
+	fclose(logfile);
+
+	if (lines < LOGFILE_MAX_LINES)
+		return;
+
+
+	// Flush
+	logfile = fopen(LOGFILE, "w");
+	fclose(logfile);
 }
 
 WINDOW* logMessage(char* raw_message)
 {
+
+	//preventLogfileOverflow();
+
 	// Because raw_message is const
 	char message[CHAR_LOG_MAX] = {0};
 	strcpy(message, raw_message);
@@ -402,8 +428,8 @@ WINDOW* logMessage(char* raw_message)
 	FILE* logfile = fopen(LOGFILE, "a");
 	if (!logfile) // must handle error
 	{
-		printf("Error while saving file\n");
-		return NULL;
+		printf("Error while logging\n");
+		return printLogs();
 	}
 
 	strcat(message, "\n");
