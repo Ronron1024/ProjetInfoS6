@@ -52,7 +52,7 @@ typedef int GameMode;
 #define COEFF_DIFFICULTY 1
 #define COEFF_ITEM_UPGRADE 1.2
 #define TRAP_PROBA 0.5
-#define ALLY_PROBA 0.3
+#define ALLY_PROBA 0.4
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
 #define COEFF_VENTE 0.9
@@ -71,7 +71,7 @@ typedef int GameMode;
 #define LOGFILE "resources/logs.txt"
 #define ASCII_ART_BUFFER_SIZE 2048
 #define NB_LEVEL 10
-#define MAX_OBJET_AFFICHAGE 11
+#define MAX_OBJET_AFFICHAGE 10
 
 // Ncurses
 #define KEY_RETURN 10 // Not defined in curses.h ?

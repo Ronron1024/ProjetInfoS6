@@ -68,7 +68,7 @@ int selectionMenu(int hMenu, int wMenu,int yMenu,int xMenu, int largeur, int lon
 
 // describe function !!!!
 void affichePersoWin(WINDOW* win,Node* perso);
-void affichePersoReverseWin(WINDOW* win,Node* perso);
+void affichePersoReverseWin(WINDOW* win,Node* perso, int id);
 void afficheMonsterWin(WINDOW* win,Node* monster);
 
 //Affiche les objets item dans la fenetre win par page
@@ -206,6 +206,8 @@ bool fight(Node** team1, Node** team2, char* log);
 
 void addStats(Entity* entity, Item item);
 
+void subStats(Entity* entity, Item item);
+
 void fouille(WINDOW* game, GameState* gamestate);
 
 double attack(Entity* attacker, Entity* defender);
@@ -231,35 +233,43 @@ void copyItemToPerso(Node* objet, Item* item );
 void removeItemToPerso(Item* item );
 
 //Affiche en reverse  l' item de type equiptement à la position n dans la fenetre win
-void afficheEquipmentReverseWin(WINDOW* win,Item* item, TypeEquipment, int n);
+void afficheEquipmentReverseWin(WINDOW* win,Node* perso, TypeEquipment, int n);
 
 //Rajoute au nom de l' équipement un status qui indique si il est porté ou non (*)
 void ajoutStatusEquipment(Node* objet,TypeEquipment typeEquipment);
 void supStatusEquipment(Node* objet);
 
 //Fonction qui retourne 0 si l' objet est equipé
-int testItemEquiped(Node* objet);
+//int testItemEquiped(Node* objet);
 
 //Fonction qui retourne -1 si il n y a plus de place dispo sur le perso / 0 pour position ARMOR libre / 1 pour position WEAPON libre
-int testEntityEquiped(Node* entity);
+//int testEntityEquiped(Node* entity);
 
 //Recherche de la position occupé par l' objet sur l' entité => retourne -1 si probleme / 0 pour position ARMOR  / 1 pour position WEAPON 
-int searchEntityEquiped(Node* objet);
+//int searchEntityEquiped(Node* objet);
 
 //Conditions pour utiliser un ITEM: 1 de type ITEM / 2 Ajout au stat c' est bien passé 3 objet non nul
-int isUseItem(Node ** inventory, Node* current, Node** teamPlayer, Node* entity);
+//int isUseItem(Node ** inventory, Node* current, Node** teamPlayer, Node* entity);
 
 //Condition pour désequiper => /1 de type EQUIPEMENT /2 l' equipement est deja equipé /3 objet non null
-int isEquipedItem(Node* current);
+//int isEquipedItem(Node* current);
 
 //Condition pour vendre un Item =>1/Equipement non équipé /2 La vente s' est bien déroulé /3 Objet non null
 int isSellItem (Node** inventory, Node* current, Score* highscore);
 
 //Condition pour equiper un equipement =>1/ de type equipement 2/Entity non equipé 3/equipemnt non equipé
-int isEquipItem(Node* current, Node* entity);
+//int isEquipItem(Node* current, Node* entity);
 
 //Retoune 0/Si il n' accepte pas /1 si il accepte la fouille 
-int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+//int IsSearch(int* pLog, char logText[LINE_LOG_MAX][CHAR_DESC_MAX]);
+
+
+Node* selectEntityWin(Node* headEntity, Node* headMonster);
+Node* searchEntity(Node* headEntity, Node* item);
+void affichePersoReverseWin2(WINDOW* win,Node* perso, int n);
+void affichePersoReverseWin3(WINDOW* win,Node* perso, int n);
+void fctUseEquiment(Node* headPlayer,Node* headMonster, Node* current);
+
 
 
 //BDD
