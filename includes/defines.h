@@ -51,7 +51,7 @@ typedef int GameMode;
 #define COEFF_REWARD 1
 #define COEFF_DIFFICULTY 1
 #define COEFF_ITEM_UPGRADE 1.2
-#define TRAP_PROBA 0.5
+#define TRAP_PROBA 0.2
 #define ALLY_PROBA 0.4
 #define LINE_LOG_MAX 4
 //#define COUT_HP_FOUILLE 2
