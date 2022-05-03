@@ -67,7 +67,7 @@ typedef int GameMode;
 #define LOGFILE "resources/logs.txt"
 #define ASCII_ART_BUFFER_SIZE 2048
 #define NB_LEVEL 10
-#define MAX_OBJET_AFFICHAGE 11
+#define MAX_OBJET_AFFICHAGE 10
 
 // Ncurses
 #define KEY_RETURN 10 // Not defined in curses.h ?

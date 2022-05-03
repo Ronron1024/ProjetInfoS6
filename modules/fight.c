@@ -10,6 +10,15 @@ void addStats(Entity* entity, Item item)
 	entity->speed += item.speed;
 }
 
+void subStats(Entity* entity, Item item)
+{
+	entity->health -= item.health;
+	entity->attack -= item.attack;
+	entity->defense -= item.defense;
+	entity->speed -= item.speed;
+}
+
+
 bool canGetAlly()
 {
 	return ((double)randInt(1,100))/100.0 < ALLY_PROBA;
