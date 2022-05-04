@@ -1,1 +1,1 @@
-gcc -g -Wall -Wno-unknown-pragmas main.c ./modules/BDD.c ./modules/fenetre.c ./modules/fight.c ./modules/intro.c ./modules/linkedlist.c ./modules/structures.c ./modules/utilities.c -lncurses
+gcc -o climbingrangers -g -Wall -Wno-unknown-pragmas main.c ./modules/BDD.c ./modules/fenetre.c ./modules/fight.c ./modules/intro.c ./modules/linkedlist.c ./modules/structures.c ./modules/utilities.c -lncurses
