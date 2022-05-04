@@ -1,0 +1,2 @@
+sudo apt-get install libncurses5-dev libncursesw5-dev
+gcc -g -Wall -Wno-unknown-pragmas main.c ./modules/BDD.c ./modules/fenetre.c ./modules/fight.c ./modules/intro.c ./modules/linkedlist.c ./modules/structures.c ./modules/utilities.c -lncurses
