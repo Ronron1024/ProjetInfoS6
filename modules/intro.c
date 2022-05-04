@@ -33,23 +33,14 @@ void printwYCentered(int x, const char* str)
 
 void intro()
 {
-    FILE* intro_file = fopen(INTRO_PATH, "r");
-    if (!intro_file)
-    {
-        printf("Error while opening intro\n");
-        return;
-    }
-    char line[CHAR_STORY_LINE_MAX] = {0};
-
     clear();
-    int y = 10;
-    while (fgets(line, CHAR_STORY_LINE_MAX, intro_file))
-    {
-        printwXCentered(y, line);
-        y++;
-    }
+    printwXCentered(10, "Vous, GEREM, jeune Mage noir et aspirant Entite d'energie pure, avez decide de gravir le mont JUL.");
+    printwXCentered(11, "Vetu de votre sweat a capuche et arme de votre fidele gourde de vodka, vous voici face a votre destin.");
+    printwXCentered(12, "Qui sait ce qui vous attendra la haut ? Junky, piege et gloire seront de l'aventure !");
+    printwXCentered(13, "Peut etre meme serez vous rejoint par quelques valeureux (ou pas) rangers...");
+    printwXCentered(14, "L'ascension commence !");
     
-    fclose(intro_file);
+    
     refresh();
     getch();
 }
