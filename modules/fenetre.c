@@ -473,7 +473,7 @@ WINDOW* printLogs()
 			wattron(logs_win, COLOR_PAIR(PAIR_YELLOW_BLUE));
 			wattron(logs_win, A_BOLD);
 		}
-		mvwprintw(logs_win, i, 0, message);
+		mvwprintw(logs_win, i, 0, "%s", message);
 		if (i == LINE_LOG_MAX - 1 || i == lines - 1)
 		{
 			wattroff(logs_win, A_BOLD);
